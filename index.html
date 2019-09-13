@@ -40,21 +40,9 @@
                 </div>
             </nav>
         </div>
-<!--
-        <div class="button-row-heat-transfer-buttons">
-            <button type="button" class="btn btn-primary" onclick="logMyDeveloper()">Log Developer</button>  
-            <hr>
-        </div>
--->
         <div class="myTestCases instruction-title">
             <div id="user-story-elements"></div>
         </div>
-<div class="btn-group">
-  <a class="btn" href="#"><i class="icon-align-left"></i></a>
-  <a class="btn" href="#"><i class="icon-align-center"></i></a>
-  <a class="btn" href="#"><i class="icon-align-right"></i></a>
-  <a class="btn" href="#"><i class="icon-align-justify"></i></a>
-</div>
         <footer class="footer fixed-bottom">
             <div class="myMessages">
                 <div id="footer-message"></div>
@@ -114,7 +102,8 @@
             </div>
         </div>
     </div>
-
+        
+    <!-- Modal -->     
     <div class="modal" id="createNewProjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -143,6 +132,39 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" onclick="createNewProject()">Add Project</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+            
+    <!-- Modal -->
+    <div class="modal" id="editProjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit project</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control edit-project-name" id="edit-project-name" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-3 col-form-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control edit-project-description" rows="5" id="edit-project-description" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <!--TODO add role-->
+                    <div class="form-group row">
+                        <div class="col-sm-11" id="edit-project-buttons"></div>
                     </div>
                 </div>
             </div>
@@ -300,7 +322,6 @@
         </div>
     </div>
 
-    
     <!-- Modal -->
     <div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

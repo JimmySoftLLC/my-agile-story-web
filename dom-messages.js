@@ -51,6 +51,7 @@ function showConfirmDeletePopup(functionName,functionValue,functionMessage) {
 
 function loginMenu() {
     let listHTML = ''; 
+    displayUserStories();
     listHTML += aboutUsDrowdown();
     document.getElementById('nav-bar-items-left').innerHTML = listHTML;  
     listHTML = '';
@@ -208,25 +209,27 @@ function getMyAglileStoryDeveloperStorage() {
 
 function displayUserStories() {
     let listHTML = `<div class ="row" style = "padding-top:0rem; padding-bottom:7rem;">`;
-    for (let i = 0; i < myUserStorys.length; i++) {
-        let myUserStory = myUserStorys[i];
-        listHTML += `<div class ="col test-case-card">`;
-        listHTML += `   <div class="card jims-card">`;
-        listHTML += `       <div class="card-body">`;
-        listHTML += `           <h5 class="card-title">` + myUserStorys[i].userStoryTitle + `</h5>`;
-        listHTML += `           <p class="card-text">As a ` + myUserStorys[i].userRole + `, I want ` + myUserStorys[i].userWant + ` so that ` + myUserStorys[i].userBenefit + `</p>`;
-        listHTML += `           <div class="progress">`;
-        listHTML += `               <div class="progress-bar" role="progressbar" style="width: ` + myUserStorys[i].percentDone + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">`+ myUserStorys[i].percentDone +`%</div>`;
-        listHTML += `           </div>`;
-        listHTML += `       </div>`;
-        listHTML += `       <div class="row" style="margin:auto;">`;
-        listHTML += `           <button type="button" class="btn btn-secondary addItemButton" data-toggle="modal" data-target="#editUserStoryModal" data-hc-index="` +  i + `"><i class="fas fa-edit"></i></button>`;
-        listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="DeleteUserStorySetup(` + i + `)"><i class="fas fa-trash"></i></button>`; 
-        listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick =""><i class="fas fa-arrow-up"> </i></button>`; 
-        listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick =""><i class="fas fa-arrow-down"> </i></button>`; 
-        listHTML += `       </div>`;
-        listHTML += `   </div>`;
-        listHTML += `</div>`;
+    if (myUserStorys.length !== 0){
+            for (let i = 0; i < myUserStorys.length; i++) {
+                let myUserStory = myUserStorys[i];
+                listHTML += `<div class ="col test-case-card">`;
+                listHTML += `   <div class="card jims-card">`;
+                listHTML += `       <div class="card-body">`;
+                listHTML += `           <h5 class="card-title">` + myUserStorys[i].userStoryTitle + `</h5>`;
+                listHTML += `           <p class="card-text">As a ` + myUserStorys[i].userRole + `, I want ` + myUserStorys[i].userWant + ` so that ` + myUserStorys[i].userBenefit + `</p>`;
+                listHTML += `           <div class="progress">`;
+                listHTML += `               <div class="progress-bar" role="progressbar" style="width: ` + myUserStorys[i].percentDone + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">`+ myUserStorys[i].percentDone +`%</div>`;
+                listHTML += `           </div>`;
+                listHTML += `       </div>`;
+                listHTML += `       <div class="row" style="margin:auto;">`;
+                listHTML += `           <button type="button" class="btn btn-secondary addItemButton" data-toggle="modal" data-target="#editUserStoryModal" data-hc-index="` +  i + `"><i class="fas fa-edit"></i></button>`;
+                listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="DeleteUserStorySetup(` + i + `)"><i class="fas fa-trash"></i></button>`; 
+                listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick =""><i class="fas fa-arrow-up"> </i></button>`; 
+                listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick =""><i class="fas fa-arrow-down"> </i></button>`; 
+                listHTML += `       </div>`;
+                listHTML += `   </div>`;
+                listHTML += `</div>`;
+            }
     }
     listHTML += `</div>`;  
     document.getElementById('user-story-elements').innerHTML = listHTML;

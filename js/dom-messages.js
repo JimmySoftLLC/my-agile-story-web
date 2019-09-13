@@ -23,7 +23,7 @@ $('#editUserStoryModal').on('show.bs.modal', function (event) {
     document.getElementById('edit-user-story-buttons').innerHTML = listHTML;    
 })
 
-$('#createUserStoryModal').on('show.bs.modal', function (event) {
+$('#createNewUserStoryModal').on('show.bs.modal', function (event) {
     var modal = $(this)
     modal.find('.modal-body input.user-story-title').val("");
     modal.find('.modal-body input.user-story-user-role').val("");
@@ -36,6 +36,30 @@ $('#createUserStoryModal').on('show.bs.modal', function (event) {
     modal.find('.modal-body input.user-story-percent-done').val("");  
 })
 
+$('#createNewDeveloperModal').on('show.bs.modal', function (event) {
+    var modal = $(this)
+    modal.find('.modal-body input.user-story-title').val("");
+    modal.find('.modal-body input.user-story-user-role').val("");
+})
+
+$('#createNewProjectModal').on('show.bs.modal', function (event) {
+    var modal = $(this)
+    modal.find('.modal-body input.project-name').val("");
+    modal.find('.modal-body textarea.project-description').val("");
+})
+
+$('#editProjectModal').on('show.bs.modal', function (event) {
+    console.log("got to the edit modal");
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var myProjectIndex = (document.getElementById('select-project').value);
+    var modal = $(this)
+    modal.find('.modal-body input.edit-project-name').val(myUserStorys[myProjectIndex].name);
+    modal.find('.modal-body textarea.edit-project-description').val(myUserStorys[myProjectIndex].description);  
+    let listHTML = '';
+    listHTML = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
+    listHTML = `<button type="button" class="btn btn-primary" onclick="editProject(`+ myProjectIndex +`)">Save Changes</button>`;
+    document.getElementById('edit-user-story-buttons').innerHTML = listHTML;    
+})
 
 function showConfirmDeletePopup(functionName,functionValue,functionMessage) {
     let listHTML = '';
@@ -50,6 +74,7 @@ function showConfirmDeletePopup(functionName,functionValue,functionMessage) {
 }
 
 function loginMenu() {
+    displayUserStories();
     let listHTML = ''; 
     listHTML += aboutUsDrowdown();
     document.getElementById('nav-bar-items-left').innerHTML = listHTML;  
@@ -65,6 +90,7 @@ function loginMenu() {
 }
 
 function loggedinMenu() {
+    displayUserStories();
     let listHTML = '';
     listHTML += aboutUsDrowdown();
     listHTML += '<li class="nav-item" style = "margin-right:10px;">';
@@ -82,7 +108,7 @@ function loggedinMenu() {
     listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" onclick="deleteProjectSetup()" data-hc-index=""><i class="fas fa-trash"></i></button>';
     listHTML += '</li>';
     listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" onclick="editProject()" data-hc-index=""><i class="fas fa-edit"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#editProjectModal" data-hc-index=""><i class="fas fa-edit"></i></button>';
     listHTML += '</li>';
     listHTML += '<li class="nav-item">';
     listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#createNewUserStoryModal" data-hc-index=""><i class="fas fa-newspaper"></i></button>';
@@ -109,6 +135,7 @@ function loggedinMenu() {
 }
 
 function loggedinSelectedProject() {
+    displayUserStories();
     let listHTML = ''; 
     listHTML += aboutUsDrowdown();
     listHTML += '<li class="nav-item">';
@@ -207,6 +234,7 @@ function getMyAglileStoryDeveloperStorage() {
 }
 
 function displayUserStories() {
+    console.log("Updating user stories.")
     let listHTML = `<div class ="row" style = "padding-top:0rem; padding-bottom:7rem;">`;
     for (let i = 0; i < myUserStorys.length; i++) {
         let myUserStory = myUserStorys[i];

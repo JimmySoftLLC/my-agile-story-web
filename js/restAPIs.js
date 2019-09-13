@@ -193,6 +193,7 @@ function createNewUserStory() {
         var estimate = document.getElementById('user-story-estimate').value;
         var phase = document.getElementById('user-story-phase').value;
         var percentDone = document.getElementById('user-story-percent-done').value;
+        percentDone = rangeLimit(percentDone,0,100);
 
         fetch(URL_Address + '/project/userStory', {
                 method: 'post',
@@ -233,6 +234,19 @@ function createNewUserStory() {
     }
 }   
 
+function rangeLimit (myString, lowerValue, upperValue){
+    if (myString == ""){
+        myString = 0;
+    }
+    if (myString < lowerValue){
+        myString = lowerValue;
+    }
+    if (myString > upperValue){
+        myString = upperValue;
+    }
+    return myString;
+}
+
 function editUserStory(myUserStoryIndex) {
     var myProjectIndex = (document.getElementById('select-project').value);
     if (myUserStoryIndex != -1 ) {
@@ -245,6 +259,7 @@ function editUserStory(myUserStoryIndex) {
         var estimate = document.getElementById('edit-user-story-estimate').value;
         var phase = document.getElementById('edit-user-story-phase').value;
         var percentDone = document.getElementById('edit-user-story-percent-done').value;
+        percentDone = rangeLimit(percentDone,0,100);
 
         fetch(URL_Address + '/put/userStory', {
                 method: 'post',
@@ -284,6 +299,40 @@ function editUserStory(myUserStoryIndex) {
     }
 }
 
+function editProject(myProjectIndex) {
+    console.log("edit project routine")
+    if (myProjectIndex != -1 ) {
+        var name = document.getElementById('edit-project-name').value;
+        var description = document.getElementById('edit-project-description').value;
+        fetch(URL_Address + '/put/project', {
+                method: 'post',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    projectId: myProjects[myProjectIndex]._id,
+                    name: name,
+                    description: description
+                })
+            }).then(res => res.json().then(data => ({
+                status: res.status,
+                body: data
+            })))
+            .then(obj => {
+                if (obj.status === 200) {
+                    myProject = obj.body
+                    console.log(obj.status);
+                    console.log(myProject);
+                } else {
+                    console.log(obj.status);
+                    console.log(obj.body);
+                    updateStatus(obj.body);
+                }
+                $('#editUserStoryModal').modal('hide');
+            });
+    }
+}
 
 function DeleteUserStorySetup(myUserStoryIndex) {
     showConfirmDeletePopup('DeleteUserStory',myUserStoryIndex,' user story <strong>' + myUserStorys[myUserStoryIndex].userStoryTitle + "</strong>");
@@ -393,13 +442,7 @@ function DeleteProject(myProjectIndex) {
     }
 }
 
-function editProject(){
-    var myIndex = (document.getElementById('select-project').value);
-    console.log ("User editing project at index " + myIndex);
-    if (myIndex != -1 ) {
-        //getUserStorys(myProjects[myIndex]);
-    }
-}
+
 
 function logMyDeveloper() {
     console.log(myDeveloper);
