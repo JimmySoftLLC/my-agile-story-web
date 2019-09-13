@@ -1,15 +1,391 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>My Agile Story</title>
-    <!-- Required meta tags -->
-    <meta charset="UTF-8">
+    <meta name="description" content="This website will estimate the heater wattage you need to heat your item based on caculations for heat loss from conduction, convention and radiation.">
+    <meta name="keywords" content="heater,estimator,wattage,radiation,conduction,convection,heat flux">
+    <meta name="author" content="James Bailey">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
 
+    <!-- site favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+    <!-- Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-grid.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
+    <div class="container-fluid">
+        <div class="fixed-top">
+            <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+                <a class="navbar-brand" href="/">My Agile Story</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown" id="nav-bar-items-left">               
+                    <ul class="navbar-nav w-80 justify-content-left" id="nav-bar-items-left"></ul>
+                    <ul class="navbar-nav  ml-auto w-80  justify-content-end" id="nav-bar-items-right"></ul>
+                </div>
+            </nav>
+        </div>
+<!--
+        <div class="button-row-heat-transfer-buttons">
+            <button type="button" class="btn btn-primary" onclick="logMyDeveloper()">Log Developer</button>  
+            <hr>
+        </div>
+-->
+        <div class="myTestCases instruction-title">
+            <div id="user-story-elements"></div>
+        </div>
+<div class="btn-group">
+  <a class="btn" href="#"><i class="icon-align-left"></i></a>
+  <a class="btn" href="#"><i class="icon-align-center"></i></a>
+  <a class="btn" href="#"><i class="icon-align-right"></i></a>
+  <a class="btn" href="#"><i class="icon-align-justify"></i></a>
+</div>
+        <footer class="footer fixed-bottom">
+            <div class="myMessages">
+                <div id="footer-message"></div>
+            </div>
+        </footer>
+    </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="createNewDeveloperModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create new developer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="developer-email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-3 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="developer-password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-3 col-form-label">First Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="developer-first-name" placeholder="First Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-3 col-form-label">Last Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="developer-last-name" placeholder="Last Name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-3 col-form-label">Your bio</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="5" id="developer-bio" placeholder="Tell us about yourself"></textarea>
+                        </div>
+                    </div>
+                    <!--TODO add role-->
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="createNewDeveloper()">Add Developer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="createNewProjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create new project</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="project-name" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-3 col-form-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="5" id="project-description" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <!--TODO add role-->
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="createNewProject()">Add Project</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="createNewUserStoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create user story</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>        
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-4 col-form-label">Title</label>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control user-story-title" id="user-story-title" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-4 col-form-label">As a</label>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control user-story-user-role" id="user-story-user-role" placeholder="role">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-4 col-form-label">, I want</label>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control user-story-user-want" id="user-story-user-want" placeholder="goal">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-4 col-form-label">so that</label>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control user-story-user-benefit" id="user-story-user-benefit" placeholder="reason">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-6 col-form-label">Acceptance Criteria</label>
+                        <div class="col-sm-11">
+                            <textarea class="form-control user-story-acceptance-criteria" rows="5" id="user-story-acceptance-criteria" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-4 col-form-label">Conversation</label>
+                        <div class="col-sm-11">
+                            <textarea class="form-control user-story-conversation" rows="5" id="user-story-conversation" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-4 col-form-label">Estimate</label>
+                        <div class="col-sm-11">
+                            <input type="number" class="form-control user-story-estimate" id="user-story-estimate" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-4 col-form-label">Phase</label>
+                        <div class="col-sm-11">
+                            <input type="number" class="form-control user-story-phase" id="user-story-phase" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-4 col-form-label">Percent Done</label>
+                        <div class="col-sm-11">
+                            <input type="number" class="form-control user-story-percent-done" id="user-story-percent-done" placeholder="">
+                        </div>
+                    </div>
+                    <!--TODO add role-->
+                    <div class="form-group row">
+                        <div class="col-sm-11">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="createNewUserStory()">Add User Story</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="editUserStoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit user story</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>        
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-4 col-form-label">Title</label>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control edit-user-story-title" id="edit-user-story-title" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-4 col-form-label">As a</label>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control edit-user-story-user-role" id="edit-user-story-user-role" placeholder="role">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-4 col-form-label">, I want</label>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control edit-user-story-user-want" id="edit-user-story-user-want" placeholder="goal">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-4 col-form-label">so that</label>
+                        <div class="col-sm-11">
+                            <input type="text" class="form-control edit-user-story-user-benefit" id="edit-user-story-user-benefit" placeholder="reason">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-6 col-form-label">Acceptance Criteria</label>
+                        <div class="col-sm-11">
+                            <textarea class="form-control edit-user-story-acceptance-criteria" rows="5" id="edit-user-story-acceptance-criteria" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-4 col-form-label">Conversation</label>
+                        <div class="col-sm-11">
+                            <textarea class="form-control edit-user-story-conversation" rows="5" id="edit-user-story-conversation" placeholder=""></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-4 col-form-label">Estimate</label>
+                        <div class="col-sm-11">
+                            <input type="number" class="form-control edit-user-story-estimate" id="edit-user-story-estimate" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-4 col-form-label">Phase</label>
+                        <div class="col-sm-11">
+                            <input type="number" class="form-control edit-user-story-phase" id="edit-user-story-phase" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-4 col-form-label">Percent Done</label>
+                        <div class="col-sm-11">
+                            <input type="number" class="form-control edit-user-story-percent-done" id="edit-user-story-percent-done" placeholder="">
+                        </div>
+                    </div>
+                    <!--TODO add role-->
+                    <div class="form-group row">
+                        <div class="col-sm-11" id="edit-user-story-buttons"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="login-email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPassword3" class="col-sm-3 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="login-password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-primary" onclick="loginDeveloper()">Login</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="selectProjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Select a project</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-3 col-form-label">Projects</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="asddfaf" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="loginDeveloper()">Select</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirm-delete-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="confirm-delete-message"></div>
+                <div class="modal-footer" id="confirm-delete-buttons"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- jQuery first, then Popper.js, then Bootstrap JS, then my files -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <script src="/js/user-data.js"></script>
+    <script src="/js/restAPIs.js"></script>
+    <script src="/js/dom-messages.js"></script>
+    <script src="https://kit.fontawesome.com/9c3ba4b8c1.js"></script>
 </body>
 
 </html>
