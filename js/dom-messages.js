@@ -49,16 +49,16 @@ $('#createNewProjectModal').on('show.bs.modal', function (event) {
 })
 
 $('#editProjectModal').on('show.bs.modal', function (event) {
-    console.log("got to the edit modal");
+    var myProjectIndex = (document.getElementById('select-project').value);
     var button = $(event.relatedTarget) // Button that triggered the modal
     var myProjectIndex = (document.getElementById('select-project').value);
     var modal = $(this)
-    modal.find('.modal-body input.edit-project-name').val(myUserStorys[myProjectIndex].name);
-    modal.find('.modal-body textarea.edit-project-description').val(myUserStorys[myProjectIndex].description);  
+    modal.find('.modal-body input.edit-project-name').val(myProjects[myProjectIndex].name);
+    modal.find('.modal-body textarea.edit-project-description').val(myProjects[myProjectIndex].description);  
     let listHTML = '';
     listHTML = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
     listHTML = `<button type="button" class="btn btn-primary" onclick="editProject(`+ myProjectIndex +`)">Save Changes</button>`;
-    document.getElementById('edit-user-story-buttons').innerHTML = listHTML;    
+    document.getElementById('edit-project-buttons').innerHTML = listHTML;    
 })
 
 function showConfirmDeletePopup(functionName,functionValue,functionMessage) {
