@@ -1,6 +1,6 @@
 function updateStatus(message) {
     document.getElementById('footer-message').innerHTML = '<p>' + message + '</p>';
-    setTimeout(clearStatus,3000) 
+    setTimeout(clearStatus,2000) 
 }
 
 function clearStatus() {
@@ -270,7 +270,7 @@ function setMyAglileStorylastSelectedProjectStorage() {
 }
 
 function getMyAglileStorylastSelectedProjectStorage() {
-   //myLastSelectedProject = JSON.parse(localStorage.getItem('lastSelectedProject'));
+   myLastSelectedProject = JSON.parse(localStorage.getItem('lastSelectedProject'));
 }
 
 //Local storage for lastDeveloper-----------------------

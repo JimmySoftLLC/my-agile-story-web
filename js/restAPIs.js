@@ -1,5 +1,5 @@
-const URL_Address = 'http://127.0.0.1:3004';
-//const URL_Address = 'https://shrouded-basin-24147.herokuapp.com';
+//const URL_Address = 'http://127.0.0.1:3004';
+const URL_Address = 'https://shrouded-basin-24147.herokuapp.com';
 
 function loginDeveloper() {
     var email = document.getElementById('login-email').value;
@@ -348,6 +348,7 @@ function editDeveloper() {
     var email = document.getElementById('edit-developer-email').value;
     var password = document.getElementById('edit-developer-password').value;
     var bio = document.getElementById('edit-developer-bio').value; 
+    var role = "admin"; //TODO change the dialog to have roles
     fetch(URL_Address + '/put/developer', {
             method: 'post',
             headers: {
@@ -360,7 +361,8 @@ function editDeveloper() {
                 lastName: lastName,
                 email: email,
                 password: password,
-                bio: bio  
+                bio: bio,
+                role: role
             })
         }).then(res => res.json().then(data => ({
             status: res.status,
@@ -369,6 +371,7 @@ function editDeveloper() {
         .then(obj => {
             if (obj.status === 200) {
                 myDeveloper = obj.body
+                setMyAglileStoryDeveloperStorage();
                 console.log(obj.status);
                 console.log(myDeveloper);            
                 updateStatus('Developer ' +  myDeveloper.firstName + ', edited successfully'); 
