@@ -32,4 +32,5 @@ function UserStoryObject(_id, userStoryTitle, userRole, userWant, userBenefit, a
 let myDeveloper = {};
 let myProjects = [];
 let myUserStorys = [];
-let myLastSelectedProject;
+let myLastSelectedProject = "";
+let myLastSelectedPhase = "0";

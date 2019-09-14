@@ -105,6 +105,17 @@ function selectProjectDropDownChanged(){
     }
 }
 
+function setPhase(phase){
+    myLastSelectedPhase=phase;
+    var myIndex = (document.getElementById('select-project').value);
+    myLastSelectedProject = myIndex;
+    setMyAglileStorylastSelectedProjectStorage();
+    console.log ("User changed project option to " + myIndex);
+    if (myIndex != -1 ) {
+        getUserStorys(myProjects[myIndex],myIndex);
+    }
+}
+
 
 function createNewDeveloper() {
     var email = document.getElementById('developer-email').value;
@@ -184,6 +195,17 @@ function createNewProject() {
         });
 }
 
+function getRadioVal(radioName) {
+    var selectedVal = 0;
+    var selected = $(`input[type='radio'][name='` + radioName + `']:checked`);
+    if (selected.length > 0) {
+        selectedVal = selected.val();
+    }
+    console.log("Radio selected is " + selectedVal);
+    var myReturnVal = parseInt(selectedVal)
+    return Number(myReturnVal);
+}
+
 function createNewUserStory() {
     var myIndex = (document.getElementById('select-project').value);
     if (myIndex != -1 ) {
@@ -195,7 +217,7 @@ function createNewUserStory() {
         var acceptanceCriteria = document.getElementById('user-story-acceptance-criteria').value;
         var conversation = document.getElementById('user-story-conversation').value;
         var estimate = document.getElementById('user-story-estimate').value;
-        var phase = document.getElementById('user-story-phase').value;
+        var phase = getRadioVal('user-story-phase');
         var percentDone = document.getElementById('user-story-percent-done').value;
         percentDone = rangeLimit(percentDone,0,100);
 
@@ -261,7 +283,7 @@ function editUserStory(myUserStoryIndex) {
         var acceptanceCriteria = document.getElementById('edit-user-story-acceptance-criteria').value;
         var conversation = document.getElementById('edit-user-story-conversation').value;
         var estimate = document.getElementById('edit-user-story-estimate').value;
-        var phase = document.getElementById('edit-user-story-phase').value;
+        var phase = getRadioVal('edit-user-story-phase');
         var percentDone = document.getElementById('edit-user-story-percent-done').value;
         percentDone = rangeLimit(percentDone,0,100);
 
