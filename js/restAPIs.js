@@ -1,5 +1,5 @@
-//const URL_Address = 'http://127.0.0.1:3004';
-const URL_Address = 'https://shrouded-basin-24147.herokuapp.com';
+const URL_Address = 'http://127.0.0.1:3004';
+//const URL_Address = 'https://shrouded-basin-24147.herokuapp.com';
 
 function loginDeveloper() {
     var email = document.getElementById('login-email').value;
@@ -22,19 +22,20 @@ function loginDeveloper() {
             if (obj.status === 200) {
                 myDeveloper = obj.body;
                 setMyAglileStoryDeveloperStorage();
-                console.log(obj.status);
-                console.log(myDeveloper);
-                getProjects(myDeveloper);
+                //console.log(obj.status);
+                //console.log(myDeveloper);
+                getProjects(myDeveloper,-1);
+                updateStatus("Welcome " + myDeveloper.firstName);
             } else {
-                console.log(obj.status);
-                console.log(obj.body);
+                //console.log(obj.status);
+                //console.log(obj.body);
                 updateStatus(obj.body.error);
             }
             $('#loginModal').modal('hide');
         });
 }
 
-function getProjects(thisDeveloper) {
+function getProjects(thisDeveloper,myProjectIndex) {
     fetch(URL_Address + '/get/projects', {
             method: 'post',
             headers: {
@@ -52,9 +53,9 @@ function getProjects(thisDeveloper) {
             if (obj.status === 200) {
                 myProjects = obj.body;
                 setMyAglileStoryProjectStorage();
-                console.log(obj.status);
-                console.log(myProjects);
-                loggedinMenu();
+                loggedinMenu(myProjectIndex)
+                //console.log(obj.status);
+                //console.log(myProjects);
             } else {
                 console.log(obj.status);
                 console.log(obj.body);
@@ -64,15 +65,7 @@ function getProjects(thisDeveloper) {
         });
 }
 
-function selectProjectDropDownChanged(){
-    var myIndex = (document.getElementById('select-project').value);
-    console.log ("User changed project option to " + myIndex);
-    if (myIndex != -1 ) {
-        getUserStorys(myProjects[myIndex]);
-    }
-}
-
-function getUserStorys(thisProject) {
+function getUserStorys(thisProject, myIndex) {
     fetch(URL_Address + '/get/userStorys', {
             method: 'post',
             headers: {
@@ -101,6 +94,17 @@ function getUserStorys(thisProject) {
             $('#loginModal').modal('hide');
         });
 }
+
+function selectProjectDropDownChanged(){
+    var myIndex = (document.getElementById('select-project').value);
+    myLastSelectedProject = myIndex;
+    setMyAglileStorylastSelectedProjectStorage();
+    console.log ("User changed project option to " + myIndex);
+    if (myIndex != -1 ) {
+        getUserStorys(myProjects[myIndex],myIndex);
+    }
+}
+
 
 function createNewDeveloper() {
     var email = document.getElementById('developer-email').value;
@@ -323,15 +327,58 @@ function editProject(myProjectIndex) {
                 if (obj.status === 200) {
                     myProject = obj.body
                     console.log(obj.status);
-                    console.log(myProject);
+                    console.log(myProject);            
+                    getProjects(myDeveloper,myProjectIndex)
+                    updateStatus('Project ' +  myProject.name + ', edited successfully'); 
+                    $('#editProjectModal').modal('hide');
                 } else {
                     console.log(obj.status);
                     console.log(obj.body);
                     updateStatus(obj.body);
                 }
-                $('#editUserStoryModal').modal('hide');
+
             });
     }
+}
+
+function editDeveloper() {
+    console.log("edit developer routine")
+    var firstName = document.getElementById('edit-developer-first-name').value;
+    var lastName = document.getElementById('edit-developer-last-name').value;
+    var email = document.getElementById('edit-developer-email').value;
+    var password = document.getElementById('edit-developer-password').value;
+    var bio = document.getElementById('edit-developer-bio').value; 
+    fetch(URL_Address + '/put/developer', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                developerId: myDeveloper._id,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password,
+                bio: bio  
+            })
+        }).then(res => res.json().then(data => ({
+            status: res.status,
+            body: data
+        })))
+        .then(obj => {
+            if (obj.status === 200) {
+                myDeveloper = obj.body
+                console.log(obj.status);
+                console.log(myDeveloper);            
+                updateStatus('Developer ' +  myDeveloper.firstName + ', edited successfully'); 
+                $('#editDeveloperModal').modal('hide');
+            } else {
+                console.log(obj.status);
+                console.log(obj.body);
+                updateStatus(obj.body);
+            }
+        });
 }
 
 function DeleteUserStorySetup(myUserStoryIndex) {
@@ -441,8 +488,6 @@ function DeleteProject(myProjectIndex) {
             });
     }
 }
-
-
 
 function logMyDeveloper() {
     console.log(myDeveloper);
