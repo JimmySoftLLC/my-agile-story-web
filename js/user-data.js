@@ -17,7 +17,7 @@ function ProjectObject(_id, name, description) {
     this.userStoryIds = [];
 }
 
-function UserStoryObject(_id, userStoryTitle, userRole, userWant, userBenefit, acceptanceCriteria, estimate, phase, percentDone) {
+function UserStoryObject(_id, userStoryTitle, userRole, userWant, userBenefit, acceptanceCriteria, estimate, phase, percentDone, priority) {
     this._id = _id;
     this.userStoryTitle = userStoryTitle;
     this.userRole = userRole;
@@ -27,6 +27,7 @@ function UserStoryObject(_id, userStoryTitle, userRole, userWant, userBenefit, a
     this.estimate = estimate;
     this.phase = phase;
     this.percentDone = percentDone;
+    this.priority = priority;
 }
 
 let myDeveloper = {};

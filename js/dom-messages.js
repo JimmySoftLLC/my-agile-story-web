@@ -22,12 +22,15 @@ $('#editUserStoryModal').on('show.bs.modal', function (event) {
     if (myUserStorys[myIndex].phase === "" || myUserStorys[myIndex].phase === "null" || myUserStorys[myIndex].phase === "undefined" ) {
         myUserStorys[myIndex].phase = "0";
     }
-    console.log(`edit-user-story-phase-`+myUserStorys[myIndex].phase);
     document.getElementById(`edit-user-story-phase-`+myUserStorys[myIndex].phase).checked = true;
     modal.find('.modal-body input.edit-user-story-percent-done').val(myUserStorys[myIndex].percentDone);
-    let listHTML = '';
-    listHTML = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
-    listHTML = `<button type="button" class="btn btn-primary" onclick="editUserStory(`+ myIndex +`)">Save Changes</button>`;
+    modal.find('.modal-body input.edit-user-story-priority').val(myUserStorys[myIndex].priority);
+    let listHTML = `<div class="col-sm-11">`;
+    listHTML += `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
+    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="editUserStory(`+ myIndex +`)">Save Changes</button>`;
+    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="splitUserStory(`+ myIndex +`)">Split</button>`;
+    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="mergeUserStory(`+ myIndex +`)">Merge</button>`;
+    listHTML += ` </div>`
     document.getElementById('edit-user-story-buttons').innerHTML = listHTML;    
 })
 
@@ -40,9 +43,9 @@ $('#createNewUserStoryModal').on('show.bs.modal', function (event) {
     modal.find('.modal-body textarea.user-story-acceptance-criteria').val("");
     modal.find('.modal-body textarea.user-story-conversation').val("");
     modal.find('.modal-body input.user-story-estimate').val("");
-    modal.find('.modal-body input.user-story-phase').val("");
+    modal.find('.modal-body input.user-story-priority').val("1");
     document.getElementById(`user-story-phase-` + 0).checked =true;
-    modal.find('.modal-body input.user-story-percent-done').val("");  
+    modal.find('.modal-body input.user-story-percent-done').val("0");  
 })
 
 $('#createNewDeveloperModal').on('show.bs.modal', function (event) {
@@ -152,11 +155,12 @@ function loggedinMenu(myProjectIndex) {
     listHTML += '<li class="nav-item">';
     listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#editProjectModal" data-hc-index=""><i class="fas fa-edit"></i></button>';
     listHTML += '</li>';
+
+    document.getElementById('nav-bar-items-left').innerHTML = listHTML;
+    listHTML = '';
     listHTML += '<li class="nav-item">';
     listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#createNewUserStoryModal" data-hc-index=""><i class="fas fa-newspaper"></i></button>';
     listHTML += '</li>';
-    document.getElementById('nav-bar-items-left').innerHTML = listHTML;
-    listHTML = '';
     listHTML += '<li class="nav-item">';
     listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(0)" data-hc-index=""><i class="fas fa-list"></i></button>';
     listHTML += '</li>';
@@ -196,9 +200,21 @@ function displayUserStories() {
                 listHTML += `       </div>`;
                 listHTML += `       <div class="row" style="margin:auto;">`;
                 listHTML += `           <button type="button" class="btn btn-secondary addItemButton" data-toggle="modal" data-target="#editUserStoryModal" data-hc-index="` +  i + `"><i class="fas fa-edit"></i></button>`;
-                listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="DeleteUserStorySetup(` + i + `)"><i class="fas fa-trash"></i></button>`; 
-                listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick =""><i class="fas fa-arrow-up"> </i></button>`; 
-                listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick =""><i class="fas fa-arrow-down"> </i></button>`; 
+                listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="DeleteUserStorySetup(` + i + `)"><i class="fas fa-trash"></i></button>`;
+                listHTML += `           <input select id="user-story-priority-slider-`+i+`" type="range" min="1" max="10" value="` + myUserStorys[i].priority + `" onchange="editUserStoryPriority(` + i + `)">`;
+                switch(myUserStorys[i].phase) {
+                    case "0":
+                        listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-running"></i></button>`;
+                        break;
+                    case "1":
+                        listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-check"></i></button>`;
+                        break;
+                    case "2": 
+                        listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-hands-helping"></i></button>`;
+                        break;
+                    default:
+                        break;
+                }
                 listHTML += `       </div>`;
                 listHTML += `   </div>`;
                 listHTML += `</div>`;

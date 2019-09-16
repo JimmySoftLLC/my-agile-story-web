@@ -63,3 +63,11 @@ footer{
 .instruction-title {
     padding-top: 5rem;
 }
+
+.myModalInLineLabel {
+    margin-top:.25rem;
+}
+
+input[type="range"] {
+  width:70px;
+}

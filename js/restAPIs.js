@@ -2,6 +2,7 @@
 const URL_Address = 'https://shrouded-basin-24147.herokuapp.com';
 
 function loginDeveloper() {
+    updateStatus("Login please wait");
     var email = document.getElementById('login-email').value;
     var password = document.getElementById('login-password').value;
     fetch(URL_Address + '/get/developer', {
@@ -36,6 +37,7 @@ function loginDeveloper() {
 }
 
 function getProjects(thisDeveloper,myProjectIndex) {
+    updateStatus("Getting projects please wait");
     fetch(URL_Address + '/get/projects', {
             method: 'post',
             headers: {
@@ -66,6 +68,7 @@ function getProjects(thisDeveloper,myProjectIndex) {
 }
 
 function getUserStorys(thisProject, myIndex) {
+    updateStatus("Getting user stories please wait");
     fetch(URL_Address + '/get/userStorys', {
             method: 'post',
             headers: {
@@ -82,8 +85,10 @@ function getUserStorys(thisProject, myIndex) {
         .then(obj => {
             if (obj.status === 200) {
                 myUserStorys = obj.body;
+                myUserStorys.sort(function(obj1, obj2) {return obj1.priority - obj2.priority;});
                 setMyAglileStoryUserStoryStorage();
                 displayUserStories();
+                updateStatus("");
                 console.log(obj.status);
                 console.log(myUserStorys);
             } else {
@@ -116,8 +121,8 @@ function setPhase(phase){
     }
 }
 
-
 function createNewDeveloper() {
+    updateStatus("Creating new developer please wait");
     var email = document.getElementById('developer-email').value;
     var password = document.getElementById('developer-password').value;
     var firstName = document.getElementById('developer-first-name').value;
@@ -147,6 +152,7 @@ function createNewDeveloper() {
             if (obj.status === 200) {
                 myDeveloper = obj.body;
                 setMyAglileStoryDeveloperStorage();
+                updateStatus("Developer created");
                 console.log(obj.status);
                 console.log(myDeveloper);
             } else {
@@ -159,6 +165,7 @@ function createNewDeveloper() {
 }
 
 function createNewProject() {
+    updateStatus("Creating new project please wait");
     var developerId = myDeveloper._id
     var name = document.getElementById('project-name').value;
     var description = document.getElementById('project-description').value;
@@ -207,6 +214,7 @@ function getRadioVal(radioName) {
 }
 
 function createNewUserStory() {
+    updateStatus("Creating new user story please wait");
     var myIndex = (document.getElementById('select-project').value);
     if (myIndex != -1 ) {
         var projectId = myProjects[myIndex]._id;
@@ -220,7 +228,8 @@ function createNewUserStory() {
         var phase = getRadioVal('user-story-phase');
         var percentDone = document.getElementById('user-story-percent-done').value;
         percentDone = rangeLimit(percentDone,0,100);
-
+        var priority = document.getElementById('user-story-priority').value;
+        priority = rangeLimit(priority,1,10);
         fetch(URL_Address + '/project/userStory', {
                 method: 'post',
                 headers: {
@@ -237,7 +246,8 @@ function createNewUserStory() {
                     conversation: conversation,
                     estimate: estimate,
                     phase: phase,
-                    percentDone: percentDone
+                    percentDone: percentDone,
+                    priority: priority
                 })
             }).then(res => res.json().then(data => ({
                 status: res.status,
@@ -273,20 +283,62 @@ function rangeLimit (myString, lowerValue, upperValue){
     return myString;
 }
 
-function editUserStory(myUserStoryIndex) {
+function moveUserToNextPhase(myUserStoryIndex){
+    updateStatus("Editing user story priority please wait");
+    var userStoryTitle = myUserStorys[myUserStoryIndex].userStoryTitle;
+    var userRole = myUserStorys[myUserStoryIndex].userRole;
+    var userWant = myUserStorys[myUserStoryIndex].userWant;
+    var userBenefit = myUserStorys[myUserStoryIndex].userBenefit;
+    var acceptanceCriteria = myUserStorys[myUserStoryIndex].acceptanceCriteria;
+    var conversation = myUserStorys[myUserStoryIndex].conversation;
+    var estimate = myUserStorys[myUserStoryIndex].estimate;
+    var temp = Number(myUserStorys[myUserStoryIndex].phase);
+    temp +=1;
+    temp=rangeLimit(temp,0,3);
+    console.log(temp);
+    var phase = parseInt(temp);
+    console.log(phase);
+    var percentDone = myUserStorys[myUserStoryIndex].percentDone;
+    var priority = myUserStorys[myUserStoryIndex].priority;
+    updateUserStory(myUserStoryIndex,userStoryTitle,userRole,userWant,userBenefit,acceptanceCriteria,conversation,estimate,phase,percentDone,priority);
+}
+
+function editUserStoryPriority(myUserStoryIndex){
+    updateStatus("Editing user story priority please wait");
+    var userStoryTitle = myUserStorys[myUserStoryIndex].userStoryTitle;
+    var userRole = myUserStorys[myUserStoryIndex].userRole;
+    var userWant = myUserStorys[myUserStoryIndex].userWant;
+    var userBenefit = myUserStorys[myUserStoryIndex].userBenefit;
+    var acceptanceCriteria = myUserStorys[myUserStoryIndex].acceptanceCriteria;
+    var conversation = myUserStorys[myUserStoryIndex].conversation;
+    var estimate = myUserStorys[myUserStoryIndex].estimate;
+    var phase = myUserStorys[myUserStoryIndex].phase;
+    var percentDone = myUserStorys[myUserStoryIndex].percentDone;
+    var priority = document.getElementById(`user-story-priority-slider-`+myUserStoryIndex).value;
+    updateUserStory(myUserStoryIndex,userStoryTitle,userRole,userWant,userBenefit,acceptanceCriteria,conversation,estimate,phase,percentDone,priority);
+}
+
+function editUserStory(myUserStoryIndex){
+    var userStoryTitle = document.getElementById('edit-user-story-title').value;
+    var userRole = document.getElementById('edit-user-story-user-role').value;
+    var userWant = document.getElementById('edit-user-story-user-want').value;
+    var userBenefit = document.getElementById('edit-user-story-user-benefit').value;
+    var acceptanceCriteria = document.getElementById('edit-user-story-acceptance-criteria').value;
+    var conversation = document.getElementById('edit-user-story-conversation').value;
+    var estimate = document.getElementById('edit-user-story-estimate').value;
+    var phase = getRadioVal('edit-user-story-phase');
+    var percentDone = document.getElementById('edit-user-story-percent-done').value;
+    var priority = parseInt(document.getElementById('edit-user-story-priority').value);
+    updateUserStory(myUserStoryIndex,userStoryTitle,userRole,userWant,userBenefit,acceptanceCriteria,conversation,estimate,phase,percentDone,priority);
+}
+
+function updateUserStory(myUserStoryIndex,userStoryTitle,userRole,userWant,userBenefit,acceptanceCriteria,conversation,estimate,phase,percentDone,priority) {
+    updateStatus("Updating user story please wait");
+    console.log('phase inside updateUserStory' + phase);
     var myProjectIndex = (document.getElementById('select-project').value);
     if (myUserStoryIndex != -1 ) {
-        var userStoryTitle = document.getElementById('edit-user-story-title').value;
-        var userRole = document.getElementById('edit-user-story-user-role').value;
-        var userWant = document.getElementById('edit-user-story-user-want').value;
-        var userBenefit = document.getElementById('edit-user-story-user-benefit').value;
-        var acceptanceCriteria = document.getElementById('edit-user-story-acceptance-criteria').value;
-        var conversation = document.getElementById('edit-user-story-conversation').value;
-        var estimate = document.getElementById('edit-user-story-estimate').value;
-        var phase = getRadioVal('edit-user-story-phase');
-        var percentDone = document.getElementById('edit-user-story-percent-done').value;
         percentDone = rangeLimit(percentDone,0,100);
-
+        priority = rangeLimit(priority,1,10);
         fetch(URL_Address + '/put/userStory', {
                 method: 'post',
                 headers: {
@@ -303,7 +355,8 @@ function editUserStory(myUserStoryIndex) {
                     conversation: conversation,
                     estimate: estimate,
                     phase: phase,
-                    percentDone: percentDone
+                    percentDone: percentDone,
+                    priority: priority
                 })
             }).then(res => res.json().then(data => ({
                 status: res.status,
@@ -326,6 +379,7 @@ function editUserStory(myUserStoryIndex) {
 }
 
 function editProject(myProjectIndex) {
+    updateStatus("Editing project please wait");
     console.log("edit project routine")
     if (myProjectIndex != -1 ) {
         var name = document.getElementById('edit-project-name').value;
@@ -364,6 +418,7 @@ function editProject(myProjectIndex) {
 }
 
 function editDeveloper() {
+    updateStatus("Editing developer please wait");
     console.log("edit developer routine")
     var firstName = document.getElementById('edit-developer-first-name').value;
     var lastName = document.getElementById('edit-developer-last-name').value;
@@ -410,9 +465,10 @@ function DeleteUserStorySetup(myUserStoryIndex) {
     showConfirmDeletePopup('DeleteUserStory',myUserStoryIndex,' user story <strong>' + myUserStorys[myUserStoryIndex].userStoryTitle + "</strong>");
 }
 
-function DeleteUserStory(myUserStoryIndex) {  
+function DeleteUserStory(myUserStoryIndex) {
     $('#confirm-delete').modal('hide');
     if (myUserStoryIndex != -1) {
+        updateStatus("Deleting user story please wait");
         var userStoryId = myUserStorys[myUserStoryIndex]._id;
         var projectId = myUserStorys[myUserStoryIndex].projectId;
         var myProjectIndex = -1;
@@ -441,6 +497,7 @@ function DeleteUserStory(myUserStoryIndex) {
                     if (obj.status === 200) {
                         console.log(obj.status);
                         console.log(obj.body);
+                        updateStatus("User story deleted");
                         getUserStorys(myProjects[myProjectIndex]);
                     } else {
                         console.log(obj.status);
@@ -460,9 +517,10 @@ function deleteProjectSetup(){
 }
 
 function DeleteProject(myProjectIndex) {  
-    $('#confirm-delete').modal('hide');
+    $('#confirm-delete').modal('hide');    
     console.log(myProjects[myProjectIndex]._id)
     if (myProjectIndex != -1) { 
+        updateStatus("Deleting user story please wait");
         // first delete all the user stories associated with the project
         fetch(URL_Address + '/delete/project/userStorys', {
                 method: 'post',
@@ -481,6 +539,7 @@ function DeleteProject(myProjectIndex) {
                 if (obj.status === 200) {
                     console.log(obj.status);
                     console.log(obj.body);
+                    updateStatus("Project deleted");
                     getUserStorys(myProjects[myProjectIndex])
                     // user stories are now deleted now delete the project
                     fetch(URL_Address + '/delete/developer/project', {
