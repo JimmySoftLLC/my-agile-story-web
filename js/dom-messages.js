@@ -114,6 +114,9 @@ function loginMenu(statusMessage) {
     document.getElementById('nav-bar-items-left').innerHTML = listHTML;  
     listHTML = '';
     listHTML += '<li class="nav-item">';
+    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" onclick="showVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
+    listHTML += '</li>';
+    listHTML += '<li class="nav-item">';
     listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
     listHTML += '</li>';
     listHTML += '<li class="nav-item">';
@@ -121,6 +124,38 @@ function loginMenu(statusMessage) {
     listHTML += '</li>';
     document.getElementById('nav-bar-items-right').innerHTML = listHTML;
     displayUserStories();
+}
+
+function showVideo() {
+    var myVideo = "";
+    let listHTML = '<li class="nav-item">';
+    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video-slash"></i></button>';
+    listHTML += '</li>';
+    listHTML += '<li class="nav-item">';
+    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
+    listHTML += '</li>';
+    listHTML += '<li class="nav-item">';
+    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
+    listHTML += '</li>';
+    document.getElementById('nav-bar-items-right').innerHTML = listHTML;
+    listHTML = `<div style="position:relative; padding-bottom:56.25%; padding-top:30px; height:0; overflow:hidden;">`
+    listHTML += `<iframe width="560" height="315" src="`+ myVideo+ `" frameborder="0" allow="accelerometer; autoplay=true; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style = "position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>`;
+    listHTML += `</div>`
+    document.getElementById('myVideoInstructions').innerHTML = listHTML;
+}
+
+function hideVideo() {
+    let listHTML = '<li class="nav-item">';
+    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" onclick="showVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
+    listHTML += '</li>';
+    listHTML += '<li class="nav-item">';
+    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
+    listHTML += '</li>';
+    listHTML += '<li class="nav-item">';
+    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
+    listHTML += '</li>';
+    document.getElementById('nav-bar-items-right').innerHTML = listHTML;
+    document.getElementById('myVideoInstructions').innerHTML = "";
 }
 
 function loggedinMenu(myProjectIndex) {
@@ -180,6 +215,7 @@ function loggedinMenu(myProjectIndex) {
     listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" onclick="logoutAll()" data-hc-index=""><i class="fas fa-sign-out-alt"></i></button>';
     listHTML += '</li>'; 
     document.getElementById('nav-bar-items-right').innerHTML = listHTML;
+    document.getElementById('myVideoInstructions').innerHTML = "";
     displayUserStories();
 }
 
