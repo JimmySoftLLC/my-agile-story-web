@@ -127,7 +127,7 @@ function loginMenu(statusMessage) {
 }
 
 function showVideo() {
-    var myVideo = "";
+    var myVideo = "https://www.youtube.com/embed/PHabA6CTFXA";
     let listHTML = '<li class="nav-item">';
     listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video-slash"></i></button>';
     listHTML += '</li>';
