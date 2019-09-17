@@ -114,7 +114,7 @@ function loginMenu(statusMessage) {
     document.getElementById('nav-bar-items-left').innerHTML = listHTML;  
     listHTML = '';
     listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" onclick="showVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
     listHTML += '</li>';
     listHTML += '<li class="nav-item">';
     listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
@@ -123,6 +123,7 @@ function loginMenu(statusMessage) {
     listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
     listHTML += '</li>';
     document.getElementById('nav-bar-items-right').innerHTML = listHTML;
+    showVideo();
     displayUserStories();
 }
 
