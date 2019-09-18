@@ -3,8 +3,36 @@ function updateStatus(message) {
     setTimeout(clearStatus,2000) 
 }
 
+function updateStatusNoClear(message) {
+    document.getElementById('footer-message').innerHTML = '<p>' + message + '</p>';
+}
+
 function clearStatus() {
-  document.getElementById('footer-message').innerHTML = '<p></p>';
+    document.getElementById('footer-message').innerHTML = '<p></p>';
+}
+
+function updateLoginMessage(message){
+    document.getElementById('login-message').innerHTML = '<p>' + message + '</p>';    
+}
+
+function updateDeveloperMessage(message){
+    document.getElementById('developer-message').innerHTML = '<p>' + message + '</p>';    
+}
+
+function updateEditDeveloperMessage(message){
+    document.getElementById('edit-developer-message').innerHTML = '<p>' + message + '</p>';    
+}
+function updateProjectMessage(message){
+    document.getElementById('project-message').innerHTML = '<p>' + message + '</p>';    
+}
+function updateEditProjectMessage(message){
+    document.getElementById('edit-project-message').innerHTML = '<p>' + message + '</p>';    
+}
+function updateUserStoryMessage(message){
+    document.getElementById('user-story-message').innerHTML = '<p>' + message + '</p>';    
+}
+function updateEditUserStoryMessage(message){
+    document.getElementById('edit-user-story-message').innerHTML = '<p>' + message + '</p>';    
 }
 
 $('#editUserStoryModal').on('show.bs.modal', function (event) {
@@ -31,7 +59,8 @@ $('#editUserStoryModal').on('show.bs.modal', function (event) {
     listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="splitUserStory(`+ myIndex +`)">Split</button>`;
     listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="mergeUserStory(`+ myIndex +`)">Merge</button>`;
     listHTML += ` </div>`
-    document.getElementById('edit-user-story-buttons').innerHTML = listHTML;    
+    document.getElementById('edit-user-story-buttons').innerHTML = listHTML; 
+    updateEditUserStoryMessage("");
 })
 
 $('#createNewUserStoryModal').on('show.bs.modal', function (event) {
@@ -45,7 +74,8 @@ $('#createNewUserStoryModal').on('show.bs.modal', function (event) {
     modal.find('.modal-body input.user-story-estimate').val("");
     modal.find('.modal-body input.user-story-priority').val("1");
     document.getElementById(`user-story-phase-` + 0).checked =true;
-    modal.find('.modal-body input.user-story-percent-done').val("0");  
+    modal.find('.modal-body input.user-story-percent-done').val("0"); 
+    updateUserStoryMessage("");
 })
 
 $('#createNewDeveloperModal').on('show.bs.modal', function (event) {
@@ -55,10 +85,10 @@ $('#createNewDeveloperModal').on('show.bs.modal', function (event) {
     modal.find('.modal-body input.developer-first-name').val("");
     modal.find('.modal-body input.developer-last-name').val("");
     modal.find('.modal-body textarea.developer-bio').val("");
+    updateDeveloperMessage("");
 })
 
 $('#editDeveloperModal').on('show.bs.modal', function (event) {
-    console.log("Edit developer modal");
     var button = $(event.relatedTarget) // Button that triggered the modal
     var modal = $(this)
     modal.find('.modal-body input.edit-developer-email').val(myDeveloper.email);
@@ -69,19 +99,22 @@ $('#editDeveloperModal').on('show.bs.modal', function (event) {
     let listHTML = '';
     listHTML = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
     listHTML = `<button type="button" class="btn btn-primary" onclick="editDeveloper()">Save Changes</button>`;
-    document.getElementById('edit-developer-buttons').innerHTML = listHTML;    
+    document.getElementById('edit-developer-buttons').innerHTML = listHTML; 
+    updateEditDeveloperMessage("");
 })
 
 $('#loginModal').on('show.bs.modal', function (event) {
     var modal = $(this)
     modal.find('.modal-body input.login-email').val("");
     modal.find('.modal-body input.login-password').val("");
+    updateLoginMessage("");
 })
 
 $('#createNewProjectModal').on('show.bs.modal', function (event) {
     var modal = $(this)
     modal.find('.modal-body input.project-name').val("");
     modal.find('.modal-body textarea.project-description').val("");
+    updateProjectMessage("");
 })
 
 $('#editProjectModal').on('show.bs.modal', function (event) {
@@ -93,7 +126,8 @@ $('#editProjectModal').on('show.bs.modal', function (event) {
     let listHTML = '';
     listHTML = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
     listHTML = `<button type="button" class="btn btn-primary" onclick="editProject(`+ myProjectIndex +`)">Save Changes</button>`;
-    document.getElementById('edit-project-buttons').innerHTML = listHTML;    
+    document.getElementById('edit-project-buttons').innerHTML = listHTML;  
+    updateEditProjectMessage("");
 })
 
 function showConfirmDeletePopup(functionName,functionValue,functionMessage) {
@@ -106,6 +140,17 @@ function showConfirmDeletePopup(functionName,functionValue,functionMessage) {
     listHTML += `<button type="button" class="btn btn-danger btn-ok" onclick="` + functionName + `(` + functionValue + `)">Delete</button>`;
     document.getElementById('confirm-delete-buttons').innerHTML = listHTML;
     $('#confirm-delete').modal('show');
+}
+
+function showErrorMessage(errorTitle,errorMessage) {
+    let listHTML = '';
+    listHTML = `<i class="fas fa-exclamation-triangle"></i> `+ errorTitle;
+    document.getElementById('error-dialog-title').innerHTML = listHTML;
+    listHTML = errorMessage;
+    document.getElementById('error-dialog-message').innerHTML = listHTML;
+    listHTML = `<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>`;
+    document.getElementById('error-dialog-buttons').innerHTML = listHTML;
+    $('#error-dialog').modal('show');
 }
 
 function loginMenu(statusMessage) {
@@ -139,7 +184,16 @@ function showVideo() {
     listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
     listHTML += '</li>';
     document.getElementById('nav-bar-items-right').innerHTML = listHTML;
-    listHTML = `<div style="position:relative; padding-bottom:56.25%; padding-top:30px; height:0; overflow:hidden;">`
+    listHTML = '<p>';
+    listHTML += 'My Agile Story is a virtual Agile board that organizes items into four sections: to do, doing, verify and done.';
+    listHTML += '</p>';
+    listHTML += '<p>';
+    listHTML += 'Add story cards, create sprints and measure your progress with burndown charts. Create your own account and have fun.';
+    listHTML += '</p>';
+    listHTML += '<p>';
+    listHTML += 'Watch the video below to get an overview and instructions for use.';
+    listHTML += '</p>';
+    listHTML += `<div style="position:relative; padding-bottom:56.25%; padding-top:30px; height:0; overflow:hidden;">`
     listHTML += `<iframe width="560" height="315" src="`+ myVideo+ `" frameborder="0" allow="accelerometer; autoplay=true; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style = "position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>`;
     listHTML += `</div>`
     document.getElementById('myVideoInstructions').innerHTML = listHTML;
@@ -160,11 +214,12 @@ function hideVideo() {
 }
 
 function loggedinMenu(myProjectIndex) {
-    console.log(myProjectIndex);
+    document.getElementById('user-story-elements').innerHTML = "";
     let listHTML = '';
     listHTML += aboutUsDrowdown();
     listHTML += '<li class="nav-item" style = "margin-right:10px;">';
     listHTML += '   <select class="form-control select-project" id="select-project" onchange="selectProjectDropDownChanged()">';
+
     if (Number(myProjectIndex) === -1 ) {
             listHTML += '       <option selected value = "-1" >Select Project</option>';
             for ( var j = 0; j < myProjects.length; j++) {
@@ -194,21 +249,25 @@ function loggedinMenu(myProjectIndex) {
 
     document.getElementById('nav-bar-items-left').innerHTML = listHTML;
     listHTML = '';
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#createNewUserStoryModal" data-hc-index=""><i class="fas fa-newspaper"></i></button>';
-    listHTML += '</li>';
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(0)" data-hc-index=""><i class="fas fa-list"></i></button>';
-    listHTML += '</li>';
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(1)" data-hc-index=""><i class="fas fa-running"></i></button>';
-    listHTML += '</li>';
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(2)" data-hc-index=""><i class="fas fa-check"></i></button>';
-    listHTML += '</li>';
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(3)" data-hc-index=""><i class="fas fa-hands-helping"></i></button>';
-    listHTML += '</li>';
+    
+    if (Number(myProjectIndex) != -1 ) {
+        listHTML += '<li class="nav-item">';
+        listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#createNewUserStoryModal" data-hc-index=""><i class="fas fa-newspaper"></i></button>';
+        listHTML += '</li>';
+        listHTML += '<li class="nav-item">';
+        listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(0)" data-hc-index=""><i class="fas fa-list"></i></button>';
+        listHTML += '</li>';
+        listHTML += '<li class="nav-item">';
+        listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(1)" data-hc-index=""><i class="fas fa-running"></i></button>';
+        listHTML += '</li>';
+        listHTML += '<li class="nav-item">';
+        listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(2)" data-hc-index=""><i class="fas fa-check"></i></button>';
+        listHTML += '</li>';
+        listHTML += '<li class="nav-item">';
+        listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(3)" data-hc-index=""><i class="fas fa-hands-helping"></i></button>';
+        listHTML += '</li>';
+        displayUserStories();
+    }
     listHTML += '<li class="nav-item">';
     listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#editDeveloperModal" data-hc-index=""><i class="fas fa-user-edit"></i></button>';
     listHTML += '</li>'; 
@@ -217,7 +276,6 @@ function loggedinMenu(myProjectIndex) {
     listHTML += '</li>'; 
     document.getElementById('nav-bar-items-right').innerHTML = listHTML;
     document.getElementById('myVideoInstructions').innerHTML = "";
-    displayUserStories();
 }
 
 function displayUserStories() {

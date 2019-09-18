@@ -2,7 +2,7 @@
 const URL_Address = 'https://shrouded-basin-24147.herokuapp.com';
 
 function loginDeveloper() {
-    updateStatus("Login please wait");
+    updateLoginMessage("Logging on to the server please wait");
     var email = document.getElementById('login-email').value;
     var password = document.getElementById('login-password').value;
     fetch(URL_Address + '/get/developer', {
@@ -23,21 +23,17 @@ function loginDeveloper() {
             if (obj.status === 200) {
                 myDeveloper = obj.body;
                 setMyAglileStoryDeveloperStorage();
-                //console.log(obj.status);
-                //console.log(myDeveloper);
                 getProjects(myDeveloper,-1);
                 updateStatus("Welcome " + myDeveloper.firstName);
             } else {
-                //console.log(obj.status);
-                //console.log(obj.body);
-                updateStatus(obj.body.error);
+                showErrorMessage("Error",obj.body.error)
             }
             $('#loginModal').modal('hide');
         });
 }
 
 function getProjects(thisDeveloper,myProjectIndex) {
-    updateStatus("Getting projects please wait");
+    updateStatusNoClear("Getting projects please wait");
     fetch(URL_Address + '/get/projects', {
             method: 'post',
             headers: {
@@ -56,19 +52,15 @@ function getProjects(thisDeveloper,myProjectIndex) {
                 myProjects = obj.body;
                 setMyAglileStoryProjectStorage();
                 loggedinMenu(myProjectIndex)
-                //console.log(obj.status);
-                //console.log(myProjects);
             } else {
-                console.log(obj.status);
-                console.log(obj.body);
-                updateStatus(obj.body);
+                showErrorMessage("Error",obj.body.error)
             }
             $('#loginModal').modal('hide');
         });
 }
 
 function getUserStorys(thisProject, myIndex) {
-    updateStatus("Getting user stories please wait");
+    updateStatusNoClear("Getting user stories please wait");
     fetch(URL_Address + '/get/userStorys', {
             method: 'post',
             headers: {
@@ -89,12 +81,8 @@ function getUserStorys(thisProject, myIndex) {
                 setMyAglileStoryUserStoryStorage();
                 displayUserStories();
                 updateStatus("");
-                console.log(obj.status);
-                console.log(myUserStorys);
             } else {
-                console.log(obj.status);
-                console.log(obj.body);
-                updateStatus(obj.body);
+                showErrorMessage("Error",obj.body.error)
             }
             $('#loginModal').modal('hide');
         });
@@ -104,10 +92,12 @@ function selectProjectDropDownChanged(){
     var myIndex = (document.getElementById('select-project').value);
     myLastSelectedProject = myIndex;
     setMyAglileStorylastSelectedProjectStorage();
-    console.log ("User changed project option to " + myIndex);
     if (myIndex != -1 ) {
         getUserStorys(myProjects[myIndex],myIndex);
-    }
+        loggedinMenu(myIndex);
+    }else {
+        loggedinMenu(myIndex);
+    } 
 }
 
 function setPhase(phase){
@@ -115,14 +105,13 @@ function setPhase(phase){
     var myIndex = (document.getElementById('select-project').value);
     myLastSelectedProject = myIndex;
     setMyAglileStorylastSelectedProjectStorage();
-    console.log ("User changed project option to " + myIndex);
     if (myIndex != -1 ) {
         getUserStorys(myProjects[myIndex],myIndex);
     }
 }
 
 function createNewDeveloper() {
-    updateStatus("Creating new developer please wait");
+    updateDeveloperMessage("Creating new developer please wait");
     var email = document.getElementById('developer-email').value;
     var password = document.getElementById('developer-password').value;
     var firstName = document.getElementById('developer-first-name').value;
@@ -153,19 +142,15 @@ function createNewDeveloper() {
                 myDeveloper = obj.body;
                 setMyAglileStoryDeveloperStorage();
                 updateStatus("Developer created");
-                console.log(obj.status);
-                console.log(myDeveloper);
             } else {
-                console.log(obj.status);
-                console.log(obj.body);
-                updateStatus(obj.body);
+                showErrorMessage("Error",obj.body.error)
             }
             $('#createNewDeveloperModal').modal('hide');
         });
 }
 
 function createNewProject() {
-    updateStatus("Creating new project please wait");
+    updateProjectMessage("Creating new project please wait");
     var developerId = myDeveloper._id
     var name = document.getElementById('project-name').value;
     var description = document.getElementById('project-description').value;
@@ -189,14 +174,10 @@ function createNewProject() {
             if (obj.status === 200) {
                 myProject = obj.body;
                 myDeveloper.projectIds.push(myProject._id);
-                getProjects(myDeveloper)
-                console.log(obj.status);
-                console.log(myProject);
+                getProjects(myDeveloper,-1);
                 updateStatus('Project ' +  myProject.name + ', created successfully');
             } else {
-                console.log(obj.status);
-                console.log(obj.body);
-                updateStatus(obj.body);
+                showErrorMessage("Error",obj.body.error)
             }
             $('#createNewProjectModal').modal('hide');
         });
@@ -214,9 +195,9 @@ function getRadioVal(radioName) {
 }
 
 function createNewUserStory() {
-    updateStatus("Creating new user story please wait");
     var myIndex = (document.getElementById('select-project').value);
     if (myIndex != -1 ) {
+        updateUserStoryMessage("Creating new user story please wait");
         var projectId = myProjects[myIndex]._id;
         var userStoryTitle = document.getElementById('user-story-title').value;
         var userRole = document.getElementById('user-story-user-role').value;
@@ -258,12 +239,8 @@ function createNewUserStory() {
                     myUserStory = obj.body
                     myProjects[myIndex].userStoryIds.push(myUserStory._id);
                     getUserStorys(myProjects[myIndex]);
-                    console.log(obj.status);
-                    console.log(myUserStory);
                 } else {
-                    console.log(obj.status);
-                    console.log(obj.body);
-                    updateStatus(obj.body);
+                    showErrorMessage("Error",obj.body.error)
                 }
                 $('#createNewUserStoryModal').modal('hide');
             });
@@ -284,7 +261,7 @@ function rangeLimit (myString, lowerValue, upperValue){
 }
 
 function moveUserToNextPhase(myUserStoryIndex){
-    updateStatus("Editing user story priority please wait");
+    updateStatusNoClear("Editing user story priority please wait");
     var userStoryTitle = myUserStorys[myUserStoryIndex].userStoryTitle;
     var userRole = myUserStorys[myUserStoryIndex].userRole;
     var userWant = myUserStorys[myUserStoryIndex].userWant;
@@ -304,7 +281,7 @@ function moveUserToNextPhase(myUserStoryIndex){
 }
 
 function editUserStoryPriority(myUserStoryIndex){
-    updateStatus("Editing user story priority please wait");
+    updateStatusNoClear("Editing user story priority please wait");
     var userStoryTitle = myUserStorys[myUserStoryIndex].userStoryTitle;
     var userRole = myUserStorys[myUserStoryIndex].userRole;
     var userWant = myUserStorys[myUserStoryIndex].userWant;
@@ -319,6 +296,7 @@ function editUserStoryPriority(myUserStoryIndex){
 }
 
 function editUserStory(myUserStoryIndex){
+    updateEditUserStoryMessage("Editing user story please wait");
     var userStoryTitle = document.getElementById('edit-user-story-title').value;
     var userRole = document.getElementById('edit-user-story-user-role').value;
     var userWant = document.getElementById('edit-user-story-user-want').value;
@@ -333,54 +311,50 @@ function editUserStory(myUserStoryIndex){
 }
 
 function updateUserStory(myUserStoryIndex,userStoryTitle,userRole,userWant,userBenefit,acceptanceCriteria,conversation,estimate,phase,percentDone,priority) {
-    updateStatus("Updating user story please wait");
-    console.log('phase inside updateUserStory' + phase);
     var myProjectIndex = (document.getElementById('select-project').value);
-    if (myUserStoryIndex != -1 ) {
-        percentDone = rangeLimit(percentDone,0,100);
-        priority = rangeLimit(priority,1,10);
-        fetch(URL_Address + '/put/userStory', {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json, text/plain, */*',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    userStoryId: myUserStorys[myUserStoryIndex]._id,
-                    userStoryTitle: userStoryTitle,
-                    userRole: userRole,
-                    userWant: userWant,
-                    userBenefit: userBenefit,
-                    acceptanceCriteria: acceptanceCriteria,
-                    conversation: conversation,
-                    estimate: estimate,
-                    phase: phase,
-                    percentDone: percentDone,
-                    priority: priority
-                })
-            }).then(res => res.json().then(data => ({
-                status: res.status,
-                body: data
-            })))
-            .then(obj => {
-                if (obj.status === 200) {
-                    myUserStory = obj.body
-                    console.log(obj.status);
-                    console.log(myUserStory);
-                    getUserStorys(myProjects[myProjectIndex]);
-                } else {
-                    console.log(obj.status);
-                    console.log(obj.body);
-                    updateStatus(obj.body);
-                }
-                $('#editUserStoryModal').modal('hide');
-            });
+    if (myProjectIndex != -1) { 
+        updateStatusNoClear("Updating user story please wait");
+        if (myUserStoryIndex != -1 ) {
+            percentDone = rangeLimit(percentDone,0,100);
+            priority = rangeLimit(priority,1,10);
+            fetch(URL_Address + '/put/userStory', {
+                    method: 'post',
+                    headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userStoryId: myUserStorys[myUserStoryIndex]._id,
+                        userStoryTitle: userStoryTitle,
+                        userRole: userRole,
+                        userWant: userWant,
+                        userBenefit: userBenefit,
+                        acceptanceCriteria: acceptanceCriteria,
+                        conversation: conversation,
+                        estimate: estimate,
+                        phase: phase,
+                        percentDone: percentDone,
+                        priority: priority
+                    })
+                }).then(res => res.json().then(data => ({
+                    status: res.status,
+                    body: data
+                })))
+                .then(obj => {
+                    if (obj.status === 200) {
+                        myUserStory = obj.body
+                        getUserStorys(myProjects[myProjectIndex]);
+                    } else {
+                        showErrorMessage("Error",obj.body.error)
+                    }
+                    $('#editUserStoryModal').modal('hide');
+                });
+        }
     }
 }
 
 function editProject(myProjectIndex) {
-    updateStatus("Editing project please wait");
-    console.log("edit project routine")
+    updateEditProjectMessage("Editing project please wait");
     if (myProjectIndex != -1 ) {
         var name = document.getElementById('edit-project-name').value;
         var description = document.getElementById('edit-project-description').value;
@@ -401,16 +375,12 @@ function editProject(myProjectIndex) {
             })))
             .then(obj => {
                 if (obj.status === 200) {
-                    myProject = obj.body
-                    console.log(obj.status);
-                    console.log(myProject);            
+                    myProject = obj.body            
                     getProjects(myDeveloper,myProjectIndex)
                     updateStatus('Project ' +  myProject.name + ', edited successfully'); 
                     $('#editProjectModal').modal('hide');
                 } else {
-                    console.log(obj.status);
-                    console.log(obj.body);
-                    updateStatus(obj.body);
+                    showErrorMessage("Error",obj.body.error)
                 }
 
             });
@@ -418,8 +388,7 @@ function editProject(myProjectIndex) {
 }
 
 function editDeveloper() {
-    updateStatus("Editing developer please wait");
-    console.log("edit developer routine")
+    updateEditDeveloperMessage("Editing developer please wait");
     var firstName = document.getElementById('edit-developer-first-name').value;
     var lastName = document.getElementById('edit-developer-last-name').value;
     var email = document.getElementById('edit-developer-email').value;
@@ -448,15 +417,11 @@ function editDeveloper() {
         .then(obj => {
             if (obj.status === 200) {
                 myDeveloper = obj.body
-                setMyAglileStoryDeveloperStorage();
-                console.log(obj.status);
-                console.log(myDeveloper);            
+                setMyAglileStoryDeveloperStorage();           
                 updateStatus('Developer ' +  myDeveloper.firstName + ', edited successfully'); 
                 $('#editDeveloperModal').modal('hide');
             } else {
-                console.log(obj.status);
-                console.log(obj.body);
-                updateStatus(obj.body);
+                showErrorMessage("Error",obj.body.error)
             }
         });
 }
@@ -495,19 +460,15 @@ function DeleteUserStory(myUserStoryIndex) {
                 })))
                 .then(obj => {
                     if (obj.status === 200) {
-                        console.log(obj.status);
-                        console.log(obj.body);
                         updateStatus("User story deleted");
                         getUserStorys(myProjects[myProjectIndex]);
                     } else {
-                        console.log(obj.status);
-                        console.log(obj.body);  
+                        showErrorMessage("Error",obj.body.error)
                     }
                 });
         }
     }
 }
-
 
 function deleteProjectSetup(){
     var myProjectIndex = (document.getElementById('select-project').value);
@@ -557,17 +518,13 @@ function DeleteProject(myProjectIndex) {
                     })))
                     .then(obj => {
                         if (obj.status === 200) {
-                            console.log(obj.status);
-                            console.log(obj.body);
-                            getProjects(myDeveloper)
+                            getProjects(myDeveloper, -1);
                         } else {
-                            console.log(obj.status);
-                            console.log(obj.body);  
+                            showErrorMessage("Error",obj.body.error);
                         }
                     });
                 } else {
-                    console.log(obj.status);
-                    console.log(obj.body);  
+                    showErrorMessage("Error",obj.body.error) 
                 }
             });
     }

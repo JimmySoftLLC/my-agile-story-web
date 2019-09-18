@@ -102,6 +102,7 @@
                             <button type="button" class="btn btn-primary" onclick="createNewDeveloper()">Add Developer</button>
                         </div>
                     </div>
+                    <div class = "developer-message" id = "developer-message"></div>
                 </div>
             </div>
         </div>
@@ -151,6 +152,7 @@
                     <div class="form-group row">
                         <div class="col-sm-11" id="edit-developer-buttons"></div>
                     </div>
+                    <div class = "edit-developer-message" id = "edit-developer-message"></div>
                 </div>
             </div>
         </div>
@@ -170,7 +172,7 @@
                     <div class="form-group row">
                         <label  class="col-sm-3 col-form-label">Name</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control project-name" id="project-name" placeholder="">
+                            <input type="text" class="form-control project-name" id="project-name" placeholder="">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -185,6 +187,7 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" onclick="createNewProject()">Add Project</button>
                         </div>
+                        <div class = "project-message" id = "project-message"></div>
                     </div>
                 </div>
             </div>
@@ -205,7 +208,7 @@
                     <div class="form-group row">
                         <label  class="col-sm-3 col-form-label">Name</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control edit-project-name" id="edit-project-name" placeholder="">
+                            <input type="text" class="form-control edit-project-name" id="edit-project-name" placeholder="">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -214,9 +217,9 @@
                             <textarea class="form-control edit-project-description" rows="5" id="edit-project-description" placeholder=""></textarea>
                         </div>
                     </div>
-                    <!--TODO add role-->
                     <div class="form-group row">
                         <div class="col-sm-11" id="edit-project-buttons"></div>
+                        <div class = "edit-project-message" id = "edit-project-message"></div>
                     </div>
                 </div>
             </div>
@@ -286,6 +289,7 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" onclick="createNewUserStory()">Add User Story</button>
                         </div>
+                        <div class = "user-story-message" id = "user-story-message"></div>
                     </div>
                 </div>
             </div>
@@ -351,6 +355,7 @@
                         </div>
                     </div>
                     <div class="form-group row edit-user-story-buttons" id ="edit-user-story-buttons"></div>
+                    <div class = "edit-user-story-message" id = "edit-user-story-message"></div>
                 </div>
             </div>
         </div>
@@ -385,34 +390,7 @@
                             <button type="button" class="btn btn-primary" onclick="loginDeveloper(-1)">Login</button>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal -->
-    <div class="modal" id="selectProjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Select a project</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <label  class="col-sm-3 col-form-label">Projects</label>
-                        <div class="col-sm-10">
-                            <input type="email" class="form-control" id="asddfaf" placeholder="Email">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-10">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="loginDeveloper()">Select</button>
-                        </div>
-                    </div>
+                    <div class = "login-message" id = "login-message"></div>
                 </div>
             </div>
         </div>
@@ -429,6 +407,21 @@
                 </div>
                 <div class="modal-body" id="confirm-delete-message"></div>
                 <div class="modal-footer" id="confirm-delete-buttons"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="error-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="error-dialog-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="error-dialog-message"></div>
+                <div class="modal-footer" id="error-dialog-buttons"></div>
             </div>
         </div>
     </div>
