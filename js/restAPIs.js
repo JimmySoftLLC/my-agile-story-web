@@ -1,5 +1,5 @@
-const URL_Address = 'http://127.0.0.1:3004';
-//const URL_Address = 'https://shrouded-basin-24147.herokuapp.com';
+//const URL_Address = 'http://127.0.0.1:3004';
+const URL_Address = 'https://shrouded-basin-24147.herokuapp.com';
 
 function loginDeveloper() {
     updateLoginMessage("Logging on to the server please wait");
@@ -92,6 +92,7 @@ function selectProjectDropDownChanged(){
     var myIndex = (document.getElementById('select-project').value);
     myLastSelectedProject = myIndex;
     setMyAglileStorylastSelectedProjectStorage();
+    hideBurnDownChart();
     if (myIndex != -1 ) {
         getUserStorys(myProjects[myIndex],myIndex);
         loggedinMenu(myIndex);
