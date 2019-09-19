@@ -1,6 +1,6 @@
 function updateStatus(message) {
     document.getElementById('footer-message').innerHTML = '<p>' + message + '</p>';
-    setTimeout(clearStatus,2000) 
+    setTimeout(clearStatus, 2000)
 }
 
 function updateStatusNoClear(message) {
@@ -11,28 +11,32 @@ function clearStatus() {
     document.getElementById('footer-message').innerHTML = '<p></p>';
 }
 
-function updateLoginMessage(message){
-    document.getElementById('login-message').innerHTML = '<p>' + message + '</p>';    
+function updateLoginMessage(message) {
+    document.getElementById('login-message').innerHTML = '<p>' + message + '</p>';
 }
 
-function updateDeveloperMessage(message){
-    document.getElementById('developer-message').innerHTML = '<p>' + message + '</p>';    
+function updateDeveloperMessage(message) {
+    document.getElementById('developer-message').innerHTML = '<p>' + message + '</p>';
 }
 
-function updateEditDeveloperMessage(message){
-    document.getElementById('edit-developer-message').innerHTML = '<p>' + message + '</p>';    
+function updateEditDeveloperMessage(message) {
+    document.getElementById('edit-developer-message').innerHTML = '<p>' + message + '</p>';
 }
-function updateProjectMessage(message){
-    document.getElementById('project-message').innerHTML = '<p>' + message + '</p>';    
+
+function updateProjectMessage(message) {
+    document.getElementById('project-message').innerHTML = '<p>' + message + '</p>';
 }
-function updateEditProjectMessage(message){
-    document.getElementById('edit-project-message').innerHTML = '<p>' + message + '</p>';    
+
+function updateEditProjectMessage(message) {
+    document.getElementById('edit-project-message').innerHTML = '<p>' + message + '</p>';
 }
-function updateUserStoryMessage(message){
-    document.getElementById('user-story-message').innerHTML = '<p>' + message + '</p>';    
+
+function updateUserStoryMessage(message) {
+    document.getElementById('user-story-message').innerHTML = '<p>' + message + '</p>';
 }
-function updateEditUserStoryMessage(message){
-    document.getElementById('edit-user-story-message').innerHTML = '<p>' + message + '</p>';    
+
+function updateEditUserStoryMessage(message) {
+    document.getElementById('edit-user-story-message').innerHTML = '<p>' + message + '</p>';
 }
 
 $('#editUserStoryModal').on('show.bs.modal', function (event) {
@@ -47,19 +51,19 @@ $('#editUserStoryModal').on('show.bs.modal', function (event) {
     modal.find('.modal-body textarea.edit-user-story-acceptance-criteria').val(myUserStorys[myIndex].acceptanceCriteria);
     modal.find('.modal-body textarea.edit-user-story-conversation').val(myUserStorys[myIndex].conversation);
     modal.find('.modal-body input.edit-user-story-estimate').val(myUserStorys[myIndex].estimate);
-    if (myUserStorys[myIndex].phase === "" || myUserStorys[myIndex].phase === "null" || myUserStorys[myIndex].phase === "undefined" ) {
+    if (myUserStorys[myIndex].phase === "" || myUserStorys[myIndex].phase === "null" || myUserStorys[myIndex].phase === "undefined") {
         myUserStorys[myIndex].phase = "0";
     }
-    document.getElementById(`edit-user-story-phase-`+myUserStorys[myIndex].phase).checked = true;
+    document.getElementById(`edit-user-story-phase-` + myUserStorys[myIndex].phase).checked = true;
     modal.find('.modal-body input.edit-user-story-percent-done').val(myUserStorys[myIndex].percentDone);
     modal.find('.modal-body input.edit-user-story-priority').val(myUserStorys[myIndex].priority);
     let listHTML = `<div class="col-sm-11">`;
     listHTML += `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
-    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="editUserStory(`+ myIndex +`)">Save Changes</button>`;
-    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="splitUserStory(`+ myIndex +`)">Split</button>`;
-    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="mergeUserStory(`+ myIndex +`)">Merge</button>`;
+    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="editUserStory(` + myIndex + `)">Save Changes</button>`;
+    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="splitUserStory(` + myIndex + `)">Split</button>`;
+    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="mergeUserStory(` + myIndex + `)">Merge</button>`;
     listHTML += ` </div>`
-    document.getElementById('edit-user-story-buttons').innerHTML = listHTML; 
+    document.getElementById('edit-user-story-buttons').innerHTML = listHTML;
     updateEditUserStoryMessage("");
 })
 
@@ -73,8 +77,8 @@ $('#createNewUserStoryModal').on('show.bs.modal', function (event) {
     modal.find('.modal-body textarea.user-story-conversation').val("");
     modal.find('.modal-body input.user-story-estimate').val("");
     modal.find('.modal-body input.user-story-priority').val("1");
-    document.getElementById(`user-story-phase-` + 0).checked =true;
-    modal.find('.modal-body input.user-story-percent-done').val("0"); 
+    document.getElementById(`user-story-phase-` + 0).checked = true;
+    modal.find('.modal-body input.user-story-percent-done').val("0");
     updateUserStoryMessage("");
 })
 
@@ -99,7 +103,7 @@ $('#editDeveloperModal').on('show.bs.modal', function (event) {
     let listHTML = '';
     listHTML = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
     listHTML = `<button type="button" class="btn btn-primary" onclick="editDeveloper()">Save Changes</button>`;
-    document.getElementById('edit-developer-buttons').innerHTML = listHTML; 
+    document.getElementById('edit-developer-buttons').innerHTML = listHTML;
     updateEditDeveloperMessage("");
 })
 
@@ -122,15 +126,15 @@ $('#editProjectModal').on('show.bs.modal', function (event) {
     var button = $(event.relatedTarget) // Button that triggered the modal
     var modal = $(this)
     modal.find('.modal-body input.edit-project-name').val(myProjects[myProjectIndex].name);
-    modal.find('.modal-body textarea.edit-project-description').val(myProjects[myProjectIndex].description);  
+    modal.find('.modal-body textarea.edit-project-description').val(myProjects[myProjectIndex].description);
     let listHTML = '';
     listHTML = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
-    listHTML = `<button type="button" class="btn btn-primary" onclick="editProject(`+ myProjectIndex +`)">Save Changes</button>`;
-    document.getElementById('edit-project-buttons').innerHTML = listHTML;  
+    listHTML = `<button type="button" class="btn btn-primary" onclick="editProject(` + myProjectIndex + `)">Save Changes</button>`;
+    document.getElementById('edit-project-buttons').innerHTML = listHTML;
     updateEditProjectMessage("");
 })
 
-function showConfirmDeletePopup(functionName,functionValue,functionMessage) {
+function showConfirmDeletePopup(functionName, functionValue, functionMessage) {
     let listHTML = '';
     listHTML = `<i class="fas fa-exclamation-triangle"></i> Delete warning`;
     document.getElementById('confirm-delete-title').innerHTML = listHTML;
@@ -142,9 +146,9 @@ function showConfirmDeletePopup(functionName,functionValue,functionMessage) {
     $('#confirm-delete').modal('show');
 }
 
-function showErrorMessage(errorTitle,errorMessage) {
+function showErrorMessage(errorTitle, errorMessage) {
     let listHTML = '';
-    listHTML = `<i class="fas fa-exclamation-triangle"></i> `+ errorTitle;
+    listHTML = `<i class="fas fa-exclamation-triangle"></i> ` + errorTitle;
     document.getElementById('error-dialog-title').innerHTML = listHTML;
     listHTML = errorMessage;
     document.getElementById('error-dialog-message').innerHTML = listHTML;
@@ -154,9 +158,9 @@ function showErrorMessage(errorTitle,errorMessage) {
 }
 
 function loginMenu(statusMessage) {
-    let listHTML = ''; 
+    let listHTML = '';
     listHTML += aboutUsDrowdown();
-    document.getElementById('nav-bar-items-left').innerHTML = listHTML;  
+    document.getElementById('nav-bar-items-left').innerHTML = listHTML;
     listHTML = '';
     listHTML += '<li class="nav-item">';
     listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
@@ -194,7 +198,7 @@ function showVideo() {
     listHTML += 'Watch the video below to get an overview and instructions for use.';
     listHTML += '</p>';
     listHTML += `<div style="position:relative; padding-bottom:56.25%; padding-top:30px; height:0; overflow:hidden;">`
-    listHTML += `<iframe width="560" height="315" src="`+ myVideo+ `" frameborder="0" allow="accelerometer; autoplay=true; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style = "position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>`;
+    listHTML += `<iframe width="560" height="315" src="` + myVideo + `" frameborder="0" allow="accelerometer; autoplay=true; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style = "position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>`;
     listHTML += `</div>`
     document.getElementById('myVideoInstructions').innerHTML = listHTML;
 }
@@ -220,20 +224,20 @@ function loggedinMenu(myProjectIndex) {
     listHTML += '<li class="nav-item" style = "margin-right:10px;">';
     listHTML += '   <select class="form-control select-project" id="select-project" onchange="selectProjectDropDownChanged()">';
 
-    if (Number(myProjectIndex) === -1 ) {
-            listHTML += '       <option selected value = "-1" >Select Project</option>';
-            for ( var j = 0; j < myProjects.length; j++) {
-                listHTML += `<option value = "`+j+`">` + myProjects[j].name + `</option>`;
+    if (Number(myProjectIndex) === -1) {
+        listHTML += '       <option selected value = "-1" >Select Project</option>';
+        for (var j = 0; j < myProjects.length; j++) {
+            listHTML += `<option value = "` + j + `">` + myProjects[j].name + `</option>`;
+        }
+    } else {
+        listHTML += '       <option value = "-1" >Select Project</option>';
+        for (var j = 0; j < myProjects.length; j++) {
+            if (j === Number(myProjectIndex)) {
+                listHTML += `<option selected value = "` + j + `">` + myProjects[j].name + `</option>`;
+            } else {
+                listHTML += `<option value = "` + j + `">` + myProjects[j].name + `</option>`;
             }
-        }else{
-            listHTML += '       <option value = "-1" >Select Project</option>';
-            for ( var j = 0; j < myProjects.length; j++) {
-                if (j === Number(myProjectIndex)) {
-                    listHTML += `<option selected value = "`+j+`">` + myProjects[j].name + `</option>`;
-                }else{
-                    listHTML += `<option value = "`+j+`">` + myProjects[j].name + `</option>`;  
-                }
-            }   
+        }
     }
     listHTML += '   </select>';
     listHTML += '</li>';
@@ -249,8 +253,8 @@ function loggedinMenu(myProjectIndex) {
 
     document.getElementById('nav-bar-items-left').innerHTML = listHTML;
     listHTML = '';
-    
-    if (Number(myProjectIndex) != -1 ) {
+
+    if (Number(myProjectIndex) != -1) {
         listHTML += '<li class="nav-item">';
         listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#createNewUserStoryModal" data-hc-index=""><i class="fas fa-newspaper"></i></button>';
         listHTML += '</li>';
@@ -270,10 +274,10 @@ function loggedinMenu(myProjectIndex) {
     }
     listHTML += '<li class="nav-item">';
     listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#editDeveloperModal" data-hc-index=""><i class="fas fa-user-edit"></i></button>';
-    listHTML += '</li>'; 
+    listHTML += '</li>';
     listHTML += '<li class="nav-item">';
     listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" onclick="logoutAll()" data-hc-index=""><i class="fas fa-sign-out-alt"></i></button>';
-    listHTML += '</li>'; 
+    listHTML += '</li>';
     document.getElementById('nav-bar-items-right').innerHTML = listHTML;
     document.getElementById('myVideoInstructions').innerHTML = "";
 }
@@ -282,44 +286,44 @@ function displayUserStories() {
     console.log("Updating user stories.")
     let listHTML = `<div class ="row" style = "padding-top:0rem; padding-bottom:7rem;">`;
     for (let i = 0; i < myUserStorys.length; i++) {
-        console.log ("if statement " + parseInt(myUserStorys[i].phase) + " === " + parseInt(myLastSelectedPhase) ); 
+        console.log("if statement " + parseInt(myUserStorys[i].phase) + " === " + parseInt(myLastSelectedPhase));
         if (parseInt(myUserStorys[i].phase) === parseInt(myLastSelectedPhase)) {
-                listHTML += `<div class ="col test-case-card">`;
-                listHTML += `   <div class="card jims-card">`;
-                listHTML += `       <div class="card-body">`;
-                listHTML += `           <h5 class="card-title">` + myUserStorys[i].userStoryTitle + `</h5>`;
-                listHTML += `           <p class="card-text">As a ` + myUserStorys[i].userRole + `, I want ` + myUserStorys[i].userWant + ` so that ` + myUserStorys[i].userBenefit + `</p>`;
-                listHTML += `           <div class="progress">`;
-                listHTML += `               <div class="progress-bar" role="progressbar" style="width: ` + myUserStorys[i].percentDone + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">`+ myUserStorys[i].percentDone +`%</div>`;
-                listHTML += `           </div>`;
-                listHTML += `       </div>`;
-                listHTML += `       <div class="row" style="margin:auto;">`;
-                listHTML += `           <button type="button" class="btn btn-secondary addItemButton" data-toggle="modal" data-target="#editUserStoryModal" data-hc-index="` +  i + `"><i class="fas fa-edit"></i></button>`;
-                listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="DeleteUserStorySetup(` + i + `)"><i class="fas fa-trash"></i></button>`;
-                listHTML += `           <input select id="user-story-priority-slider-`+i+`" type="range" min="1" max="10" value="` + myUserStorys[i].priority + `" onchange="editUserStoryPriority(` + i + `)">`;
-                switch(myUserStorys[i].phase) {
-                    case "0":
-                        listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-running"></i></button>`;
-                        break;
-                    case "1":
-                        listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-check"></i></button>`;
-                        break;
-                    case "2": 
-                        listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-hands-helping"></i></button>`;
-                        break;
-                    default:
-                        break;
-                }
-                listHTML += `       </div>`;
-                listHTML += `   </div>`;
-                listHTML += `</div>`;
+            listHTML += `<div class ="col test-case-card">`;
+            listHTML += `   <div class="card jims-card">`;
+            listHTML += `       <div class="card-body">`;
+            listHTML += `           <h5 class="card-title">` + myUserStorys[i].userStoryTitle + `</h5>`;
+            listHTML += `           <p class="card-text">As a ` + myUserStorys[i].userRole + `, I want ` + myUserStorys[i].userWant + ` so that ` + myUserStorys[i].userBenefit + `</p>`;
+            listHTML += `           <div class="progress">`;
+            listHTML += `               <div class="progress-bar" role="progressbar" style="width: ` + myUserStorys[i].percentDone + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">` + myUserStorys[i].percentDone + `%</div>`;
+            listHTML += `           </div>`;
+            listHTML += `       </div>`;
+            listHTML += `       <div class="row" style="margin:auto;">`;
+            listHTML += `           <button type="button" class="btn btn-secondary addItemButton" data-toggle="modal" data-target="#editUserStoryModal" data-hc-index="` + i + `"><i class="fas fa-edit"></i></button>`;
+            listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="DeleteUserStorySetup(` + i + `)"><i class="fas fa-trash"></i></button>`;
+            listHTML += `           <input select id="user-story-priority-slider-` + i + `" type="range" min="1" max="10" value="` + myUserStorys[i].priority + `" onchange="editUserStoryPriority(` + i + `)">`;
+            switch (myUserStorys[i].phase) {
+                case "0":
+                    listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-running"></i></button>`;
+                    break;
+                case "1":
+                    listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-check"></i></button>`;
+                    break;
+                case "2":
+                    listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-hands-helping"></i></button>`;
+                    break;
+                default:
+                    break;
             }
+            listHTML += `       </div>`;
+            listHTML += `   </div>`;
+            listHTML += `</div>`;
+        }
     }
-    listHTML += `</div>`;  
+    listHTML += `</div>`;
     document.getElementById('user-story-elements').innerHTML = listHTML;
 }
 
-function logoutAll(){
+function logoutAll() {
     updateStatus("Good bye " + myDeveloper.firstName + " thanks for visiting!")
     localStorage.removeItem('lastDeveloper');
     localStorage.removeItem('lastProjects');
@@ -331,7 +335,7 @@ function logoutAll(){
 }
 
 function aboutUsDrowdown() {
-    let listHTML = '';  
+    let listHTML = '';
     listHTML += '<li class="nav-item dropdown">';
     listHTML += '    <button type="button" class="btn btn-primary addItemButton dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-external-link-alt"></i></button>';
     listHTML += '    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">';
@@ -346,7 +350,7 @@ function aboutUsDrowdown() {
 }
 
 //Local storage for lastUserStories-----------------------
-if(!localStorage.getItem('lastUserStorys')) {
+if (!localStorage.getItem('lastUserStorys')) {
     setMyAglileStoryUserStoryStorage();
 } else {
     getMyAglileStoryUserStoryStorage();
@@ -361,7 +365,7 @@ function getMyAglileStoryUserStoryStorage() {
 }
 
 //Local storage for lastProjects-----------------------
-if(!localStorage.getItem('lastProjects')) {
+if (!localStorage.getItem('lastProjects')) {
     setMyAglileStoryProjectStorage();
 } else {
     getMyAglileStoryProjectStorage();
@@ -376,22 +380,22 @@ function getMyAglileStoryProjectStorage() {
 }
 
 //Local storage for lastSelectedProject-----------------------
-if(!localStorage.getItem('lastSelectedProject')) {
+if (!localStorage.getItem('lastSelectedProject')) {
     setMyAglileStorylastSelectedProjectStorage();
 } else {
     getMyAglileStorylastSelectedProjectStorage();
 }
 
 function setMyAglileStorylastSelectedProjectStorage() {
-   localStorage.setItem('lastSelectedProject', myLastSelectedProject);
+    localStorage.setItem('lastSelectedProject', myLastSelectedProject);
 }
 
 function getMyAglileStorylastSelectedProjectStorage() {
-   myLastSelectedProject = localStorage.getItem('lastSelectedProject');
+    myLastSelectedProject = localStorage.getItem('lastSelectedProject');
 }
 
 //Local storage for lastSelectedPhase-----------------------
-if(!localStorage.getItem('lastSelectedPhase')) {
+if (!localStorage.getItem('lastSelectedPhase')) {
     setMyAglileStorylastSelectedPhaseStorage();
 } else {
     getMyAglileStorylastSelectedPhaseStorage();
@@ -403,31 +407,30 @@ function setMyAglileStorylastSelectedPhaseStorage() {
 }
 
 function getMyAglileStorylastSelectedPhaseStorage() {
-    myLastSelectedPhase = localStorage.getItem('lastSelectedPhase');    
+    myLastSelectedPhase = localStorage.getItem('lastSelectedPhase');
     console.log("My last selected phase is " + myLastSelectedPhase);
 }
 
 //Local storage for lastDeveloper-----------------------
-if(!localStorage.getItem('lastDeveloper')) {
-    setMyAglileStoryDeveloperStorage(); 
+if (!localStorage.getItem('lastDeveloper')) {
+    setMyAglileStoryDeveloperStorage();
     loginMenu();
 } else {
-    getMyAglileStoryDeveloperStorage();  
+    getMyAglileStoryDeveloperStorage();
     if (Object.keys(myDeveloper).length === 0) {
         loginMenu();
-    }else{
+    } else {
         loggedinMenu(myLastSelectedProject);
     }
 }
 
 function setMyAglileStoryDeveloperStorage() {
-    localStorage.setItem('lastDeveloper', JSON.stringify(myDeveloper)); 
+    localStorage.setItem('lastDeveloper', JSON.stringify(myDeveloper));
 }
 
 function getMyAglileStoryDeveloperStorage() {
     myDeveloper = JSON.parse(localStorage.getItem('lastDeveloper'));
 }
-
 
 
 
