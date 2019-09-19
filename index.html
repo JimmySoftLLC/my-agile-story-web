@@ -42,11 +42,13 @@
         </div>
 
         <div class="myTestCases instruction-title"></div>
-
+        
+        <div id="graph-elements"></div>
+        
         <div class="myVideoInstructions" id="myVideoInstructions"></div>
 
         <div id="user-story-elements"></div>
-
+        
         <footer class="footer fixed-bottom">
             <div class="myMessages">
                 <div id="footer-message"></div>
@@ -54,7 +56,7 @@
         </footer>
     </div>
 
-    <!-- Modal -->
+    <!-- Create new developer modal -->
     <div class="modal" id="createNewDeveloperModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -108,6 +110,7 @@
         </div>
     </div>
 
+    <!-- Edit developer modal -->
     <div class="modal" id="editDeveloperModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -158,7 +161,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Create new project modal -->
     <div class="modal" id="createNewProjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -194,7 +197,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Edit developer modal -->
     <div class="modal" id="editProjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -226,7 +229,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Create new user story modal -->
     <div class="modal" id="createNewUserStoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -274,6 +277,8 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label myModalInLineLabel">Priority</label>
                         <input type="number" class="col-sm-2 form-control user-story-priority" id="user-story-priority" placeholder="1-10">
+                        <label class="col-sm-2 col-form-label myModalInLineLabel">Sprint</label>
+                        <input type="number" class="col-sm-2 form-control user-story-sprint" id="user-story-sprint" placeholder="0,1,2,...">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Phase</label>
@@ -296,7 +301,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Edit user story modal -->
     <div class="modal" id="editUserStoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -344,6 +349,8 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label myModalInLineLabel">Priority</label>
                         <input type="number" class="col-sm-2 form-control edit-user-story-priority" id="edit-user-story-priority" placeholder="1-10">
+                        <label class="col-sm-2 col-form-label myModalInLineLabel">Sprint</label>
+                        <input type="number" class="col-sm-2 form-control edit-user-story-sprint" id="edit-user-story-sprint" placeholder="0,1,2,...">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Phase</label>
@@ -361,7 +368,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Login modal -->
     <div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -396,6 +403,7 @@
         </div>
     </div>
 
+    <!-- confirm delete modal -->
     <div class="modal" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -410,7 +418,8 @@
             </div>
         </div>
     </div>
-
+    
+    <!-- error modal -->
     <div class="modal" id="error-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -430,10 +439,13 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <script src="/js/Chart.min.js"></script>
+    <script src="js/charting.js"></script>
     <script src="/js/user-data.js"></script>
     <script src="/js/restAPIs.js"></script>
     <script src="/js/dom-messages.js"></script>
     <script src="https://kit.fontawesome.com/9c3ba4b8c1.js"></script>
+
 </body>
 
 </html>

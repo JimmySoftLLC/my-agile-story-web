@@ -1,5 +1,5 @@
-//const URL_Address = 'http://127.0.0.1:3004';
-const URL_Address = 'https://shrouded-basin-24147.herokuapp.com';
+const URL_Address = 'http://127.0.0.1:3004';
+//const URL_Address = 'https://shrouded-basin-24147.herokuapp.com';
 
 function loginDeveloper() {
     updateLoginMessage("Logging on to the server please wait");
@@ -105,6 +105,7 @@ function setPhase(phase){
     var myIndex = (document.getElementById('select-project').value);
     myLastSelectedProject = myIndex;
     setMyAglileStorylastSelectedProjectStorage();
+    hideBurnDownChart();
     if (myIndex != -1 ) {
         getUserStorys(myProjects[myIndex],myIndex);
     }
@@ -211,6 +212,7 @@ function createNewUserStory() {
         percentDone = rangeLimit(percentDone,0,100);
         var priority = document.getElementById('user-story-priority').value;
         priority = rangeLimit(priority,1,10);
+        var sprint = document.getElementById('user-story-sprint').value;
         fetch(URL_Address + '/project/userStory', {
                 method: 'post',
                 headers: {
@@ -228,7 +230,8 @@ function createNewUserStory() {
                     estimate: estimate,
                     phase: phase,
                     percentDone: percentDone,
-                    priority: priority
+                    priority: priority,
+                    sprint: sprint
                 })
             }).then(res => res.json().then(data => ({
                 status: res.status,
@@ -277,7 +280,8 @@ function moveUserToNextPhase(myUserStoryIndex){
     console.log(phase);
     var percentDone = myUserStorys[myUserStoryIndex].percentDone;
     var priority = myUserStorys[myUserStoryIndex].priority;
-    updateUserStory(myUserStoryIndex,userStoryTitle,userRole,userWant,userBenefit,acceptanceCriteria,conversation,estimate,phase,percentDone,priority);
+    var sprint = myUserStorys[myUserStoryIndex].sprint;
+    updateUserStory(myUserStoryIndex,userStoryTitle,userRole,userWant,userBenefit,acceptanceCriteria,conversation,estimate,phase,percentDone,priority,sprint);
 }
 
 function editUserStoryPriority(myUserStoryIndex){
@@ -291,8 +295,9 @@ function editUserStoryPriority(myUserStoryIndex){
     var estimate = myUserStorys[myUserStoryIndex].estimate;
     var phase = myUserStorys[myUserStoryIndex].phase;
     var percentDone = myUserStorys[myUserStoryIndex].percentDone;
+    var sprint = myUserStorys[myUserStoryIndex].sprint;
     var priority = document.getElementById(`user-story-priority-slider-`+myUserStoryIndex).value;
-    updateUserStory(myUserStoryIndex,userStoryTitle,userRole,userWant,userBenefit,acceptanceCriteria,conversation,estimate,phase,percentDone,priority);
+    updateUserStory(myUserStoryIndex,userStoryTitle,userRole,userWant,userBenefit,acceptanceCriteria,conversation,estimate,phase,percentDone,priority,sprint);
 }
 
 function editUserStory(myUserStoryIndex){
@@ -307,10 +312,11 @@ function editUserStory(myUserStoryIndex){
     var phase = getRadioVal('edit-user-story-phase');
     var percentDone = document.getElementById('edit-user-story-percent-done').value;
     var priority = parseInt(document.getElementById('edit-user-story-priority').value);
-    updateUserStory(myUserStoryIndex,userStoryTitle,userRole,userWant,userBenefit,acceptanceCriteria,conversation,estimate,phase,percentDone,priority);
+    var sprint = parseInt(document.getElementById('edit-user-story-sprint').value);
+    updateUserStory(myUserStoryIndex,userStoryTitle,userRole,userWant,userBenefit,acceptanceCriteria,conversation,estimate,phase,percentDone,priority,sprint);
 }
 
-function updateUserStory(myUserStoryIndex,userStoryTitle,userRole,userWant,userBenefit,acceptanceCriteria,conversation,estimate,phase,percentDone,priority) {
+function updateUserStory(myUserStoryIndex,userStoryTitle,userRole,userWant,userBenefit,acceptanceCriteria,conversation,estimate,phase,percentDone,priority,sprint) {
     var myProjectIndex = (document.getElementById('select-project').value);
     if (myProjectIndex != -1) { 
         updateStatusNoClear("Updating user story please wait");
@@ -334,7 +340,8 @@ function updateUserStory(myUserStoryIndex,userStoryTitle,userRole,userWant,userB
                         estimate: estimate,
                         phase: phase,
                         percentDone: percentDone,
-                        priority: priority
+                        priority: priority,
+                        sprint: sprint
                     })
                 }).then(res => res.json().then(data => ({
                     status: res.status,

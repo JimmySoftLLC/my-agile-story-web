@@ -57,6 +57,7 @@ $('#editUserStoryModal').on('show.bs.modal', function (event) {
     document.getElementById(`edit-user-story-phase-` + myUserStorys[myIndex].phase).checked = true;
     modal.find('.modal-body input.edit-user-story-percent-done').val(myUserStorys[myIndex].percentDone);
     modal.find('.modal-body input.edit-user-story-priority').val(myUserStorys[myIndex].priority);
+    modal.find('.modal-body input.edit-user-story-sprint').val(myUserStorys[myIndex].sprint);
     let listHTML = `<div class="col-sm-11">`;
     listHTML += `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
     listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="editUserStory(` + myIndex + `)">Save Changes</button>`;
@@ -77,6 +78,7 @@ $('#createNewUserStoryModal').on('show.bs.modal', function (event) {
     modal.find('.modal-body textarea.user-story-conversation').val("");
     modal.find('.modal-body input.user-story-estimate').val("");
     modal.find('.modal-body input.user-story-priority').val("1");
+    modal.find('.modal-body input.user-story-sprint').val("0");
     document.getElementById(`user-story-phase-` + 0).checked = true;
     modal.find('.modal-body input.user-story-percent-done').val("0");
     updateUserStoryMessage("");
@@ -173,6 +175,7 @@ function loginMenu(statusMessage) {
     listHTML += '</li>';
     document.getElementById('nav-bar-items-right').innerHTML = listHTML;
     showVideo();
+    hideBurnDownChart();
     displayUserStories();
 }
 
@@ -198,7 +201,7 @@ function showVideo() {
     listHTML += 'Watch the video below to get an overview and instructions for use.';
     listHTML += '</p>';
     listHTML += `<div style="position:relative; padding-bottom:56.25%; padding-top:30px; height:0; overflow:hidden;">`
-    listHTML += `<iframe width="560" height="315" src="` + myVideo + `" frameborder="0" allow="accelerometer; autoplay=true; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style = "position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>`;
+    listHTML += `<iframe width="560" height="315" src="` + myVideo + `" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style = "position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>`;
     listHTML += `</div>`
     document.getElementById('myVideoInstructions').innerHTML = listHTML;
 }
@@ -257,6 +260,9 @@ function loggedinMenu(myProjectIndex) {
     if (Number(myProjectIndex) != -1) {
         listHTML += '<li class="nav-item">';
         listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#createNewUserStoryModal" data-hc-index=""><i class="fas fa-newspaper"></i></button>';
+        listHTML += '</li>';
+        listHTML += '<li class="nav-item">';
+        listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="showBurnDownChart()" data-hc-index=""><i class="fas fa-chart-bar"></i></button>';
         listHTML += '</li>';
         listHTML += '<li class="nav-item">';
         listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(0)" data-hc-index=""><i class="fas fa-list"></i></button>';
@@ -336,7 +342,7 @@ function logoutAll() {
 
 function aboutUsDrowdown() {
     let listHTML = '';
-    listHTML += '<li class="nav-item dropdown">';
+    listHTML += '<li class="nav-item dropdown">'
     listHTML += '    <button type="button" class="btn btn-primary addItemButton dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-external-link-alt"></i></button>';
     listHTML += '    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">';
     listHTML += '        <a class="dropdown-item" href="https://jimmysoftllc.com" target="_blank">JimmySoft LLC</a>';
