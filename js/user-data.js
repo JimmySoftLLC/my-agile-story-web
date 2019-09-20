@@ -28,6 +28,7 @@ function UserStoryObject(_id, userStoryTitle, userRole, userWant, userBenefit, a
     this.phase = phase;
     this.percentDone = percentDone;
     this.priority = priority;
+    this.sprint = sprint;
 }
 
 let myDeveloper = {};
