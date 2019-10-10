@@ -393,16 +393,21 @@ function displayUserStories() {
                 listHTML += `<div class ="col test-case-card">`;
                 listHTML += `   <div class="card jims-card">`;
                 listHTML += `       <div class="card-body">`;
-                listHTML += `           <h5 class="card-title">` + myUserStorys[i].userStoryTitle + `</h5>`;
-                listHTML += `           <p class="card-text">As a ` + myUserStorys[i].userRole + `, I want ` + myUserStorys[i].userWant + ` so that ` + myUserStorys[i].userBenefit + `</p>`;
-                listHTML += `           <div class="progress">`;
-                listHTML += `               <div class="progress-bar" role="progressbar" style="width: ` + myUserStorys[i].percentDone + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">` + myUserStorys[i].percentDone + `%</div>`;
-                listHTML += `           </div>`;
+                listHTML += `           <h5 class="card-title">S`+ myUserStorys[i].sprint +` - `+ myUserStorys[i].userStoryTitle + `</h5>`;
+                listHTML += `           <p class="card-text" style = "padding: 0px 0px 0px 0px;">As a ` + myUserStorys[i].userRole + `, I want ` + myUserStorys[i].userWant + ` so that ` + myUserStorys[i].userBenefit + `</p>`;
+                listHTML += `           <div class="row">`;
+                listHTML += `               <div class="col-11">`;
+                listHTML += `                   <div class="progress">`;
+                listHTML += `                       <div class="progress-bar" role="progressbar" style="width: ` + myUserStorys[i].percentDone + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">` + myUserStorys[i].percentDone + `%</div>`;
+                listHTML += `                   </div>`;
+                listHTML += `               </div>`;
+                listHTML += `               <div class="col-1" style = "padding: 0px; margin-left: -10px; margin-top: -4px;">` + myUserStorys[i].estimate + `</div>`;
+                listHTML += `           </div>`; 
                 listHTML += `       </div>`;
                 listHTML += `       <div class="row" style="margin:auto;">`;
                 listHTML += `           <button type="button" class="btn btn-secondary addItemButton" data-toggle="modal" data-target="#editUserStoryModal" data-hc-index="` + i + `"><i class="fas fa-edit"></i></button>`;
                 listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="DeleteUserStorySetup(` + i + `)"><i class="fas fa-trash"></i></button>`;
-                listHTML += `           <input select id="user-story-priority-slider-` + i + `" type="range" min="1" max="10" value="` + myUserStorys[i].priority + `" onchange="editUserStoryPriority(` + i + `)">`;
+                
                 switch (myUserStorys[i].phase) {
                     case "0":
                         listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-running"></i></button>`;
@@ -416,6 +421,7 @@ function displayUserStories() {
                     default:
                         break;
                 }
+                listHTML += `           <input select id="user-story-priority-slider-` + i + `" type="range" min="1" max="10" value="` + myUserStorys[i].priority + `" onchange="editUserStoryPriority(` + i + `)">`;
                 listHTML += `       </div>`;
                 listHTML += `   </div>`;
                 listHTML += `</div>`;

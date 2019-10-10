@@ -29,7 +29,9 @@ function UserStoryObject(
   estimate,
   phase,
   percentDone,
-  priority
+  priority,
+  sprint,
+  projectId
 ) {
   this._id = _id;
   this.userStoryTitle = userStoryTitle;

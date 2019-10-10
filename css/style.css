@@ -65,9 +65,40 @@ footer{
 }
 
 .myModalInLineLabel {
-    margin-top:.25rem;
+    margin-top:-.5rem;
 }
+
+.myModalLabelTitle {
+    margin-top:-.5rem;
+    margin-bottom:.3rem;
+}
+
+.myPhaseLabel {
+    margin-left:-1rem;
+}
+
+.myModalEditField {
+    margin: -.5rem 0 0rem 0rem;
+}
+
+
 
 input[type="range"] {
   width: 4rem;
+}
+
+.myPhaseRow {
+    margin: -.5rem 0rem 1rem 0rem;
+}
+
+.myButtonRow {
+    margin: 0rem 0rem 1rem 0rem;
+}
+
+.myModalTextArea {
+    padding: 0rem 0rem 0rem 0rem;
+}
+
+.myBottomOfDialogMessage {
+    margin: 1rem 0rem -1rem 0rem;
 }
