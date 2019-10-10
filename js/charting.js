@@ -41,7 +41,6 @@ function orderUserStorysBySprintId(){
     totalProjectPoints = 0;
     sprints = [];
     myUserStorys.sort(function(obj1, obj2) {return obj1.sprint - obj2.sprint;}); 
-    console.log(myUserStorys);
     var mySprindId = 0;
     for (i = 0; i < myUserStorys.length; i++) {
         if (mySprindId != myUserStorys[i].sprint) {
@@ -50,12 +49,9 @@ function orderUserStorysBySprintId(){
         }
         if (sprints.length > 0) {
             sprints[sprints.length-1] += myUserStorys[i].estimate;  
-            console.log("total sprint points = " + sprints[sprints.length-1]);
         }
         totalProjectPoints += myUserStorys[i].estimate;
-        console.log("total project points = " + totalProjectPoints);
     }
-    console.log(sprints);
 }
 
 function generateBurnChartData() {
@@ -72,7 +68,6 @@ function generateBurnChartData() {
         myXs.push(i);
         burndown.push(totalProjectPoints-tempDoneSoFar);
         tempDoneSoFar+=sprints[i];
-        console.log("Done  " + done[i] + " Sprint  " + sprints[i] + " Todo  " + todo[i]);
     }
     StraightLineFit();
 }
@@ -123,7 +118,6 @@ function getRndInteger(min, max) {
 }
 
 function showChartNow(){
-    console.log(burndown);
     // Bar Chart Example
     var ctx = document.getElementById("myBarChart");
     var myLineChart = new Chart(ctx, {

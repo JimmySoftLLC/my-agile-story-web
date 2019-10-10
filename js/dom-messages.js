@@ -1,3 +1,9 @@
+var myUpdateTimer;
+
+function updateProjectInContext() {
+    getProjects(myDeveloper, myLastSelectedProject, true)
+}
+
 function updateStatus(message) {
     document.getElementById('footer-message').innerHTML = '<p>' + message + '</p>';
     setTimeout(clearStatus, 2000)
@@ -61,8 +67,8 @@ $('#editUserStoryModal').on('show.bs.modal', function (event) {
     let listHTML = `<div class="col-sm-11">`;
     listHTML += `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
     listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="editUserStory(` + myIndex + `)">Save Changes</button>`;
-    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="splitUserStory(` + myIndex + `)">Split</button>`;
-    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="mergeUserStory(` + myIndex + `)">Merge</button>`;
+//    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="splitUserStory(` + myIndex + `)">Split</button>`;
+//    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="mergeUserStory(` + myIndex + `)">Merge</button>`;
     listHTML += ` </div>`
     document.getElementById('edit-user-story-buttons').innerHTML = listHTML;
     updateEditUserStoryMessage("");
@@ -76,7 +82,7 @@ $('#createNewUserStoryModal').on('show.bs.modal', function (event) {
     modal.find('.modal-body input.user-story-user-benefit').val("");
     modal.find('.modal-body textarea.user-story-acceptance-criteria').val("");
     modal.find('.modal-body textarea.user-story-conversation').val("");
-    modal.find('.modal-body input.user-story-estimate').val("");
+    modal.find('.modal-body input.user-story-estimate').val("0");
     modal.find('.modal-body input.user-story-priority').val("1");
     modal.find('.modal-body input.user-story-sprint').val("0");
     document.getElementById(`user-story-phase-` + 0).checked = true;
@@ -200,7 +206,7 @@ function showVideo() {
     listHTML += '<p>';
     listHTML += 'Add story cards, create sprints and measure your progress with a burndown chart. Create your own account and have fun.';
     listHTML += '</p>';
-    
+
     listHTML += '<h4>';
     listHTML += 'Button definitions, when signed out';
     listHTML += '</h4>';
@@ -214,7 +220,7 @@ function showVideo() {
     listHTML += '  Register new user  ';
     listHTML += '</row>';
     listHTML += '</p>';
-    
+
     listHTML += '<p>';
     listHTML += '<row>';
     listHTML += '<button type="button" class="btn btn-primary"><i class="fas fas fa-video-slash"></i></button>';
@@ -223,7 +229,7 @@ function showVideo() {
     listHTML += '  Show help screen  ';
     listHTML += '</row>';
     listHTML += '</p>';
-    
+
     listHTML += '<h4>';
     listHTML += 'Button definitions, when signed in';
     listHTML += '</h4>';
@@ -237,7 +243,7 @@ function showVideo() {
     listHTML += '  Edit User information  ';
     listHTML += '</row>';
     listHTML += '</p>';
-    
+
     listHTML += '<p>';
     listHTML += '<row>';
     listHTML += '<button type="button" class="btn btn-primary"><i class="fas fa-project-diagram"></i></button>';
@@ -248,7 +254,7 @@ function showVideo() {
     listHTML += '  Edit project  ';
     listHTML += '</row>';
     listHTML += '</p>';
-    
+
     listHTML += '<p>';
     listHTML += '<row>';
     listHTML += '<button type="button" class="btn btn-primary"><i class="fas fa-newspaper"></i></button>';
@@ -259,7 +265,7 @@ function showVideo() {
     listHTML += '  Edit user story  ';
     listHTML += '</row>';
     listHTML += '</p>';
-    
+
     listHTML += '<p>';
     listHTML += '<row>';
     listHTML += '<button type="button" class="btn btn-info addItemButton"><i class="fas fa-list"></i></button>';
@@ -272,14 +278,14 @@ function showVideo() {
     listHTML += '  Done  ';
     listHTML += '</row>';
     listHTML += '</p>';
-    
+
     listHTML += '<p>';
     listHTML += '<row>';
     listHTML += '<button type="button" class="btn btn-primary"><i class="fas fa-chart-bar"></i></button>';
     listHTML += '  Burndown Chart  ';
-    listHTML += '</row>';  
+    listHTML += '</row>';
     listHTML += '</p>';
-    
+
     listHTML += '<h4>';
     listHTML += 'Video Instuctions';
     listHTML += '</h4>';
@@ -314,11 +320,13 @@ function loggedinMenu(myProjectIndex) {
     listHTML += '   <select class="form-control select-project" id="select-project" onchange="selectProjectDropDownChanged()">';
 
     if (Number(myProjectIndex) === -1) {
+        clearInterval(myUpdateTimer);
         listHTML += '       <option selected value = "-1" >Select Project</option>';
         for (var j = 0; j < myProjects.length; j++) {
             listHTML += `<option value = "` + j + `">` + myProjects[j].name + `</option>`;
         }
     } else {
+        myUpdateTimer = setInterval(updateProjectInContext, 5000)
         listHTML += '       <option value = "-1" >Select Project</option>';
         for (var j = 0; j < myProjects.length; j++) {
             if (j === Number(myProjectIndex)) {
@@ -339,17 +347,15 @@ function loggedinMenu(myProjectIndex) {
     listHTML += '<li class="nav-item">';
     listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#editProjectModal" data-hc-index=""><i class="fas fa-edit"></i></button>';
     listHTML += '</li>';
-
-    document.getElementById('nav-bar-items-left').innerHTML = listHTML;
-    listHTML = '';
-
     if (Number(myProjectIndex) != -1) {
         listHTML += '<li class="nav-item">';
         listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#createNewUserStoryModal" data-hc-index=""><i class="fas fa-newspaper"></i></button>';
         listHTML += '</li>';
-        listHTML += '<li class="nav-item">';
-        listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="showBurnDownChart()" data-hc-index=""><i class="fas fa-chart-bar"></i></button>';
-        listHTML += '</li>';
+    }
+    document.getElementById('nav-bar-items-left').innerHTML = listHTML;
+    listHTML = '';
+
+    if (Number(myProjectIndex) != -1) {
         listHTML += '<li class="nav-item">';
         listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(0)" data-hc-index=""><i class="fas fa-list"></i></button>';
         listHTML += '</li>';
@@ -361,6 +367,9 @@ function loggedinMenu(myProjectIndex) {
         listHTML += '</li>';
         listHTML += '<li class="nav-item">';
         listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(3)" data-hc-index=""><i class="fas fa-hands-helping"></i></button>';
+        listHTML += '</li>';
+        listHTML += '<li class="nav-item">';
+        listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(4)" data-hc-index=""><i class="fas fa-chart-bar"></i></button>';
         listHTML += '</li>';
         displayUserStories();
     }
@@ -375,44 +384,46 @@ function loggedinMenu(myProjectIndex) {
 }
 
 function displayUserStories() {
-    console.log("Updating user stories.")
     let listHTML = `<div class ="row" style = "padding-top:0rem; padding-bottom:7rem;">`;
-    for (let i = 0; i < myUserStorys.length; i++) {
-        console.log("if statement " + parseInt(myUserStorys[i].phase) + " === " + parseInt(myLastSelectedPhase));
-        if (parseInt(myUserStorys[i].phase) === parseInt(myLastSelectedPhase)) {
-            listHTML += `<div class ="col test-case-card">`;
-            listHTML += `   <div class="card jims-card">`;
-            listHTML += `       <div class="card-body">`;
-            listHTML += `           <h5 class="card-title">` + myUserStorys[i].userStoryTitle + `</h5>`;
-            listHTML += `           <p class="card-text">As a ` + myUserStorys[i].userRole + `, I want ` + myUserStorys[i].userWant + ` so that ` + myUserStorys[i].userBenefit + `</p>`;
-            listHTML += `           <div class="progress">`;
-            listHTML += `               <div class="progress-bar" role="progressbar" style="width: ` + myUserStorys[i].percentDone + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">` + myUserStorys[i].percentDone + `%</div>`;
-            listHTML += `           </div>`;
-            listHTML += `       </div>`;
-            listHTML += `       <div class="row" style="margin:auto;">`;
-            listHTML += `           <button type="button" class="btn btn-secondary addItemButton" data-toggle="modal" data-target="#editUserStoryModal" data-hc-index="` + i + `"><i class="fas fa-edit"></i></button>`;
-            listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="DeleteUserStorySetup(` + i + `)"><i class="fas fa-trash"></i></button>`;
-            listHTML += `           <input select id="user-story-priority-slider-` + i + `" type="range" min="1" max="10" value="` + myUserStorys[i].priority + `" onchange="editUserStoryPriority(` + i + `)">`;
-            switch (myUserStorys[i].phase) {
-                case "0":
-                    listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-running"></i></button>`;
-                    break;
-                case "1":
-                    listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-check"></i></button>`;
-                    break;
-                case "2":
-                    listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-hands-helping"></i></button>`;
-                    break;
-                default:
-                    break;
+    if (myLastSelectedPhase === 4) {
+        showBurnDownChart();
+    } else {
+        for (let i = 0; i < myUserStorys.length; i++) {
+            if (parseInt(myUserStorys[i].phase) === parseInt(myLastSelectedPhase)) {
+                listHTML += `<div class ="col test-case-card">`;
+                listHTML += `   <div class="card jims-card">`;
+                listHTML += `       <div class="card-body">`;
+                listHTML += `           <h5 class="card-title">` + myUserStorys[i].userStoryTitle + `</h5>`;
+                listHTML += `           <p class="card-text">As a ` + myUserStorys[i].userRole + `, I want ` + myUserStorys[i].userWant + ` so that ` + myUserStorys[i].userBenefit + `</p>`;
+                listHTML += `           <div class="progress">`;
+                listHTML += `               <div class="progress-bar" role="progressbar" style="width: ` + myUserStorys[i].percentDone + `%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">` + myUserStorys[i].percentDone + `%</div>`;
+                listHTML += `           </div>`;
+                listHTML += `       </div>`;
+                listHTML += `       <div class="row" style="margin:auto;">`;
+                listHTML += `           <button type="button" class="btn btn-secondary addItemButton" data-toggle="modal" data-target="#editUserStoryModal" data-hc-index="` + i + `"><i class="fas fa-edit"></i></button>`;
+                listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="DeleteUserStorySetup(` + i + `)"><i class="fas fa-trash"></i></button>`;
+                listHTML += `           <input select id="user-story-priority-slider-` + i + `" type="range" min="1" max="10" value="` + myUserStorys[i].priority + `" onchange="editUserStoryPriority(` + i + `)">`;
+                switch (myUserStorys[i].phase) {
+                    case "0":
+                        listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-running"></i></button>`;
+                        break;
+                    case "1":
+                        listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-check"></i></button>`;
+                        break;
+                    case "2":
+                        listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-hands-helping"></i></button>`;
+                        break;
+                    default:
+                        break;
+                }
+                listHTML += `       </div>`;
+                listHTML += `   </div>`;
+                listHTML += `</div>`;
             }
-            listHTML += `       </div>`;
-            listHTML += `   </div>`;
-            listHTML += `</div>`;
         }
+        listHTML += `</div>`;
+        document.getElementById('user-story-elements').innerHTML = listHTML;
     }
-    listHTML += `</div>`;
-    document.getElementById('user-story-elements').innerHTML = listHTML;
 }
 
 function logoutAll() {
@@ -495,12 +506,10 @@ if (!localStorage.getItem('lastSelectedPhase')) {
 
 function setMyAglileStorylastSelectedPhaseStorage() {
     localStorage.setItem('lastSelectedPhase', myLastSelectedPhase);
-    console.log("My last selected phase set to " + myLastSelectedPhase);
 }
 
 function getMyAglileStorylastSelectedPhaseStorage() {
     myLastSelectedPhase = localStorage.getItem('lastSelectedPhase');
-    console.log("My last selected phase is " + myLastSelectedPhase);
 }
 
 //Local storage for lastDeveloper-----------------------
@@ -523,6 +532,3 @@ function setMyAglileStoryDeveloperStorage() {
 function getMyAglileStoryDeveloperStorage() {
     myDeveloper = JSON.parse(localStorage.getItem('lastDeveloper'));
 }
-
-
-
