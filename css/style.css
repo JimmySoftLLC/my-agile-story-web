@@ -1,7 +1,3 @@
-h2 {
-    padding-left: 1rem;
-    padding-right: .5rem;
-}
 
 p {
     padding-left: 2rem;
@@ -49,10 +45,47 @@ padding-top:4rem;
 
 }
 
+.navbar-dark {
+    background-color: #42A5F5;
+    border-color: #E7E7E7;
+    background-image: none;
+}
+
+.button-primary-override-dropdown {
+    margin-top: -.2rem;
+    background-color: #42A5F5;
+    border-color: #42A5F5;
+    background-image: none;
+}
+
+.button-primary-override-dropdown:hover, 
+.button-primary-override-dropdown:active,
+.button-primary-override-dropdown:focus,
+.button-primary-override-dropdown:visited{
+    background-color: #42A5F5 !important;
+    border-color: #42A5F5 !important;
+    background-image: none !important;
+    border: 0 !important;
+}
+
+.button-primary-override {
+    margin-top: .2rem;
+    background-color: #42A5F5;
+    border-color: #42A5F5;
+    background-image: none;
+}
+
+.button-primary-override:hover, 
+.button-primary-override:active,
+.button-primary-override:focus,
+.button-primary-override:visited{
+    background-color: #42A5F5 !important;
+    border-color: #42A5F5 !important;
+    background-image: none !important;
+    border: 0 !important;
+}
+
 footer{
-    padding-left: 1rem;
-    padding-top: 1rem;
-    background-color: white;
     box-shadow: 0rem 0rem .5rem .5rem rgba(100,100,100,0.53);
 }
 
@@ -60,35 +93,29 @@ footer{
     box-shadow: 0rem 0rem .5rem .5rem rgba(100,100,100,0.53);
 }
 
-.instruction-title {
-    padding-top: 5rem;
-}
-
 .myModalInLineLabel {
-    margin-top:-.5rem;
+    margin-top:0rem;
 }
 
 .myModalLabelTitle {
-    margin-top:-.5rem;
+    margin-top:0rem;
     margin-bottom:.3rem;
 }
 
 .myPhaseLabel {
-    margin-left:-1rem;
+    margin-left:0rem;
 }
 
 .myModalEditField {
-    margin: -.5rem 0 0rem 0rem;
+    margin: 0rem 1rem 0rem 1rem !important;
 }
-
-
 
 input[type="range"] {
   width: 4rem;
 }
 
 .myPhaseRow {
-    margin: -.5rem 0rem 1rem 0rem;
+    margin: 0rem 0rem 1rem 0rem;
 }
 
 .myButtonRow {
@@ -96,9 +123,72 @@ input[type="range"] {
 }
 
 .myModalTextArea {
-    padding: 0rem 0rem 0rem 0rem;
+    margin: 0rem 1rem 0rem 1rem !important;
 }
 
 .myBottomOfDialogMessage {
-    margin: 1rem 0rem -1rem 0rem;
+    margin: 1rem 0rem 0rem 0rem;
+}
+
+.select-project {
+    width:200px;
+    display: inline;
+}
+
+.nav-bar-override {
+    width:200px;
+    display: inline;
+}
+
+.instructions-header {
+    padding-top:4rem;
+}
+
+.user-story-div {
+    padding-top:4rem;
+    padding-bottom:5rem;
+}
+
+@media only screen and (max-width: 600px) {
+    .select-project {
+        width:200px;
+        display: block;
+    }
+    .nav-bar-override {
+        width:200px;
+        
+        display: block;
+    }
+    
+    .user-story-div {
+    padding-top:7rem;
+    padding-bottom:7rem;
+    }
+    
+    .instructions-header {
+    padding-top:7rem;
+    }
+
+}
+
+@media only screen and (max-width: 370px) {
+    .select-project {
+        width:200px;
+        display: block;
+    }
+    .nav-bar-override {
+        width:200px;
+        display: block;
+    }
+    
+    .user-story-div {
+    padding-top:9rem;
+    padding-bottom:11rem;
+    }
+    
+    .instructions-header {
+    padding-top:9rem;
+}
+
+    
 }

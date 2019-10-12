@@ -5,16 +5,16 @@ function updateProjectInContext() {
 }
 
 function updateStatus(message) {
-    document.getElementById('footer-message').innerHTML = '<p>' + message + '</p>';
+    //document.getElementById('footer-message').innerHTML = '<p>' + message + '</p>';
     setTimeout(clearStatus, 2000)
 }
 
 function updateStatusNoClear(message) {
-    document.getElementById('footer-message').innerHTML = '<p>' + message + '</p>';
+//    document.getElementById('footer-message').innerHTML = '<p>' + message + '</p>';
 }
 
 function clearStatus() {
-    document.getElementById('footer-message').innerHTML = '<p></p>';
+    //document.getElementById('footer-message').innerHTML = '<p></p>';
 }
 
 function updateLoginMessage(message) {
@@ -166,20 +166,15 @@ function showErrorMessage(errorTitle, errorMessage) {
 }
 
 function loginMenu(statusMessage) {
+    clearInterval(myUpdateTimer);
     let listHTML = '';
-    listHTML += aboutUsDrowdown();
-    document.getElementById('nav-bar-items-left').innerHTML = listHTML;
+    listHTML = aboutUsDrowdown();
+    document.getElementById('nav-bar-items').innerHTML = listHTML;
     listHTML = '';
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
-    listHTML += '</li>';
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
-    listHTML += '</li>';
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
-    listHTML += '</li>';
-    document.getElementById('nav-bar-items-right').innerHTML = listHTML;
+    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>'; 
+    document.getElementById('footer-items').innerHTML = listHTML;
     showVideo();
     hideBurnDownChart();
     displayUserStories();
@@ -187,102 +182,87 @@ function loginMenu(statusMessage) {
 
 function showVideo() {
     var myVideo = "https://www.youtube.com/embed/PHabA6CTFXA";
-    let listHTML = '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video-slash"></i></button>';
-    listHTML += '</li>';
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
-    listHTML += '</li>';
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
-    listHTML += '</li>';
-    document.getElementById('nav-bar-items-right').innerHTML = listHTML;
-    listHTML = '<h4>';
+    let listHTML = '';
+    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video-slash"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
+    document.getElementById('footer-items').innerHTML = listHTML;
+    listHTML = '<h4 class = "instructions-header">';
     listHTML += 'Overview';
     listHTML += '</h4>';
     listHTML += '<p>';
-    listHTML += 'My Agile Story is a virtual Agile board that organizes items into four sections: to do, doing, verify and done.';
+    listHTML += 'My Agile Story is a virtual Agile board that organizes user stories into four sections: to do, doing, verify and done.';
     listHTML += '</p>';
     listHTML += '<p>';
-    listHTML += 'Add story cards, create sprints and measure your progress with a burndown chart. Create your own account and have fun.';
+    listHTML += 'Add story cards, create sprints and measure your progress with a burndown chart.';
     listHTML += '</p>';
-
+    listHTML += '<p>';
+    listHTML += 'All information is saved on the cloud and updated automatically for each logged in user.  You team can collaborate virtually, no need for post it notes.  Create your own account and have fun!';
+    listHTML += '</p>';
     listHTML += '<h4>';
     listHTML += 'Button definitions, when signed out';
     listHTML += '</h4>';
     listHTML += '<p>';
     listHTML += '<row>';
-    listHTML += '<button type="button" class="btn btn-primary"><i class="fas fa-external-link-alt"></i></button>';
-    listHTML += '  Links to JimmySoftLLC products  ';
-    listHTML += '<button type="button" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i></button>';
-    listHTML += '  Sign in  ';
-    listHTML += '<button type="button" class="btn btn-primary"><i class="fas fa-user-plus"></i></button>';
-    listHTML += '  Register new user  ';
-    listHTML += '</row>';
-    listHTML += '</p>';
-
-    listHTML += '<p>';
-    listHTML += '<row>';
-    listHTML += '<button type="button" class="btn btn-primary"><i class="fas fas fa-video-slash"></i></button>';
+    listHTML += '<button type="button" class="btn btn-primary button-primary-override"><i class="fas fa-external-link-alt"></i></button>';
+    listHTML += '  Links  ';
+    listHTML += '<button type="button" class="btn btn-light"><i class="fas fas fa-video-slash"></i></button>';
     listHTML += '  Hide help screen  ';
-    listHTML += '<button type="button" class="btn btn-primary"><i class="fas fas fa-video"></i></button>';
+    listHTML += '<button type="button" class="btn btn-light"><i class="fas fas fa-video"></i></button>';
     listHTML += '  Show help screen  ';
     listHTML += '</row>';
+    listHTML += '<button type="button" class="btn btn-light"><i class="fas fa-user-plus"></i></button>';
+    listHTML += '  Register new user  ';
+    listHTML += '<button type="button" class="btn btn-light"><i class="fas fa-sign-in-alt"></i></button>';
+    listHTML += '  Sign in  ';
+    listHTML += '</row>';
     listHTML += '</p>';
-
     listHTML += '<h4>';
     listHTML += 'Button definitions, when signed in';
     listHTML += '</h4>';
     listHTML += '<p>';
     listHTML += '<row>';
-    listHTML += '<button type="button" class="btn btn-primary"><i class="fas fa-external-link-alt"></i></button>';
-    listHTML += '  Links to JimmySoftLLC products  ';
-    listHTML += '<button type="button" class="btn btn-primary"><i class="fas fa-sign-out-alt"></i></button>';
-    listHTML += '  Sign out  ';
-    listHTML += '<button type="button" class="btn btn-primary"><i class="fas fa-user-edit"></i></button>';
-    listHTML += '  Edit User information  ';
-    listHTML += '</row>';
-    listHTML += '</p>';
-
-    listHTML += '<p>';
-    listHTML += '<row>';
-    listHTML += '<button type="button" class="btn btn-primary"><i class="fas fa-project-diagram"></i></button>';
-    listHTML += '  Create project  ';
-    listHTML += '<button type="button" class="btn btn-primary"><i class="fas fa-trash"></i></button>';
-    listHTML += '  Delete project  ';
-    listHTML += '<button type="button" class="btn btn-primary"><i class="fas fa-edit"></i></button>';
-    listHTML += '  Edit project  ';
-    listHTML += '</row>';
-    listHTML += '</p>';
-
-    listHTML += '<p>';
-    listHTML += '<row>';
-    listHTML += '<button type="button" class="btn btn-primary"><i class="fas fa-newspaper"></i></button>';
-    listHTML += '  Create user story  ';
-    listHTML += '<button type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>';
-    listHTML += '  Delete user story  ';
-    listHTML += '<button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>';
-    listHTML += '  Edit user story  ';
-    listHTML += '</row>';
-    listHTML += '</p>';
-
-    listHTML += '<p>';
-    listHTML += '<row>';
-    listHTML += '<button type="button" class="btn btn-info addItemButton"><i class="fas fa-list"></i></button>';
+    listHTML += '<button type="button" class="btn btn-primary  button-primary-override"><i class="fas fa-external-link-alt"></i></button>';
+    listHTML += '  Links  ';
+    listHTML += '<button type="button" class="btn btn-primary addItemButton  button-primary-override"><i class="fas fa-list"></i></button>';
     listHTML += '  To do  ';
-    listHTML += '<button type="button" class="btn btn-info addItemButton"><i class="fas fa-running"></i></button>';
+    listHTML += '<button type="button" class="btn btn-primary addItemButton button-primary-override"><i class="fas fa-running"></i></button>';
     listHTML += '  Doing / Sprint  ';
-    listHTML += '<button type="button" class="btn btn-info addItemButton"><i class="fas fa-check"></i></button>';
+    listHTML += '<button type="button" class="btn btn-primary addItemButton button-primary-override"><i class="fas fa-check"></i></button>';
     listHTML += '  Verify  ';
-    listHTML += '<button type="button" class="btn btn-info addItemButton"><i class="fas fa-hands-helping"></i></button>';
+    listHTML += '<button type="button" class="btn btn-primary addItemButton button-primary-override"><i class="fas fa-hands-helping"></i></button>';
     listHTML += '  Done  ';
+    listHTML += '<button type="button" class="btn btn-primary button-primary-override"><i class="fas fa-chart-bar"></i></button>';
+    listHTML += '  Burndown Chart  ';
     listHTML += '</row>';
     listHTML += '</p>';
 
     listHTML += '<p>';
     listHTML += '<row>';
-    listHTML += '<button type="button" class="btn btn-primary"><i class="fas fa-chart-bar"></i></button>';
-    listHTML += '  Burndown Chart  ';
+    listHTML += '<button type="button" class="btn btn-light"><i class="fas fa-project-diagram"></i></button>';
+    listHTML += '  Create project  ';
+    listHTML += '<button type="button" class="btn btn-light"><i class="fas fa-trash"></i></button>';
+    listHTML += '  Delete project  ';
+    listHTML += '<button type="button" class="btn btn-light"><i class="fas fa-edit"></i></button>';
+    listHTML += '  Edit project  ';
+    listHTML += '<button type="button" class="btn btn-light"><i class="fas fa-newspaper"></i></button>';
+    listHTML += '  Create user story  ';
+    listHTML += '<button type="button" class="btn btn-light"><i class="fas fa-user-edit"></i></button>';
+    listHTML += '  Edit User  ';
+    listHTML += '<button type="button" class="btn btn-light"><i class="fas fa-sign-out-alt"></i></button>';
+    listHTML += '  Sign out  ';
+    listHTML += '</row>';
+    listHTML += '</p>';
+
+    listHTML += '<h4>';
+    listHTML += 'Button definitions, on user story cards';
+    listHTML += '</h4>';
+    listHTML += '<p>';
+    listHTML += '<row>';
+    listHTML += '<button type="button" class="btn btn-light"><i class="fas fa-trash"></i></button>';
+    listHTML += '  Delete user story  ';
+    listHTML += '<button type="button" class="btn btn-light"><i class="fas fa-edit"></i></button>';
+    listHTML += '  Edit user story  ';
     listHTML += '</row>';
     listHTML += '</p>';
 
@@ -294,31 +274,25 @@ function showVideo() {
     listHTML += '</p>';
     listHTML += `<div style="position:relative; padding-bottom:56.25%; padding-top:30px; height:0; overflow:hidden;">`
     listHTML += `<iframe width="560" height="315" src="` + myVideo + `" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style = "position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>`;
-    listHTML += `</div>`
+    listHTML += `</div>`;
+    
     document.getElementById('myVideoInstructions').innerHTML = listHTML;
 }
 
 function hideVideo() {
-    let listHTML = '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" onclick="showVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
-    listHTML += '</li>';
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
-    listHTML += '</li>';
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
-    listHTML += '</li>';
-    document.getElementById('nav-bar-items-right').innerHTML = listHTML;
+    let listHTML = '';
+    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" onclick="showVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
+    document.getElementById('footer-items').innerHTML = listHTML;
     document.getElementById('myVideoInstructions').innerHTML = "";
 }
 
 function loggedinMenu(myProjectIndex) {
     document.getElementById('user-story-elements').innerHTML = "";
-    let listHTML = '';
-    listHTML += aboutUsDrowdown();
-    listHTML += '<li class="nav-item" style = "margin-right:10px;">';
+    let listHTML = '';  
     listHTML += '   <select class="form-control select-project" id="select-project" onchange="selectProjectDropDownChanged()">';
-
+    listHTML += '<div class="btn-group">'  
     if (Number(myProjectIndex) === -1) {
         clearInterval(myUpdateTimer);
         listHTML += '       <option selected value = "-1" >Select Project</option>';
@@ -336,55 +310,28 @@ function loggedinMenu(myProjectIndex) {
             }
         }
     }
+    listHTML += '   </div>';
     listHTML += '   </select>';
-    listHTML += '</li>';
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#createNewProjectModal" data-hc-index=""><i class="fas fa-project-diagram"></i></button>';
-    listHTML += '</li>';
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" onclick="deleteProjectSetup()" data-hc-index=""><i class="fas fa-trash"></i></button>';
-    listHTML += '</li>';
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#editProjectModal" data-hc-index=""><i class="fas fa-edit"></i></button>';
-    listHTML += '</li>';
-    if (Number(myProjectIndex) != -1) {
-        listHTML += '<li class="nav-item">';
-        listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#createNewUserStoryModal" data-hc-index=""><i class="fas fa-newspaper"></i></button>';
-        listHTML += '</li>';
-    }
-    document.getElementById('nav-bar-items-left').innerHTML = listHTML;
-    listHTML = '';
-
-    if (Number(myProjectIndex) != -1) {
-        listHTML += '<li class="nav-item">';
-        listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(0)" data-hc-index=""><i class="fas fa-list"></i></button>';
-        listHTML += '</li>';
-        listHTML += '<li class="nav-item">';
-        listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(1)" data-hc-index=""><i class="fas fa-running"></i></button>';
-        listHTML += '</li>';
-        listHTML += '<li class="nav-item">';
-        listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(2)" data-hc-index=""><i class="fas fa-check"></i></button>';
-        listHTML += '</li>';
-        listHTML += '<li class="nav-item">';
-        listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(3)" data-hc-index=""><i class="fas fa-hands-helping"></i></button>';
-        listHTML += '</li>';
-        listHTML += '<li class="nav-item">';
-        listHTML += '    <button type="button" class="btn btn-info addItemButton" data-toggle="modal" onclick="setPhase(4)" data-hc-index=""><i class="fas fa-chart-bar"></i></button>';
-        listHTML += '</li>';
+    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#createNewProjectModal" data-hc-index=""><i class="fas fa-project-diagram"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" onclick="deleteProjectSetup()" data-hc-index=""><i class="fas fa-trash"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#editProjectModal" data-hc-index=""><i class="fas fa-edit"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#createNewUserStoryModal" data-hc-index=""><i class="fas fa-newspaper"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#editDeveloperModal" data-hc-index=""><i class="fas fa-user-edit"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" onclick="logoutAll()" data-hc-index=""><i class="fas fa-sign-out-alt"></i></button>';
+    document.getElementById('footer-items').innerHTML = listHTML;   
+    listHTML = aboutUsDrowdown();
+        listHTML += '    <button type="button" class="btn btn-primary addItemButton button-primary-override" data-toggle="modal" onclick="setPhase(0)" data-hc-index=""><i class="fas fa-list"></i></button>';
+        listHTML += '    <button type="button" class="btn btn-primary addItemButton button-primary-override" data-toggle="modal" onclick="setPhase(1)" data-hc-index=""><i class="fas fa-running"></i></button>';
+        listHTML += '    <button type="button" class="btn btn-primary addItemButton button-primary-override" data-toggle="modal" onclick="setPhase(2)" data-hc-index=""><i class="fas fa-check"></i></button>';
+        listHTML += '    <button type="button" class="btn btn-primary addItemButton button-primary-override" data-toggle="modal" onclick="setPhase(3)" data-hc-index=""><i class="fas fa-hands-helping"></i></button>';
+        listHTML += '    <button type="button" class="btn btn-primary addItemButton button-primary-override" data-toggle="modal" onclick="setPhase(4)" data-hc-index=""><i class="fas fa-chart-bar"></i></button>';
         displayUserStories();
-    }
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" data-target="#editDeveloperModal" data-hc-index=""><i class="fas fa-user-edit"></i></button>';
-    listHTML += '</li>';
-    listHTML += '<li class="nav-item">';
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton" data-toggle="modal" onclick="logoutAll()" data-hc-index=""><i class="fas fa-sign-out-alt"></i></button>';
-    listHTML += '</li>';
-    document.getElementById('nav-bar-items-right').innerHTML = listHTML;
+    document.getElementById('nav-bar-items').innerHTML = listHTML;
     document.getElementById('myVideoInstructions').innerHTML = "";
 }
 
 function displayUserStories() {
-    let listHTML = `<div class ="row" style = "padding-top:0rem; padding-bottom:7rem;">`;
+    let listHTML = `<div class ="row user-story-div">`;
     if (myLastSelectedPhase === 4) {
         showBurnDownChart();
     } else {
@@ -444,17 +391,17 @@ function logoutAll() {
 }
 
 function aboutUsDrowdown() {
-    let listHTML = '';
-    listHTML += '<li class="nav-item dropdown">'
-    listHTML += '    <button type="button" class="btn btn-primary addItemButton dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-external-link-alt"></i></button>';
-    listHTML += '    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">';
-    listHTML += '        <a class="dropdown-item" href="https://jimmysoftllc.com" target="_blank">JimmySoft LLC</a>';
-    listHTML += '        <a class="dropdown-item" href="https://embroiderywaresoftware.com" target="_blank">EmbroideryWare</a>';
-    listHTML += '        <a class="dropdown-item" href="https://www.heatercalc.com" target="_blank">Heater Calc</a>';
-    listHTML += '        <a class="dropdown-item" href="https://www.buttonbudget.com" target="_blank">Button Budget</a>';
-    listHTML += '        <a class="dropdown-item" href="https://www.weathermany.com" target="_blank">Weather Many</a>';
-    listHTML += '    </div>';
-    listHTML += '</li>';
+    let listHTML = '';   
+    listHTML += '<div class="btn-group">'
+    listHTML += '   <button type="button" class="btn btn-primary addItemButton dropdown-toggle button-primary-override-dropdown" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-external-link-alt"></i></button>';
+    listHTML += '   <div class="dropdown-menu">';
+    listHTML += '       <a class="dropdown-item" href="https://jimmysoftllc.com" target="_blank">JimmySoft LLC</a>';
+    listHTML += '       <a class="dropdown-item" href="https://embroiderywaresoftware.com" target="_blank">EmbroideryWare</a>';
+    listHTML += '       <a class="dropdown-item" href="https://www.heatercalc.com" target="_blank">Heater Calc</a>';
+    listHTML += '       <a class="dropdown-item" href="https://www.buttonbudget.com" target="_blank">Button Budget</a>';
+    listHTML += '       <a class="dropdown-item" href="https://www.weathermany.com" target="_blank">Weather Many</a>';
+    listHTML += '   </div>';
+    listHTML += '</div>';
     return listHTML;
 }
 

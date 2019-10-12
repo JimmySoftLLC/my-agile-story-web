@@ -16,7 +16,7 @@ function showBurnDownChart() {
     generateBurnChartData();
     document.getElementById('user-story-elements').innerHTML = "";
     let listHTML = '';
-    listHTML += '<div class="row">';
+    listHTML += '<div class="row user-story-div">';
     listHTML += '   <div class="col-lg-12">';
     listHTML += '      <div class="card mb-3">';
     listHTML += '         <div class="card-header">';

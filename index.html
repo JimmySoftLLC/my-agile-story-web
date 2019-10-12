@@ -29,19 +29,13 @@
 <body>
     <div class="container-fluid">
         <div class="fixed-top">
-            <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-                <a class="navbar-brand" href="/">My Agile Story</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavDropdown" id="nav-bar-items-left">
-                    <ul class="navbar-nav w-80 justify-content-left" id="nav-bar-items-left"></ul>
-                    <ul class="navbar-nav  ml-auto w-80  justify-content-end" id="nav-bar-items-right"></ul>
+            <div class="navbar navbar-dark">
+                <div class="navbar-header ">
+                      <a class="navbar-brand nav-bar-override" href="/">My Agile Story</a>
+                      <span id="nav-bar-items"></span>
                 </div>
-            </nav>
+            </div>
         </div>
-
-        <div class="myTestCases instruction-title"></div>
         
         <div id="graph-elements"></div>
         
@@ -50,9 +44,11 @@
         <div id="user-story-elements"></div>
         
         <footer class="footer fixed-bottom">
-            <div class="myMessages">
-                <div id="footer-message"></div>
-            </div>
+            <div class="navbar navbar-dark bg-light">
+                <div class="navbar-header pull-left">
+                  <span id="footer-items"></span>
+                </div>
+            </div>         
         </footer>
     </div>
 
@@ -69,37 +65,27 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label myModalLabelTitle">Email</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control developer-email myModalEditField" id="developer-email" placeholder="Email">
-                        </div>
+                        <input type="text" class="col-sm-11 form-control developer-email myModalEditField" id="developer-email" placeholder="Email">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label myModalLabelTitle">Password</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control developer-password myModalEditField" id="developer-password" placeholder="Password">
-                        </div>
+                        <input type="text" class="col-sm-11 form-control developer-password myModalEditField" id="developer-password" placeholder="Password">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label myModalLabelTitle">First Name</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control developer-first-name myModalEditField" id="developer-first-name" placeholder="First Name">
-                        </div>
+                        <input type="text" class="col-sm-11 form-control developer-first-name myModalEditField" id="developer-first-name" placeholder="First Name">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label myModalLabelTitle">Last Name</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control developer-last-name myModalEditField" id="developer-last-name" placeholder="Last Name">
-                        </div>
+                        <input type="text" class="col-sm-11 form-control developer-last-name myModalEditField" id="developer-last-name" placeholder="Last Name">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label myModalLabelTitle">Your bio</label>
-                        <div class="col-sm-12">
-                            <textarea class="form-control developer-bio myModalEditField" rows="5" id="developer-bio" placeholder="Tell us about yourself"></textarea>
-                        </div>
+                        <textarea class="col-sm-11 form-control developer-bio myModalEditField" rows="5" id="developer-bio" placeholder="Tell us about yourself"></textarea>
                     </div>
                     <!--TODO add role-->
                     <div class="form-group row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-11">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" onclick="createNewDeveloper()">Add Developer</button>
                         </div>
@@ -123,37 +109,27 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label myModalLabelTitle">Email</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control edit-developer-email myModalEditField" id="edit-developer-email" placeholder="Email">
-                        </div>
+                        <input type="text" class="col-sm-11 form-control edit-developer-email myModalEditField" id="edit-developer-email" placeholder="Email">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label myModalLabelTitle">Password</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control edit-developer-password myModalEditField" id="edit-developer-password" placeholder="Password">
-                        </div>
+                        <input type="text" class="col-sm-11 form-control edit-developer-password myModalEditField" id="edit-developer-password" placeholder="Password">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label myModalLabelTitle">First Name</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control edit-developer-first-name myModalEditField" id="edit-developer-first-name" placeholder="First Name">
-                        </div>
+                        <input type="text" class="col-sm-11 form-control edit-developer-first-name myModalEditField" id="edit-developer-first-name" placeholder="First Name">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label myModalLabelTitle">Last Name</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control edit-developer-last-name myModalEditField" id="edit-developer-last-name" placeholder="Last Name">
-                        </div>
+                        <input type="text" class="col-sm-11 form-control edit-developer-last-name myModalEditField" id="edit-developer-last-name" placeholder="Last Name">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label myModalLabelTitle">Your bio</label>
-                        <div class="col-sm-12">
-                            <textarea class="form-control edit-developer-bio myModalEditField" rows="5" id="edit-developer-bio" placeholder="Tell us about yourself"></textarea>
-                        </div>
+                        <textarea class="col-sm-11 form-control edit-developer-bio myModalEditField" rows="5" id="edit-developer-bio" placeholder="Tell us about yourself"></textarea>
                     </div>
                     <!--TODO add role-->
                     <div class="form-group row">
-                        <div class="col-sm-12" id="edit-developer-buttons"></div>
+                        <div class="col-sm-11" id="edit-developer-buttons"></div>
                     </div>
                     <div class="edit-developer-message myBottomOfDialogMessage" id="edit-developer-message"></div>
                 </div>
@@ -174,19 +150,15 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label myModalLabelTitle">Name</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control project-name myModalEditField" id="project-name" placeholder="">
-                        </div>
+                        <input type="text" class="col-sm-11 form-control project-name myModalEditField" id="project-name" placeholder="">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label myModalLabelTitle">Description</label>
-                        <div class="col-sm-12">
-                            <textarea class="form-control project-description myModalEditField" rows="5" id="project-description" placeholder=""></textarea>
-                        </div>
+                        <textarea class="col-sm-11 form-control project-description myModalEditField" rows="5" id="project-description" placeholder=""></textarea>
                     </div>
                     <!--TODO add role-->
                     <div class="form-group row">
-                        <div class="col-sm-10">
+                        <div class="col-sm-11">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" onclick="createNewProject()">Add Project</button>
                         </div>
@@ -210,15 +182,11 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label myModalLabelTitle">Name</label>
-                        <div class="col-sm-12">
-                            <input type="text" class="form-control edit-project-name myModalEditField" id="edit-project-name" placeholder="">
-                        </div>
+                        <input type="text" class="col-sm-11 form-control edit-project-name myModalEditField" id="edit-project-name" placeholder="">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label myModalLabelTitle">Description</label>
-                        <div class="col-sm-12">
-                            <textarea class="form-control edit-project-description myModalEditField" rows="5" id="edit-project-description" placeholder=""></textarea>
-                        </div>
+                        <textarea class="col-sm-11 form-control edit-project-description myModalEditField" rows="5" id="edit-project-description" placeholder=""></textarea>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-11" id="edit-project-buttons"></div>
@@ -242,43 +210,39 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label myModalInLineLabel">Title</label>
-                        <input type="text" class="col-sm-9 form-control myModalEditField user-story-title" id="user-story-title" placeholder="">
+                        <input type="text" class="col-sm-9 form-control myModalTextArea user-story-title" id="user-story-title" placeholder="">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label myModalInLineLabel">As a</label>
-                        <input type="text" class="col-sm-9 form-control myModalEditField user-story-user-role" id="user-story-user-role" placeholder="role">
+                        <input type="text" class="col-sm-9 form-control myModalTextArea user-story-user-role" id="user-story-user-role" placeholder="role">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label myModalInLineLabel">, I want</label>
-                        <input type="text" class="col-sm-9 form-control myModalEditField user-story-user-want" id="user-story-user-want" placeholder="goal">
+                        <input type="text" class="col-sm-9 form-control myModalTextArea user-story-user-want" id="user-story-user-want" placeholder="goal">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label myModalInLineLabel">so that</label>
-                        <input type="text" class="col-sm-9 form-control myModalEditField user-story-user-benefit" id="user-story-user-benefit" placeholder="reason">
+                        <input type="text" class="col-sm-9 form-control myModalTextArea user-story-user-benefit" id="user-story-user-benefit" placeholder="reason">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-6 myModalLabelTitle col-form-label">Acceptance Criteria</label>
-                        <div class="col-sm-12">
-                            <textarea class="form-control myModalTextArea user-story-acceptance-criteria" rows="2" id="user-story-acceptance-criteria" placeholder=""></textarea>
-                        </div>
+                        <textarea class="col-sm-11 form-control myModalTextArea user-story-acceptance-criteria" rows="2" id="user-story-acceptance-criteria" placeholder=""></textarea>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-6 myModalLabelTitle col-form-label">Conversation</label>
-                        <div class="col-sm-12">
-                            <textarea class="form-control myModalTextArea user-story-conversation" rows="2" id="user-story-conversation" placeholder=""></textarea>
-                        </div>
+                        <textarea class="col-sm-11 form-control myModalTextArea user-story-conversation" rows="2" id="user-story-conversation" placeholder=""></textarea>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label myModalInLineLabel">Estimate</label>
-                        <input type="number" class="col-sm-2 form-control myModalEditField user-story-estimate" id="user-story-estimate" placeholder="points">
+                        <input type="number" class="col-sm-2 form-control myModalTextArea user-story-estimate" id="user-story-estimate" placeholder="points">
                         <label class="col-sm-4 col-form-label myModalInLineLabel">Percent Complete</label>
-                        <input type="number" class="col-sm-2 form-control myModalEditField user-story-percent-done" id="user-story-percent-done" placeholder="0-100">
+                        <input type="number" class="col-sm-2 form-control myModalTextArea user-story-percent-done" id="user-story-percent-done" placeholder="0-100">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label myModalInLineLabel">Priority</label>
-                        <input type="number" class="col-sm-2 form-control myModalEditField user-story-priority" id="user-story-priority" placeholder="1-10">
+                        <input type="number" class="col-sm-2 form-control myModalTextArea user-story-priority" id="user-story-priority" placeholder="1-10">
                         <label class="col-sm-2 col-form-label myModalInLineLabel">Sprint</label>
-                        <input type="number" class="col-sm-2 form-control myModalEditField user-story-sprint" id="user-story-sprint" placeholder="0,1,2,...">
+                        <input type="number" class="col-sm-2 form-control myModalTextArea user-story-sprint" id="user-story-sprint" placeholder="0,1,2,...">
                     </div>
                     <div class="form-group row myPhaseRow">
                         <label class="col-sm-2 col-form-label myPhaseLabel">Phase</label>
@@ -330,15 +294,11 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-6 col-form-label myModalInLineLabel">Acceptance Criteria</label>
-                        <div class="col-sm-12">
-                            <textarea class="form-control edit-user-story-acceptance-criteria myModalTextArea" rows="2" id="edit-user-story-acceptance-criteria" placeholder=""></textarea>
-                        </div>
+                        <textarea class="col-sm-11 form-control edit-user-story-acceptance-criteria myModalTextArea" rows="2" id="edit-user-story-acceptance-criteria" placeholder=""></textarea>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-6 col-form-label myModalInLineLabel">Conversation</label>
-                        <div class="col-sm-12">
-                            <textarea class="form-control myModalTextArea edit-user-story-conversation" rows="2" id="edit-user-story-conversation" placeholder=""></textarea>
-                        </div>
+                        <textarea class="col-sm-11 form-control myModalTextArea edit-user-story-conversation" rows="2" id="edit-user-story-conversation" placeholder=""></textarea>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label myModalInLineLabel">Estimate</label>
@@ -381,15 +341,11 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Email</label>
-                        <div class="col-sm-10">
-                            <input type="email" class="form-control login-email" id="login-email" placeholder="Email">
-                        </div>
+                        <input type="email" class="col-sm-10 form-control login-email myModalEditField" id="login-email" placeholder="Email">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Password</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control login-password" id="login-password" placeholder="Password">
-                        </div>
+                        <input type="password" class="col-sm-10 form-control login-password myModalEditField" id="login-password" placeholder="Password">
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-10">
@@ -436,9 +392,9 @@
     </div>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS, then my files -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>  
     <script src="/js/Chart.min.js"></script>
     <script src="js/charting.js"></script>
     <script src="/js/user-data.js"></script>

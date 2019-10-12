@@ -38,9 +38,14 @@ function loginDeveloper() {
 function getProjects(thisDeveloper, myProjectIndex, checkingIfUpdateIsNeeded) {
   var myCurrentLocalTimeStamp = "";
   if (checkingIfUpdateIsNeeded && myProjectIndex != -1) {
-    myCurrentLocalTimeStamp = myProjects[myProjectIndex].timeStampISO;
+    try {
+        myCurrentLocalTimeStamp = myProjects[myProjectIndex].timeStampISO;
+    }
+    catch(err) {
+      console.log(err.message);
+    }
   }else{
-      updateStatusNoClear("Getting projects please wait");
+    updateStatusNoClear("Getting projects please wait");
   }
   fetch(URL_Address + "/get/projects", {
     method: "post",
@@ -63,9 +68,14 @@ function getProjects(thisDeveloper, myProjectIndex, checkingIfUpdateIsNeeded) {
         myProjects = obj.body;
         setMyAglileStoryProjectStorage();
         if (checkingIfUpdateIsNeeded && myProjectIndex != -1) {
-          if (myCurrentLocalTimeStamp != myProjects[myProjectIndex].timeStampISO) {
-            getUserStorys(myProjects[myProjectIndex]);
-          }
+            try {
+                if (myCurrentLocalTimeStamp != myProjects[myProjectIndex].timeStampISO) {
+                    getUserStorys(myProjects[myProjectIndex]);
+                }
+            }
+            catch(err) {
+              console.log(err.message);
+            }
         } else {
           loggedinMenu(myProjectIndex);
         }
