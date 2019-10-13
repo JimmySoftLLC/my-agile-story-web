@@ -42,10 +42,9 @@ function getProjects(thisDeveloper, myProjectIndex, checkingIfUpdateIsNeeded) {
         myCurrentLocalTimeStamp = myProjects[myProjectIndex].timeStampISO;
     }
     catch(err) {
+      clearInterval(myUpdateTimer);
       console.log(err.message);
     }
-  }else{
-    updateStatusNoClear("Getting projects please wait");
   }
   fetch(URL_Address + "/get/projects", {
     method: "post",
@@ -74,7 +73,8 @@ function getProjects(thisDeveloper, myProjectIndex, checkingIfUpdateIsNeeded) {
                 }
             }
             catch(err) {
-              console.log(err.message);
+                clearInterval(myUpdateTimer);
+                console.log(err.message);
             }
         } else {
           loggedinMenu(myProjectIndex);
@@ -87,7 +87,6 @@ function getProjects(thisDeveloper, myProjectIndex, checkingIfUpdateIsNeeded) {
 }
 
 function getUserStorys(thisProject) {
-  updateStatusNoClear("Getting user stories please wait");
   fetch(URL_Address + "/get/userStorys", {
     method: "post",
     headers: {
@@ -112,7 +111,6 @@ function getUserStorys(thisProject) {
         });
         setMyAglileStoryUserStoryStorage();
         displayUserStories();
-        updateStatus("");
       } else {
         showErrorMessage("Error", obj.body.error);
       }
@@ -178,7 +176,6 @@ function createNewDeveloper() {
       if (obj.status === 200) {
         myDeveloper = obj.body;
         setMyAglileStoryDeveloperStorage();
-        updateStatus("Developer created");
       } else {
         showErrorMessage("Error", obj.body.error);
       }
@@ -215,7 +212,6 @@ function createNewProject() {
         myProject = obj.body.project;
         myDeveloper = obj.body.developer;
         getProjects(myDeveloper, -1);
-        updateStatus("Project " + myProject.name + ", created successfully");
       } else {
         showErrorMessage("Error", obj.body.error);
       }
@@ -235,7 +231,7 @@ function getRadioVal(radioName) {
 
 function createNewUserStory() {
   var myIndex = document.getElementById("select-project").value;
-  if (myIndex != -1) {
+  if(myIndex != -1) {
     updateUserStoryMessage("Creating new user story please wait");
     var projectId = myProjects[myIndex]._id;
     var userStoryTitle = document.getElementById("user-story-title").value;
@@ -307,7 +303,6 @@ function rangeLimit(myString, lowerValue, upperValue) {
 }
 
 function moveUserToNextPhase(myUserStoryIndex) {
-  updateStatusNoClear("Editing user story priority please wait");
   var userStoryTitle = myUserStorys[myUserStoryIndex].userStoryTitle;
   var userRole = myUserStorys[myUserStoryIndex].userRole;
   var userWant = myUserStorys[myUserStoryIndex].userWant;
@@ -339,7 +334,6 @@ function moveUserToNextPhase(myUserStoryIndex) {
 }
 
 function editUserStoryPriority(myUserStoryIndex) {
-  updateStatusNoClear("Editing user story priority please wait");
   var userStoryTitle = myUserStorys[myUserStoryIndex].userStoryTitle;
   var userRole = myUserStorys[myUserStoryIndex].userRole;
   var userWant = myUserStorys[myUserStoryIndex].userWant;
@@ -422,7 +416,6 @@ function updateUserStory(
 ) {
   var myProjectIndex = document.getElementById("select-project").value;
   if (myProjectIndex != -1) {
-    updateStatusNoClear("Updating user story please wait");
     if (myUserStoryIndex != -1) {
       percentDone = rangeLimit(percentDone, 0, 100);
       priority = rangeLimit(priority, 1, 10);
@@ -470,8 +463,7 @@ function updateUserStory(
 }
 
 function editProject(myProjectIndex) {
-  updateEditProjectMessage("Editing project please wait");
-  if (myProjectIndex != -1) {
+    updateEditProjectMessage("Editing project please wait");
     var name = document.getElementById("edit-project-name").value;
     var description = document.getElementById("edit-project-description").value;
     fetch(URL_Address + "/put/project/returnProjectAndDeveloper", {
@@ -498,13 +490,11 @@ function editProject(myProjectIndex) {
           myProject = obj.body.project;
           myDeveloper = obj.body.developer;
           getProjects(myDeveloper, myProjectIndex);
-          updateStatus("Project " + myProject.name + ", edited successfully");
           $("#editProjectModal").modal("hide");
         } else {
           showErrorMessage("Error", obj.body.error);
         }
-      });
-  }
+      });       
 }
 
 function editDeveloper() {
@@ -541,9 +531,6 @@ function editDeveloper() {
       if (obj.status === 200) {
         myDeveloper = obj.body;
         setMyAglileStoryDeveloperStorage();
-        updateStatus(
-          "Developer " + myDeveloper.firstName + ", edited successfully"
-        );
         $("#editDeveloperModal").modal("hide");
       } else {
         showErrorMessage("Error", obj.body.error);
@@ -566,7 +553,6 @@ function DeleteUserStory(myUserStoryIndex) {
     var myProjectIndex = document.getElementById("select-project").value;
     if (myProjectIndex != -1) {
         if (myUserStoryIndex != -1) {
-            updateStatus("Deleting user story please wait");
             var userStoryId = myUserStorys[myUserStoryIndex]._id;
             var projectId = myUserStorys[myUserStoryIndex].projectId;
             fetch(URL_Address + "/delete/project/userStory", {
@@ -588,7 +574,6 @@ function DeleteUserStory(myUserStoryIndex) {
                 )
                 .then(obj => {
                     if (obj.status === 200) {
-                        updateStatus("User story deleted");
                         myProjects[myProjectIndex] = obj.body;
                         getUserStorys(myProjects[myProjectIndex]);
                     } else {
@@ -600,20 +585,19 @@ function DeleteUserStory(myUserStoryIndex) {
 }
 
 function deleteProjectSetup() {
-  var myProjectIndex = document.getElementById("select-project").value;
-  if (myProjectIndex != -1) {
+    var myProjectIndex = document.getElementById("select-project").value;
+    if (myProjectIndex != -1) {
     showConfirmDeletePopup(
       "DeleteProject",
       myProjectIndex,
       " project <strong>" + myProjects[myProjectIndex].name + "</strong>"
     );
-  }
+    }   
 }
 
 function DeleteProject(myProjectIndex) {
   $("#confirm-delete").modal("hide");
   if (myProjectIndex != -1) {
-    updateStatus("Deleting user story please wait");
     // first delete all the user stories associated with the project
     fetch(URL_Address + "/delete/project/userStorys", {
       method: "post",
@@ -633,7 +617,6 @@ function DeleteProject(myProjectIndex) {
       )
       .then(obj => {
         if (obj.status === 200) {
-          updateStatus("Project deleted");
           getUserStorys(myProjects[myProjectIndex]);
           // user stories are now deleted now delete the project
           fetch(URL_Address + "/delete/developer/project", {
