@@ -11,15 +11,11 @@ img {
     height: auto;
 }
 
-.myTestCases {
-    display: block;
-}
-
-.test-case-card {
+.col-user-story-card {
     margin: 0.5rem;
 }
 
-.jims-card {
+.user-story-card {
     width: 18rem;
     padding: 1rem;
     box-shadow: .2rem .2rem .4rem .2rem rgba(100,100,100,0.53);
@@ -31,16 +27,12 @@ textarea {
     margin: 0.25rem;
 }
 
-.hc-conduction-material-div {
-    margin: 0.25rem;
-}
-
-.addItemButton {
+.dialogButton {
     margin: 0.25rem;
 }
 
 .button-row-heat-transfer-buttons {
-padding-top:4rem;
+    padding-top:4rem;
     background-color: white;
 
 }
@@ -93,20 +85,20 @@ footer{
     box-shadow: 0rem 0rem .2rem .2rem rgba(100,100,100,0.53);
 }
 
-.myModalInLineLabel {
+.my-modal-label {
     margin-top:0rem;
 }
 
-.myModalLabelTitle {
+.my-modal-title {
     margin-top:0rem;
     margin-bottom:.3rem;
 }
 
-.myPhaseLabel {
+.my-modal-phase-label {
     margin-left:0rem;
 }
 
-.myModalEditField {
+.my-modal-edit-field {
     margin: 0rem 1rem 0rem 1rem !important;
 }
 
@@ -114,19 +106,19 @@ input[type="range"] {
   width: 4rem;
 }
 
-.myPhaseRow {
+.my-modal-phase-row {
     margin: 0rem 0rem 1rem 0rem;
 }
 
-.myButtonRow {
+.my-modal-button-row {
     margin: 0rem 0rem 1rem 0rem;
 }
 
-.myModalTextArea {
+.my-modal-text-area {
     margin: 0rem 1rem 0rem 1rem !important;
 }
 
-.myBottomOfDialogMessage {
+.my-modal-message {
     margin: 1rem 0rem 0rem 0rem;
 }
 
@@ -140,7 +132,7 @@ input[type="range"] {
     display: inline;
 }
 
-.instructions-header {
+.my-margin-at-top {
     padding-top:4rem;
 }
 
@@ -169,7 +161,7 @@ input[type="range"] {
     padding-bottom:7rem;
     }
     
-    .instructions-header {
+    .my-margin-at-top {
     padding-top:7rem;
     }
 
@@ -190,7 +182,7 @@ input[type="range"] {
     padding-bottom:11rem;
     }
     
-    .instructions-header {
+    .my-margin-at-top {
     padding-top:9rem;
     }
 }

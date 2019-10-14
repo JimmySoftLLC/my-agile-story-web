@@ -6,17 +6,32 @@ function updateProjectInContext() {
     }
 }
 
-function updateStatus(message) {
-    showMessage(message)
-    setTimeout(clearStatus,1500);
+function showPopupMessage(message) {
+    document.getElementById('popup-message').innerHTML = message;
+    $('#message-dialog').modal('show');
+    setTimeout(hidePopupMessage, 1500);
 }
 
-function updateStatusNoClear(message) {
-    showMessage(message)
+function showPopupMessageNoClear(message) {
+    document.getElementById('popup-message').innerHTML = message;
+    $('#message-dialog').modal('show');
 }
 
-function clearStatus() {
-    hideMessage();
+function hidePopupMessage() {
+    $("#message-dialog").modal("hide");
+}
+
+function updateStatusMessage(message) {
+    document.getElementById('status-message').innerHTML = message;
+    setTimeout(clearStatusMessage, 1500);
+}
+
+function updateStatusMessageNoClear(message) {
+    document.getElementById('status-message').innerHTML = message;
+}
+
+function clearStatusMessage() {
+    document.getElementById('status-message').innerHTML = "";
 }
 
 function updateLoginMessage(message) {
@@ -68,8 +83,8 @@ $('#editUserStoryModal').on('show.bs.modal', function (event) {
     let listHTML = `<div class="col-sm-11">`;
     listHTML += `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
     listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="editUserStory(` + myIndex + `)">Save Changes</button>`;
-//    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="splitUserStory(` + myIndex + `)">Split</button>`;
-//    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="mergeUserStory(` + myIndex + `)">Merge</button>`;
+    //    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="splitUserStory(` + myIndex + `)">Split</button>`;
+    //    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="mergeUserStory(` + myIndex + `)">Merge</button>`;
     listHTML += ` </div>`
     document.getElementById('edit-user-story-buttons').innerHTML = listHTML;
     updateEditUserStoryMessage("");
@@ -166,24 +181,15 @@ function showErrorMessage(errorTitle, errorMessage) {
     $('#error-dialog').modal('show');
 }
 
-function showMessage(message) {
-    document.getElementById('message-dialog-message').innerHTML = message;
-    $('#message-dialog').modal('show');
-}
-
-function hideMessage() {
-    $("#message-dialog").modal("hide");
-}
-
 function loginMenu(statusMessage) {
     clearInterval(myUpdateTimer);
     let listHTML = '';
     listHTML = aboutUsDrowdown();
     document.getElementById('nav-bar-items').innerHTML = listHTML;
     listHTML = '';
-    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
-    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
-    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>'; 
+    listHTML += '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
     document.getElementById('footer-items').innerHTML = listHTML;
     showVideo();
     hideBurnDownChart();
@@ -193,11 +199,11 @@ function loginMenu(statusMessage) {
 function showVideo() {
     var myVideo = "https://www.youtube.com/embed/PHabA6CTFXA";
     let listHTML = '';
-    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video-slash"></i></button>';
-    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
-    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video-slash"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
     document.getElementById('footer-items').innerHTML = listHTML;
-    listHTML = '<h4 class = "instructions-header">';
+    listHTML = '<h4 class = "my-margin-at-top">';
     listHTML += 'Overview';
     listHTML += '</h4>';
     listHTML += '<p>';
@@ -234,13 +240,13 @@ function showVideo() {
     listHTML += '<row>';
     listHTML += '<button type="button" class="btn btn-primary  button-primary-override"><i class="fas fa-external-link-alt"></i></button>';
     listHTML += '  Links  ';
-    listHTML += '<button type="button" class="btn btn-primary addItemButton  button-primary-override"><i class="fas fa-list"></i></button>';
+    listHTML += '<button type="button" class="btn btn-primary dialogButton  button-primary-override"><i class="fas fa-list"></i></button>';
     listHTML += '  To do  ';
-    listHTML += '<button type="button" class="btn btn-primary addItemButton button-primary-override"><i class="fas fa-running"></i></button>';
+    listHTML += '<button type="button" class="btn btn-primary dialogButton button-primary-override"><i class="fas fa-running"></i></button>';
     listHTML += '  Doing / Sprint  ';
-    listHTML += '<button type="button" class="btn btn-primary addItemButton button-primary-override"><i class="fas fa-check"></i></button>';
+    listHTML += '<button type="button" class="btn btn-primary dialogButton button-primary-override"><i class="fas fa-check"></i></button>';
     listHTML += '  Verify  ';
-    listHTML += '<button type="button" class="btn btn-primary addItemButton button-primary-override"><i class="fas fa-hands-helping"></i></button>';
+    listHTML += '<button type="button" class="btn btn-primary dialogButton button-primary-override"><i class="fas fa-hands-helping"></i></button>';
     listHTML += '  Done  ';
     listHTML += '<button type="button" class="btn btn-primary button-primary-override"><i class="fas fa-chart-bar"></i></button>';
     listHTML += '  Burndown Chart  ';
@@ -285,24 +291,24 @@ function showVideo() {
     listHTML += `<div style="position:relative; padding-bottom:56.25%; padding-top:30px; height:0; overflow:hidden;">`
     listHTML += `<iframe width="560" height="315" src="` + myVideo + `" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style = "position:absolute; top:0; left:0; width:100%; height:100%;"></iframe>`;
     listHTML += `</div>`;
-    
+
     document.getElementById('myVideoInstructions').innerHTML = listHTML;
 }
 
 function hideVideo() {
     let listHTML = '';
-    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" onclick="showVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
-    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
-    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" onclick="showVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
     document.getElementById('footer-items').innerHTML = listHTML;
     document.getElementById('myVideoInstructions').innerHTML = "";
 }
 
 function loggedinMenu(myProjectIndex) {
     document.getElementById('user-story-elements').innerHTML = "";
-    let listHTML = '';  
+    let listHTML = '';
     listHTML += '   <select class="form-control select-project" id="select-project" onchange="selectProjectDropDownChanged()">';
-    listHTML += '<div class="btn-group">'  
+    listHTML += '<div class="btn-group">'
     if (Number(myProjectIndex) === -1) {
         clearInterval(myUpdateTimer);
         listHTML += '       <option selected value = "-1" >Select Project</option>';
@@ -322,22 +328,22 @@ function loggedinMenu(myProjectIndex) {
     }
     listHTML += '   </div>';
     listHTML += '   </select>';
-    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#createNewProjectModal" data-hc-index=""><i class="fas fa-project-diagram"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewProjectModal" data-hc-index=""><i class="fas fa-project-diagram"></i></button>';
     if (Number(myProjectIndex) != -1) {
-        listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" onclick="deleteProjectSetup()" data-hc-index=""><i class="fas fa-trash"></i></button>';
-        listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#editProjectModal" data-hc-index=""><i class="fas fa-edit"></i></button>';
-        listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#createNewUserStoryModal" data-hc-index=""><i class="fas fa-newspaper"></i></button>';
+        listHTML += '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" onclick="deleteProjectSetup()" data-hc-index=""><i class="fas fa-trash"></i></button>';
+        listHTML += '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#editProjectModal" data-hc-index=""><i class="fas fa-edit"></i></button>';
+        listHTML += '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewUserStoryModal" data-hc-index=""><i class="fas fa-newspaper"></i></button>';
     }
-    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" data-target="#editDeveloperModal" data-hc-index=""><i class="fas fa-user-edit"></i></button>';
-    listHTML += '    <button type="button" class="btn btn-light addItemButton" data-toggle="modal" onclick="logoutAll()" data-hc-index=""><i class="fas fa-sign-out-alt"></i></button>';
-    document.getElementById('footer-items').innerHTML = listHTML;   
+    listHTML += '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#editDeveloperModal" data-hc-index=""><i class="fas fa-user-edit"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" onclick="logoutAll()" data-hc-index=""><i class="fas fa-sign-out-alt"></i></button>';
+    document.getElementById('footer-items').innerHTML = listHTML;
     listHTML = aboutUsDrowdown();
-        listHTML += '    <button type="button" class="btn btn-primary addItemButton button-primary-override" data-toggle="modal" onclick="setPhase(0)" data-hc-index=""><i class="fas fa-list"></i></button>';
-        listHTML += '    <button type="button" class="btn btn-primary addItemButton button-primary-override" data-toggle="modal" onclick="setPhase(1)" data-hc-index=""><i class="fas fa-running"></i></button>';
-        listHTML += '    <button type="button" class="btn btn-primary addItemButton button-primary-override" data-toggle="modal" onclick="setPhase(2)" data-hc-index=""><i class="fas fa-check"></i></button>';
-        listHTML += '    <button type="button" class="btn btn-primary addItemButton button-primary-override" data-toggle="modal" onclick="setPhase(3)" data-hc-index=""><i class="fas fa-hands-helping"></i></button>';
-        listHTML += '    <button type="button" class="btn btn-primary addItemButton button-primary-override" data-toggle="modal" onclick="setPhase(4)" data-hc-index=""><i class="fas fa-chart-bar"></i></button>';
-        displayUserStories();
+    listHTML += '    <button type="button" class="btn btn-primary dialogButton button-primary-override" data-toggle="modal" onclick="setPhase(0)" data-hc-index=""><i class="fas fa-list"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-primary dialogButton button-primary-override" data-toggle="modal" onclick="setPhase(1)" data-hc-index=""><i class="fas fa-running"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-primary dialogButton button-primary-override" data-toggle="modal" onclick="setPhase(2)" data-hc-index=""><i class="fas fa-check"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-primary dialogButton button-primary-override" data-toggle="modal" onclick="setPhase(3)" data-hc-index=""><i class="fas fa-hands-helping"></i></button>';
+    listHTML += '    <button type="button" class="btn btn-primary dialogButton button-primary-override" data-toggle="modal" onclick="setPhase(4)" data-hc-index=""><i class="fas fa-chart-bar"></i></button>';
+    displayUserStories();
     document.getElementById('nav-bar-items').innerHTML = listHTML;
     document.getElementById('myVideoInstructions').innerHTML = "";
 }
@@ -347,13 +353,13 @@ function displayUserStories() {
     if (myLastSelectedPhase === 4) {
         showBurnDownChart();
     } else {
-        if (myLastSelectedProject != -1){
+        if (myLastSelectedProject != -1) {
             for (let i = 0; i < myUserStorys.length; i++) {
                 if (parseInt(myUserStorys[i].phase) === parseInt(myLastSelectedPhase)) {
-                    listHTML += `<div class ="col test-case-card">`;
-                    listHTML += `   <div class="card jims-card">`;
+                    listHTML += `<div class ="col col-user-story-card">`;
+                    listHTML += `   <div class="card user-story-card">`;
                     listHTML += `       <div class="card-body">`;
-                    listHTML += `           <h5 class="card-title">S`+ myUserStorys[i].sprint +` - `+ myUserStorys[i].userStoryTitle + `</h5>`;
+                    listHTML += `           <h5 class="card-title">S` + myUserStorys[i].sprint + ` - ` + myUserStorys[i].userStoryTitle + `</h5>`;
                     listHTML += `           <p class="card-text" style = "padding: 0px 0px 0px 0px;">As a ` + myUserStorys[i].userRole + `, I want ` + myUserStorys[i].userWant + ` so that ` + myUserStorys[i].userBenefit + `</p>`;
                     listHTML += `           <div class="row">`;
                     listHTML += `               <div class="col-11">`;
@@ -362,21 +368,21 @@ function displayUserStories() {
                     listHTML += `                   </div>`;
                     listHTML += `               </div>`;
                     listHTML += `               <div class="col-1" style = "padding: 0px; margin-left: -10px; margin-top: -4px;">` + myUserStorys[i].estimate + `</div>`;
-                    listHTML += `           </div>`; 
+                    listHTML += `           </div>`;
                     listHTML += `       </div>`;
                     listHTML += `       <div class="row" style="margin:auto;">`;
-                    listHTML += `           <button type="button" class="btn btn-secondary addItemButton" data-toggle="modal" data-target="#editUserStoryModal" data-hc-index="` + i + `"><i class="fas fa-edit"></i></button>`;
-                    listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="DeleteUserStorySetup(` + i + `)"><i class="fas fa-trash"></i></button>`;
+                    listHTML += `           <button type="button" class="btn btn-secondary dialogButton" data-toggle="modal" data-target="#editUserStoryModal" data-hc-index="` + i + `"><i class="fas fa-edit"></i></button>`;
+                    listHTML += `           <button type="button" class="btn btn-secondary dialogButton" onclick ="deleteUserStorySetup(` + i + `)"><i class="fas fa-trash"></i></button>`;
 
                     switch (myUserStorys[i].phase) {
                         case "0":
-                            listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-running"></i></button>`;
+                            listHTML += `           <button type="button" class="btn btn-secondary dialogButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-running"></i></button>`;
                             break;
                         case "1":
-                            listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-check"></i></button>`;
+                            listHTML += `           <button type="button" class="btn btn-secondary dialogButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-check"></i></button>`;
                             break;
                         case "2":
-                            listHTML += `           <button type="button" class="btn btn-secondary addItemButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-hands-helping"></i></button>`;
+                            listHTML += `           <button type="button" class="btn btn-secondary dialogButton" onclick ="moveUserToNextPhase(` + i + `)"><i class="fas fa-hands-helping"></i></button>`;
                             break;
                         default:
                             break;
@@ -395,7 +401,7 @@ function displayUserStories() {
 }
 
 function logoutAll() {
-    updateStatus("Good bye " + myDeveloper.firstName + " thanks for visiting!")
+    showPopupMessage("Good bye " + myDeveloper.firstName + " thanks for visiting!")
     localStorage.removeItem('lastDeveloper');
     localStorage.removeItem('lastProjects');
     localStorage.removeItem('lastUserStorys');
@@ -406,9 +412,9 @@ function logoutAll() {
 }
 
 function aboutUsDrowdown() {
-    let listHTML = '';   
+    let listHTML = '';
     listHTML += '<div class="btn-group">'
-    listHTML += '   <button type="button" class="btn btn-primary addItemButton dropdown-toggle button-primary-override-dropdown" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-external-link-alt"></i></button>';
+    listHTML += '   <button type="button" class="btn btn-primary dialogButton dropdown-toggle button-primary-override-dropdown" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-external-link-alt"></i></button>';
     listHTML += '   <div class="dropdown-menu">';
     listHTML += '       <a class="dropdown-item" href="https://jimmysoftllc.com" target="_blank">JimmySoft LLC</a>';
     listHTML += '       <a class="dropdown-item" href="https://embroiderywaresoftware.com" target="_blank">EmbroideryWare</a>';

@@ -49,6 +49,7 @@
             <div class="navbar navbar-dark bg-light">
                 <div class="navbar-header pull-left">
                   <span id="footer-items"></span>
+                  <span class ="status-message" id = "status-message"></span>
                 </div>
             </div>         
         </footer>
@@ -66,24 +67,24 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label myModalLabelTitle">Email</label>
-                        <input type="text" class="col-sm-11 form-control developer-email myModalEditField" id="developer-email" placeholder="Email">
+                        <label class="col-sm-3 col-form-label my-modal-title">Email</label>
+                        <input type="text" class="col-sm-11 form-control developer-email my-modal-edit-field" id="developer-email" placeholder="Email">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label myModalLabelTitle">Password</label>
-                        <input type="text" class="col-sm-11 form-control developer-password myModalEditField" id="developer-password" placeholder="Password">
+                        <label class="col-sm-3 col-form-label my-modal-title">Password</label>
+                        <input type="text" class="col-sm-11 form-control developer-password my-modal-edit-field" id="developer-password" placeholder="Password">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label myModalLabelTitle">First Name</label>
-                        <input type="text" class="col-sm-11 form-control developer-first-name myModalEditField" id="developer-first-name" placeholder="First Name">
+                        <label class="col-sm-3 col-form-label my-modal-title">First Name</label>
+                        <input type="text" class="col-sm-11 form-control developer-first-name my-modal-edit-field" id="developer-first-name" placeholder="First Name">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label myModalLabelTitle">Last Name</label>
-                        <input type="text" class="col-sm-11 form-control developer-last-name myModalEditField" id="developer-last-name" placeholder="Last Name">
+                        <label class="col-sm-3 col-form-label my-modal-title">Last Name</label>
+                        <input type="text" class="col-sm-11 form-control developer-last-name my-modal-edit-field" id="developer-last-name" placeholder="Last Name">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label myModalLabelTitle">Your bio</label>
-                        <textarea class="col-sm-11 form-control developer-bio myModalEditField" rows="5" id="developer-bio" placeholder="Tell us about yourself"></textarea>
+                        <label class="col-sm-3 col-form-label my-modal-title">Your bio</label>
+                        <textarea class="col-sm-11 form-control developer-bio my-modal-edit-field" rows="5" id="developer-bio" placeholder="Tell us about yourself"></textarea>
                     </div>
                     <!--TODO add role-->
                     <div class="form-group row">
@@ -92,7 +93,7 @@
                             <button type="button" class="btn btn-primary" onclick="createNewDeveloper()">Add Developer</button>
                         </div>
                     </div>
-                    <div class="developer-message myBottomOfDialogMessage" id="developer-message"></div>
+                    <div class="developer-message my-modal-message" id="developer-message"></div>
                 </div>
             </div>
         </div>
@@ -110,30 +111,30 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label myModalLabelTitle">Email</label>
-                        <input type="text" class="col-sm-11 form-control edit-developer-email myModalEditField" id="edit-developer-email" placeholder="Email">
+                        <label class="col-sm-3 col-form-label my-modal-title">Email</label>
+                        <input type="text" class="col-sm-11 form-control edit-developer-email my-modal-edit-field" id="edit-developer-email" placeholder="Email">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label myModalLabelTitle">Password</label>
-                        <input type="text" class="col-sm-11 form-control edit-developer-password myModalEditField" id="edit-developer-password" placeholder="Password">
+                        <label class="col-sm-3 col-form-label my-modal-title">Password</label>
+                        <input type="text" class="col-sm-11 form-control edit-developer-password my-modal-edit-field" id="edit-developer-password" placeholder="Password">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label myModalLabelTitle">First Name</label>
-                        <input type="text" class="col-sm-11 form-control edit-developer-first-name myModalEditField" id="edit-developer-first-name" placeholder="First Name">
+                        <label class="col-sm-3 col-form-label my-modal-title">First Name</label>
+                        <input type="text" class="col-sm-11 form-control edit-developer-first-name my-modal-edit-field" id="edit-developer-first-name" placeholder="First Name">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label myModalLabelTitle">Last Name</label>
-                        <input type="text" class="col-sm-11 form-control edit-developer-last-name myModalEditField" id="edit-developer-last-name" placeholder="Last Name">
+                        <label class="col-sm-3 col-form-label my-modal-title">Last Name</label>
+                        <input type="text" class="col-sm-11 form-control edit-developer-last-name my-modal-edit-field" id="edit-developer-last-name" placeholder="Last Name">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label myModalLabelTitle">Your bio</label>
-                        <textarea class="col-sm-11 form-control edit-developer-bio myModalEditField" rows="5" id="edit-developer-bio" placeholder="Tell us about yourself"></textarea>
+                        <label class="col-sm-3 col-form-label my-modal-title">Your bio</label>
+                        <textarea class="col-sm-11 form-control edit-developer-bio my-modal-edit-field" rows="5" id="edit-developer-bio" placeholder="Tell us about yourself"></textarea>
                     </div>
                     <!--TODO add role-->
                     <div class="form-group row">
                         <div class="col-sm-11" id="edit-developer-buttons"></div>
                     </div>
-                    <div class="edit-developer-message myBottomOfDialogMessage" id="edit-developer-message"></div>
+                    <div class="edit-developer-message my-modal-message" id="edit-developer-message"></div>
                 </div>
             </div>
         </div>
@@ -151,12 +152,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label myModalLabelTitle">Name</label>
-                        <input type="text" class="col-sm-11 form-control project-name myModalEditField" id="project-name" placeholder="">
+                        <label class="col-sm-3 col-form-label my-modal-title">Name</label>
+                        <input type="text" class="col-sm-11 form-control project-name my-modal-edit-field" id="project-name" placeholder="">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label myModalLabelTitle">Description</label>
-                        <textarea class="col-sm-11 form-control project-description myModalEditField" rows="5" id="project-description" placeholder=""></textarea>
+                        <label class="col-sm-3 col-form-label my-modal-title">Description</label>
+                        <textarea class="col-sm-11 form-control project-description my-modal-edit-field" rows="5" id="project-description" placeholder=""></textarea>
                     </div>
                     <!--TODO add role-->
                     <div class="form-group row">
@@ -164,7 +165,7 @@
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" onclick="createNewProject()">Add Project</button>
                         </div>
-                        <div class="project-message myBottomOfDialogMessage" id="project-message"></div>
+                        <div class="project-message my-modal-message" id="project-message"></div>
                     </div>
                 </div>
             </div>
@@ -183,16 +184,16 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label myModalLabelTitle">Name</label>
-                        <input type="text" class="col-sm-11 form-control edit-project-name myModalEditField" id="edit-project-name" placeholder="">
+                        <label class="col-sm-3 col-form-label my-modal-title">Name</label>
+                        <input type="text" class="col-sm-11 form-control edit-project-name my-modal-edit-field" id="edit-project-name" placeholder="">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-3 col-form-label myModalLabelTitle">Description</label>
-                        <textarea class="col-sm-11 form-control edit-project-description myModalEditField" rows="5" id="edit-project-description" placeholder=""></textarea>
+                        <label class="col-sm-3 col-form-label my-modal-title">Description</label>
+                        <textarea class="col-sm-11 form-control edit-project-description my-modal-edit-field" rows="5" id="edit-project-description" placeholder=""></textarea>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-11" id="edit-project-buttons"></div>
-                        <div class="edit-project-message myBottomOfDialogMessage" id="edit-project-message"></div>
+                        <div class="edit-project-message my-modal-message" id="edit-project-message"></div>
                     </div>
                 </div>
             </div>
@@ -211,43 +212,43 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label myModalInLineLabel">Title</label>
-                        <input type="text" class="col-sm-9 form-control myModalTextArea user-story-title" id="user-story-title" placeholder="">
+                        <label class="col-sm-2 col-form-label my-modal-label">Title</label>
+                        <input type="text" class="col-sm-9 form-control my-modal-text-area user-story-title" id="user-story-title" placeholder="">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label myModalInLineLabel">As a</label>
-                        <input type="text" class="col-sm-9 form-control myModalTextArea user-story-user-role" id="user-story-user-role" placeholder="role">
+                        <label class="col-sm-2 col-form-label my-modal-label">As a</label>
+                        <input type="text" class="col-sm-9 form-control my-modal-text-area user-story-user-role" id="user-story-user-role" placeholder="role">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label myModalInLineLabel">, I want</label>
-                        <input type="text" class="col-sm-9 form-control myModalTextArea user-story-user-want" id="user-story-user-want" placeholder="goal">
+                        <label class="col-sm-2 col-form-label my-modal-label">, I want</label>
+                        <input type="text" class="col-sm-9 form-control my-modal-text-area user-story-user-want" id="user-story-user-want" placeholder="goal">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label myModalInLineLabel">so that</label>
-                        <input type="text" class="col-sm-9 form-control myModalTextArea user-story-user-benefit" id="user-story-user-benefit" placeholder="reason">
+                        <label class="col-sm-2 col-form-label my-modal-label">so that</label>
+                        <input type="text" class="col-sm-9 form-control my-modal-text-area user-story-user-benefit" id="user-story-user-benefit" placeholder="reason">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-6 myModalLabelTitle col-form-label">Acceptance Criteria</label>
-                        <textarea class="col-sm-11 form-control myModalTextArea user-story-acceptance-criteria" rows="2" id="user-story-acceptance-criteria" placeholder=""></textarea>
+                        <label class="col-sm-6 my-modal-title col-form-label">Acceptance Criteria</label>
+                        <textarea class="col-sm-11 form-control my-modal-text-area user-story-acceptance-criteria" rows="2" id="user-story-acceptance-criteria" placeholder=""></textarea>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-6 myModalLabelTitle col-form-label">Conversation</label>
-                        <textarea class="col-sm-11 form-control myModalTextArea user-story-conversation" rows="2" id="user-story-conversation" placeholder=""></textarea>
+                        <label class="col-sm-6 my-modal-title col-form-label">Conversation</label>
+                        <textarea class="col-sm-11 form-control my-modal-text-area user-story-conversation" rows="2" id="user-story-conversation" placeholder=""></textarea>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label myModalInLineLabel">Estimate</label>
-                        <input type="number" class="col-sm-2 form-control myModalTextArea user-story-estimate" id="user-story-estimate" placeholder="points">
-                        <label class="col-sm-4 col-form-label myModalInLineLabel">Percent Complete</label>
-                        <input type="number" class="col-sm-2 form-control myModalTextArea user-story-percent-done" id="user-story-percent-done" placeholder="0-100">
+                        <label class="col-sm-2 col-form-label my-modal-label">Estimate</label>
+                        <input type="number" class="col-sm-2 form-control my-modal-text-area user-story-estimate" id="user-story-estimate" placeholder="points">
+                        <label class="col-sm-4 col-form-label my-modal-label">Percent Complete</label>
+                        <input type="number" class="col-sm-2 form-control my-modal-text-area user-story-percent-done" id="user-story-percent-done" placeholder="0-100">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label myModalInLineLabel">Priority</label>
-                        <input type="number" class="col-sm-2 form-control myModalTextArea user-story-priority" id="user-story-priority" placeholder="1-10">
-                        <label class="col-sm-2 col-form-label myModalInLineLabel">Sprint</label>
-                        <input type="number" class="col-sm-2 form-control myModalTextArea user-story-sprint" id="user-story-sprint" placeholder="0,1,2,...">
+                        <label class="col-sm-2 col-form-label my-modal-label">Priority</label>
+                        <input type="number" class="col-sm-2 form-control my-modal-text-area user-story-priority" id="user-story-priority" placeholder="1-10">
+                        <label class="col-sm-2 col-form-label my-modal-label">Sprint</label>
+                        <input type="number" class="col-sm-2 form-control my-modal-text-area user-story-sprint" id="user-story-sprint" placeholder="0,1,2,...">
                     </div>
-                    <div class="form-group row myPhaseRow">
-                        <label class="col-sm-2 col-form-label myPhaseLabel">Phase</label>
+                    <div class="form-group row my-modal-phase-row">
+                        <label class="col-sm-2 col-form-label my-modal-phase-label">Phase</label>
                         <div class="col-sm-8 col-form-label">
                             <input type="radio" name="user-story-phase" id="user-story-phase-0" value="0" aria-label="To Do">To Do
                             <input type="radio" name="user-story-phase" id="user-story-phase-1" value="1" aria-label="Doing">Doing
@@ -255,12 +256,12 @@
                             <input type="radio" name="user-story-phase" id="user-story-phase-3" value="3" aria-label="Done">Done
                         </div>
                     </div>
-                    <div class="form-group row myButtonRow">
+                    <div class="form-group row my-modal-button-row">
                         <div class="col-sm-11">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" onclick="createNewUserStory()">Add User Story</button>
                         </div>
-                        <div class="user-story-message myBottomOfDialogMessage" id="user-story-message"></div>
+                        <div class="user-story-message my-modal-message" id="user-story-message"></div>
                     </div>
                 </div>
             </div>
@@ -279,43 +280,43 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label myModalInLineLabel">Title</label>
-                        <input type="text" class="col-sm-9 form-control edit-user-story-title myModalEditField" id="edit-user-story-title" placeholder="">
+                        <label class="col-sm-2 col-form-label my-modal-label">Title</label>
+                        <input type="text" class="col-sm-9 form-control edit-user-story-title my-modal-edit-field" id="edit-user-story-title" placeholder="">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label myModalInLineLabel">As a</label>
-                        <input type="text" class="col-sm-9 form-control edit-user-story-user-role myModalEditField" id="edit-user-story-user-role" placeholder="role">
+                        <label class="col-sm-2 col-form-label my-modal-label">As a</label>
+                        <input type="text" class="col-sm-9 form-control edit-user-story-user-role my-modal-edit-field" id="edit-user-story-user-role" placeholder="role">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label myModalInLineLabel">, I want</label>
-                        <input type="text" class="col-sm-9 form-control edit-user-story-user-want myModalEditField" id="edit-user-story-user-want" placeholder="goal">
+                        <label class="col-sm-2 col-form-label my-modal-label">, I want</label>
+                        <input type="text" class="col-sm-9 form-control edit-user-story-user-want my-modal-edit-field" id="edit-user-story-user-want" placeholder="goal">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label myModalInLineLabel">so that</label>
-                        <input type="text" class="col-sm-9 form-control edit-user-story-user-benefit myModalEditField" id="edit-user-story-user-benefit" placeholder="reason">
+                        <label class="col-sm-2 col-form-label my-modal-label">so that</label>
+                        <input type="text" class="col-sm-9 form-control edit-user-story-user-benefit my-modal-edit-field" id="edit-user-story-user-benefit" placeholder="reason">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-6 col-form-label myModalInLineLabel">Acceptance Criteria</label>
-                        <textarea class="col-sm-11 form-control edit-user-story-acceptance-criteria myModalTextArea" rows="2" id="edit-user-story-acceptance-criteria" placeholder=""></textarea>
+                        <label class="col-sm-6 col-form-label my-modal-label">Acceptance Criteria</label>
+                        <textarea class="col-sm-11 form-control edit-user-story-acceptance-criteria my-modal-text-area" rows="2" id="edit-user-story-acceptance-criteria" placeholder=""></textarea>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-6 col-form-label myModalInLineLabel">Conversation</label>
-                        <textarea class="col-sm-11 form-control myModalTextArea edit-user-story-conversation" rows="2" id="edit-user-story-conversation" placeholder=""></textarea>
+                        <label class="col-sm-6 col-form-label my-modal-label">Conversation</label>
+                        <textarea class="col-sm-11 form-control my-modal-text-area edit-user-story-conversation" rows="2" id="edit-user-story-conversation" placeholder=""></textarea>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label myModalInLineLabel">Estimate</label>
-                        <input type="number" class="col-sm-2 form-control edit-user-story-estimate myModalEditField" id="edit-user-story-estimate" placeholder="points">
-                        <label class="col-sm-4 col-form-label myModalInLineLabel">Percent Complete</label>
-                        <input type="number" class="col-sm-2 form-control edit-user-story-percent-done myModalEditField" id="edit-user-story-percent-done" placeholder="0-100">
+                        <label class="col-sm-2 col-form-label my-modal-label">Estimate</label>
+                        <input type="number" class="col-sm-2 form-control edit-user-story-estimate my-modal-edit-field" id="edit-user-story-estimate" placeholder="points">
+                        <label class="col-sm-4 col-form-label my-modal-label">Percent Complete</label>
+                        <input type="number" class="col-sm-2 form-control edit-user-story-percent-done my-modal-edit-field" id="edit-user-story-percent-done" placeholder="0-100">
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label myModalInLineLabel">Priority</label>
-                        <input type="number" class="col-sm-2 form-control edit-user-story-priority myModalEditField" id="edit-user-story-priority" placeholder="1-10">
-                        <label class="col-sm-2 col-form-label myModalInLineLabel">Sprint</label>
-                        <input type="number" class="col-sm-2 form-control edit-user-story-sprint myModalEditField" id="edit-user-story-sprint" placeholder="0,1,2,...">
+                        <label class="col-sm-2 col-form-label my-modal-label">Priority</label>
+                        <input type="number" class="col-sm-2 form-control edit-user-story-priority my-modal-edit-field" id="edit-user-story-priority" placeholder="1-10">
+                        <label class="col-sm-2 col-form-label my-modal-label">Sprint</label>
+                        <input type="number" class="col-sm-2 form-control edit-user-story-sprint my-modal-edit-field" id="edit-user-story-sprint" placeholder="0,1,2,...">
                     </div>
-                    <div class="form-group row myPhaseRow">
-                        <label class="col-sm-2 col-form-label myPhaseLabel">Phase</label>
+                    <div class="form-group row my-modal-phase-row">
+                        <label class="col-sm-2 col-form-label my-modal-phase-label">Phase</label>
                         <div class="col-sm-8 col-form-label">
                             <input type="radio" name="edit-user-story-phase" id="edit-user-story-phase-0" value="0" aria-label="To Do">To Do
                             <input type="radio" name="edit-user-story-phase" id="edit-user-story-phase-1" value="1" aria-label="Doing">Doing
@@ -323,8 +324,8 @@
                             <input type="radio" name="edit-user-story-phase" id="edit-user-story-phase-3" value="3" aria-label="Done">Done
                         </div>
                     </div>
-                    <div class="form-group row edit-user-story-buttons myButtonRow" id="edit-user-story-buttons"></div>
-                    <div class="edit-user-story-message myBottomOfDialogMessage" id="edit-user-story-message"></div>
+                    <div class="form-group row edit-user-story-buttons my-modal-button-row" id="edit-user-story-buttons"></div>
+                    <div class="edit-user-story-message my-modal-message" id="edit-user-story-message"></div>
                 </div>
             </div>
         </div>
@@ -343,11 +344,11 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Email</label>
-                        <input type="email" class="col-sm-10 form-control login-email myModalEditField" id="login-email" placeholder="Email">
+                        <input type="email" class="col-sm-10 form-control login-email my-modal-edit-field" id="login-email" placeholder="Email">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Password</label>
-                        <input type="password" class="col-sm-10 form-control login-password myModalEditField" id="login-password" placeholder="Password">
+                        <input type="password" class="col-sm-10 form-control login-password my-modal-edit-field" id="login-password" placeholder="Password">
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-10">
@@ -400,7 +401,7 @@
                 <div class="modal-header message-modal-header">
                     <h5 class="modal-title" id="message-dialog-title"></h5>
                 </div>
-                <div class="modal-body" id="message-dialog-message"></div>
+                <div class="modal-body" id="popup-message"></div>
             </div>
         </div>
     </div>

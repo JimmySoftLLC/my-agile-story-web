@@ -27,7 +27,7 @@ function loginDeveloper() {
         myDeveloper = obj.body;
         setMyAglileStoryDeveloperStorage();
         getProjects(myDeveloper, -1, false);
-        updateStatus("Welcome " + myDeveloper.firstName);
+        showPopupMessage("Welcome " + myDeveloper.firstName);
       } else {
         showErrorMessage("Error", obj.body.error);
       }
@@ -87,6 +87,7 @@ function getProjects(thisDeveloper, myProjectIndex, checkingIfUpdateIsNeeded) {
 }
 
 function getUserStorys(thisProject) {
+  updateStatusMessageNoClear("Getting user stories.");
   fetch(URL_Address + "/get/userStorys", {
     method: "post",
     headers: {
@@ -111,6 +112,7 @@ function getUserStorys(thisProject) {
         });
         setMyAglileStoryUserStoryStorage();
         displayUserStories();
+        clearStatusMessage();
       } else {
         showErrorMessage("Error", obj.body.error);
       }
@@ -538,9 +540,9 @@ function editDeveloper() {
     });
 }
 
-function DeleteUserStorySetup(myUserStoryIndex) {
+function deleteUserStorySetup(myUserStoryIndex) {
   showConfirmDeletePopup(
-    "DeleteUserStory",
+    "deleteUserStory",
     myUserStoryIndex,
     " user story <strong>" +
       myUserStorys[myUserStoryIndex].userStoryTitle +
@@ -548,7 +550,7 @@ function DeleteUserStorySetup(myUserStoryIndex) {
   );
 }
 
-function DeleteUserStory(myUserStoryIndex) {
+function deleteUserStory(myUserStoryIndex) {
     $("#confirm-delete").modal("hide");
     var myProjectIndex = document.getElementById("select-project").value;
     if (myProjectIndex != -1) {
@@ -587,15 +589,15 @@ function DeleteUserStory(myUserStoryIndex) {
 function deleteProjectSetup() {
     var myProjectIndex = document.getElementById("select-project").value;
     if (myProjectIndex != -1) {
-    showConfirmDeletePopup(
-      "DeleteProject",
-      myProjectIndex,
-      " project <strong>" + myProjects[myProjectIndex].name + "</strong>"
-    );
+        showConfirmDeletePopup(
+          "deleteProject",
+          myProjectIndex,
+          " project <strong>" + myProjects[myProjectIndex].name + "</strong>"
+        );
     }   
 }
 
-function DeleteProject(myProjectIndex) {
+function deleteProject(myProjectIndex) {
   $("#confirm-delete").modal("hide");
   if (myProjectIndex != -1) {
     // first delete all the user stories associated with the project
