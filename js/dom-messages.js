@@ -1,6 +1,8 @@
 var myUpdateTimer;
 
 function updateProjectInContext() {
+    var myTime = Date(Date.now())
+    console.log ('checking for changes' + myTime.toString())
     if (myLastSelectedProject != 1) {
         getProjects(myDeveloper, myLastSelectedProject, true)
     }
@@ -316,6 +318,7 @@ function loggedinMenu(myProjectIndex) {
             listHTML += `<option value = "` + j + `">` + myProjects[j].name + `</option>`;
         }
     } else {
+        clearInterval(myUpdateTimer);
         myUpdateTimer = setInterval(updateProjectInContext, 5000)
         listHTML += '       <option value = "-1" >Select Project</option>';
         for (var j = 0; j < myProjects.length; j++) {
