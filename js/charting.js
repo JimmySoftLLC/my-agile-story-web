@@ -15,7 +15,7 @@ function showBurnDownChart() {
     if (myProjectIndex != -1){
         orderUserStorysBySprintId();
         generateBurnChartData();
-        document.getElementById('user-story-elements').innerHTML = "";
+        document.getElementById('user-story-bug-elements').innerHTML = "";
         let listHTML = '';
         listHTML += '<div class="row user-story-div">';
         listHTML += '   <div class="col-lg-12">';

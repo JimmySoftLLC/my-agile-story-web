@@ -17,6 +17,7 @@ function ProjectObject(_id, name, description) {
   this.timeStampISO;
   this.developerIds = [];
   this.userStoryIds = [];
+  this.bugIds = [];
 }
 
 function UserStoryObject(
@@ -48,8 +49,42 @@ function UserStoryObject(
   this.timeStampISO;
 }
 
+function BugObject(
+  _id,
+  bugTitle,
+  summary,
+  stepsToReproduce,
+  expectedResults,
+  actualResults,
+  resolution,
+  acceptanceCriteria,
+  estimate,
+  phase,
+  percentDone,
+  priority,
+  sprint,
+  projectId
+) {
+  this._id = _id;
+  this.bugTitle = bugTitle;
+  this.summary = summary;
+  this.stepsToReproduce = stepsToReproduce;
+  this.expectedResults = expectedResults;
+  this.actualResults = actualResults;
+  this.resolution = resolution;
+  this.acceptanceCriteria = acceptanceCriteria;
+  this.estimate = estimate;
+  this.phase = phase;
+  this.percentDone = percentDone;
+  this.priority = priority;
+  this.sprint = sprint;
+  this.projectId = projectId;
+  this.timeStampISO;
+}
+
 let myDeveloper = {};
 let myProjects = [];
 let myUserStorys = [];
-let myLastSelectedProject = "";
-let myLastSelectedPhase = "0";
+let myBugs = [];
+let myLastSelectedProject = '';
+let myLastSelectedPhase = '0';

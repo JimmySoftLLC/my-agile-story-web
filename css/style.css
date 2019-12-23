@@ -1,4 +1,3 @@
-
 p {
     padding-left: 2rem;
     padding-right: 1.5rem;
@@ -18,7 +17,7 @@ img {
 .user-story-card {
     width: 18rem;
     padding: 1rem;
-    box-shadow: .2rem .2rem .4rem .2rem rgba(100,100,100,0.53);
+    box-shadow: .2rem .2rem .4rem .2rem rgba(100, 100, 100, 0.53);
 }
 
 input,
@@ -32,7 +31,7 @@ textarea {
 }
 
 .button-row-heat-transfer-buttons {
-    padding-top:4rem;
+    padding-top: 4rem;
     background-color: white;
 
 }
@@ -50,10 +49,10 @@ textarea {
     background-image: none;
 }
 
-.button-primary-override-dropdown:hover, 
+.button-primary-override-dropdown:hover,
 .button-primary-override-dropdown:active,
 .button-primary-override-dropdown:focus,
-.button-primary-override-dropdown:visited{
+.button-primary-override-dropdown:visited {
     background-color: #42A5F5 !important;
     border-color: #42A5F5 !important;
     background-image: none !important;
@@ -67,35 +66,35 @@ textarea {
     background-image: none;
 }
 
-.button-primary-override:hover, 
+.button-primary-override:hover,
 .button-primary-override:active,
 .button-primary-override:focus,
-.button-primary-override:visited{
+.button-primary-override:visited {
     background-color: #42A5F5 !important;
     border-color: #42A5F5 !important;
     background-image: none !important;
     border: 0 !important;
 }
 
-footer{
-    box-shadow: 0rem 0rem .2rem .2rem rgba(100,100,100,0.53);
+footer {
+    box-shadow: 0rem 0rem .2rem .2rem rgba(100, 100, 100, 0.53);
 }
 
 .fixed-top {
-    box-shadow: 0rem 0rem .2rem .2rem rgba(100,100,100,0.53);
+    box-shadow: 0rem 0rem .2rem .2rem rgba(100, 100, 100, 0.53);
 }
 
 .my-modal-label {
-    margin-top:0rem;
+    margin-top: 0rem;
 }
 
 .my-modal-title {
-    margin-top:0rem;
-    margin-bottom:.3rem;
+    margin-top: 0rem;
+    margin-bottom: .3rem;
 }
 
 .my-modal-phase-label {
-    margin-left:0rem;
+    margin-left: 0rem;
 }
 
 .my-modal-edit-field {
@@ -103,7 +102,7 @@ footer{
 }
 
 input[type="range"] {
-  width: 4rem;
+    width: 4rem;
 }
 
 .my-modal-phase-row {
@@ -123,66 +122,85 @@ input[type="range"] {
 }
 
 .select-project {
-    width:200px;
+    width: 200px;
     display: inline;
 }
 
 .nav-bar-override {
-    width:200px;
+    width: 200px;
     display: inline;
 }
 
-.my-margin-at-top {
-    padding-top:4rem;
+.content-margin-at-top {
+    padding-top: 4rem;
 }
 
-.user-story-div {
-    padding-top:4rem;
-    padding-bottom:5rem;
+.content-margin-at-bottom {
+    padding-bottom: 5rem;
 }
 
-.message-modal-header{
+.message-modal-header {
     display: none;
 }
 
 @media only screen and (max-width: 600px) {
     .select-project {
-        width:200px;
+        width: 200px;
         display: block;
     }
-    
+
     .nav-bar-override {
-        width:200px;
+        width: 200px;
         display: block;
     }
-    
-    .user-story-div {
-    padding-top:7rem;
-    padding-bottom:7rem;
+
+    .content-margin-at-bottom {
+        padding-bottom: 7rem;
     }
-    
-    .my-margin-at-top {
-    padding-top:7rem;
+
+    .content-margin-at-top {
+        padding-top: 7rem;
     }
 
 }
 
+@media only screen and (max-width: 440px) {
+    .select-project {
+        width: 200px;
+        display: block;
+    }
+
+    .nav-bar-override {
+        width: 200px;
+        display: block;
+    }
+
+    .content-margin-at-bottom {
+        padding-bottom: 11rem;
+    }
+
+    .content-margin-at-top {
+        padding-top: 7rem;
+    }
+}
+
+
 @media only screen and (max-width: 370px) {
     .select-project {
-        width:200px;
+        width: 200px;
         display: block;
     }
+
     .nav-bar-override {
-        width:200px;
+        width: 200px;
         display: block;
     }
-    
-    .user-story-div {
-    padding-top:9rem;
-    padding-bottom:11rem;
+
+    .content-margin-at-bottom {
+        padding-bottom: 11rem;
     }
-    
-    .my-margin-at-top {
-    padding-top:9rem;
+
+    .content-margin-at-top {
+        padding-top: 9rem;
     }
 }
