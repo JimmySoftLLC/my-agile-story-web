@@ -93,6 +93,11 @@ footer {
     margin-bottom: .3rem;
 }
 
+.my-modal-text-area-title {
+    margin-top: -.6rem;
+    margin-bottom: .3rem;
+}
+
 .my-modal-phase-label {
     margin-left: 0rem;
 }
@@ -114,8 +119,9 @@ input[type="range"] {
 }
 
 .my-modal-text-area {
-    margin: 0rem 1rem 0rem 1rem !important;
+    margin: -.5rem 1rem 0rem 1rem !important;
 }
+
 
 .my-modal-message {
     margin: 1rem 0rem 0rem 0rem;

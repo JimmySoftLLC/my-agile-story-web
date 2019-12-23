@@ -4,7 +4,7 @@ function updateProjectInContext() {
     var myTime = Date(Date.now());
     //console.log('checking for changes' + myTime.toString());
     if (myLastSelectedProject != 1) {
-        //getProjects(myDeveloper, myLastSelectedProject, true);
+        getProjects(myDeveloper, myLastSelectedProject, true);
     }
 }
 
@@ -339,8 +339,7 @@ function loginMenu(statusMessage) {
     document.getElementById('footer-items').innerHTML = listHTML;
     showVideo();
     hideBurnDownChart();
-    displayUserStories();
-    displayBugs();
+    displayUserStoriesAndBugs();
 }
 
 function showVideo() {
@@ -554,14 +553,24 @@ function displayUserStoriesAndBugs() {
     if (myLastSelectedPhase === 4) {
         showBurnDownChart();
     } else {
-        if (myLastSelectedProject != -1) {
-            for (let i = 0; i < myUserStorys.length; i++) {
-                listHTML += displayUserStory(i);
+        let userStoryIndex = 0;
+        let bugIndex = 0
+        for (let priorityNumb = 1; priorityNumb < 11; priorityNumb++) {
+            if (myLastSelectedProject != -1) {
+                for (let i = userStoryIndex; i < myUserStorys.length; i++) {
+                    if (myUserStorys[i].priority === priorityNumb) {
+                        listHTML += displayUserStory(i);
+                        userStoryIndex = i;
+                    }
+                }
             }
-        }
-        if (myLastSelectedProject != -1) {
-            for (let i = 0; i < myBugs.length; i++) {
-                listHTML += displayBug(i);
+            if (myLastSelectedProject != -1) {
+                for (let i = bugIndex; i < myBugs.length; i++) {
+                    if (myBugs[i].priority === priorityNumb) {
+                        listHTML += displayBug(i);
+                        bugIndex = i;
+                    }
+                }
             }
         }
         listHTML += `</div>`;
