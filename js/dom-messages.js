@@ -357,11 +357,11 @@ function showVideo() {
     listHTML += '</h4>';
     listHTML += '<p>';
     listHTML +=
-        'My Agile Story is a virtual Agile board that organizes user stories into four sections: to do, doing, verify and done.';
+        'My Agile Story is a virtual Agile board that organizes user stories and bugs into four sections: to do, doing, verify and done.';
     listHTML += '</p>';
     listHTML += '<p>';
     listHTML +=
-        'Add story cards, create sprints and measure your progress with a burndown chart.';
+        'Add user story / bug cards, create sprints and measure your progress with a burndown chart.';
     listHTML += '</p>';
     listHTML += '<p>';
     listHTML +=
@@ -431,6 +431,9 @@ function showVideo() {
         '<button type="button" class="btn btn-light"><i class="fas fa-newspaper"></i></button>';
     listHTML += '  Create user story  ';
     listHTML +=
+        '<button type="button" class="btn btn-light"><i class="fas fa-bug"></i></button>';
+    listHTML += '  Create bug  ';
+    listHTML +=
         '<button type="button" class="btn btn-light"><i class="fas fa-user-edit"></i></button>';
     listHTML += '  Edit User  ';
     listHTML +=
@@ -440,16 +443,16 @@ function showVideo() {
     listHTML += '</p>';
 
     listHTML += '<h4>';
-    listHTML += 'Button definitions, on user story cards';
+    listHTML += 'Button definitions, on user story / bug cards';
     listHTML += '</h4>';
     listHTML += '<p>';
     listHTML += '<row>';
     listHTML +=
         '<button type="button" class="btn btn-light"><i class="fas fa-trash"></i></button>';
-    listHTML += '  Delete user story  ';
+    listHTML += '  Delete user story / bug ';
     listHTML +=
         '<button type="button" class="btn btn-light"><i class="fas fa-edit"></i></button>';
-    listHTML += '  Edit user story  ';
+    listHTML += '  Edit user story / bug ';
     listHTML += '</row>';
     listHTML += '</p>';
 
@@ -752,6 +755,7 @@ function logoutAll() {
     myDeveloper = {};
     myProjects = [];
     myUserStorys = [];
+    myBugs = [];
     loginMenu();
 }
 

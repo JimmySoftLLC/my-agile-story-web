@@ -920,17 +920,15 @@ function deleteProject(myProjectIndex) {
       )
       .then(obj => {
         if (obj.status === 200) {
-          getUserStorys(myProjects[myProjectIndex]);
-          // user stories are now deleted now delete the project
-          fetch(URL_Address + '/delete/developer/project', {
+          // second delete all the bugs associated with the project
+          fetch(URL_Address + '/delete/project/bugs', {
               method: 'post',
               headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                projectId: myProjects[myProjectIndex]._id,
-                developerId: myDeveloper._id,
+                bugIds: myProjects[myProjectIndex].bugIds,
               }),
             })
             .then(res =>
@@ -941,7 +939,32 @@ function deleteProject(myProjectIndex) {
             )
             .then(obj => {
               if (obj.status === 200) {
-                getProjects(myDeveloper, -1);
+                getUserStorys(myProjects[myProjectIndex]);
+                // user stories are now deleted now delete the project
+                fetch(URL_Address + '/delete/developer/project', {
+                    method: 'post',
+                    headers: {
+                      Accept: 'application/json',
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      projectId: myProjects[myProjectIndex]._id,
+                      developerId: myDeveloper._id,
+                    }),
+                  })
+                  .then(res =>
+                    res.json().then(data => ({
+                      status: res.status,
+                      body: data,
+                    }))
+                  )
+                  .then(obj => {
+                    if (obj.status === 200) {
+                      getProjects(myDeveloper, -1);
+                    } else {
+                      showErrorMessage('Error', obj.body.error);
+                    }
+                  });
               } else {
                 showErrorMessage('Error', obj.body.error);
               }
