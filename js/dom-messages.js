@@ -361,11 +361,11 @@ function showVideo() {
     listHTML += '</p>';
     listHTML += '<p>';
     listHTML +=
-        'Add user story / bug cards, create sprints and measure your progress with a burndown chart.';
+        'Add user story / bug cards, create sprints and measure your progress with a burn down chart.';
     listHTML += '</p>';
     listHTML += '<p>';
     listHTML +=
-        'All information is saved on the cloud and updated automatically for each logged in user.  You team can collaborate virtually, no need for post it notes.  Create your own account and have fun!';
+        'All information is saved on the cloud and updated automatically for each logged in user.  Your team can collaborate virtually, no need for post it notes.  Create your own account and have fun!';
     listHTML += '</p>';
     listHTML += '<h4>';
     listHTML += 'Button definitions, when signed out';
