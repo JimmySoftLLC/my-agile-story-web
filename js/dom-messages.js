@@ -343,7 +343,7 @@ function loginMenu(statusMessage) {
 }
 
 function showVideo() {
-    var myVideo = 'https://www.youtube.com/embed/PHabA6CTFXA';
+    var myVideo = 'https://www.youtube.com/embed/Nw9RbTWs_O0';
     let listHTML = '';
     listHTML +=
         '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video-slash"></i></button>';
