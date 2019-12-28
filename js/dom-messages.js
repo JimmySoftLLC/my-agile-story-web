@@ -50,6 +50,11 @@ function updateEditDeveloperMessage(message) {
         '<p>' + message + '</p>';
 }
 
+function updateEditPasswordMessage(message) {
+    document.getElementById('edit-password-message').innerHTML =
+        '<p>' + message + '</p>';
+}
+
 function updateProjectMessage(message) {
     document.getElementById('project-message').innerHTML =
         '<p>' + message + '</p>';
@@ -252,10 +257,6 @@ $('#editDeveloperModal').on('show.bs.modal', function (event) {
         .find('.modal-body input.edit-developer-last-name')
         .val(myDeveloper.lastName);
     modal.find('.modal-body textarea.edit-developer-bio').val(myDeveloper.bio);
-    let listHTML = '';
-    listHTML = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
-    listHTML = `<button type="button" class="btn btn-primary" onclick="editDeveloper()">Save Changes</button>`;
-    document.getElementById('edit-developer-buttons').innerHTML = listHTML;
     updateEditDeveloperMessage('');
 });
 
@@ -323,6 +324,24 @@ function showErrorMessage(errorTitle, errorMessage) {
     document.getElementById('error-dialog-buttons').innerHTML = listHTML;
     $('#error-dialog').modal('show');
 }
+
+function showChangePasswordDialog() {
+    $('#editDeveloperModal').modal('hide');
+    $('#editPasswordModal').modal('show');
+}
+
+$('#editPasswordModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var modal = $(this);
+    modal.find('.modal-body input.edit-password-email').val(myDeveloper.email);
+    modal
+        .find('.modal-body input.edit-password-old-password')
+        .val('');
+    modal
+        .find('.modal-body input.edit-password-new-password')
+        .val('');
+    updateEditDeveloperMessage('');
+});
 
 function loginMenu(statusMessage) {
     clearInterval(myUpdateTimer);
@@ -752,6 +771,7 @@ function logoutAll() {
     localStorage.removeItem('lastDeveloper');
     localStorage.removeItem('lastProjects');
     localStorage.removeItem('lastUserStorys');
+    localStorage.removeItem('lastBugs');
     myDeveloper = {};
     myProjects = [];
     myUserStorys = [];

@@ -1,6 +1,6 @@
-//const URL_Address = 'http://127.0.0.1:3004';
+const URL_Address = 'http://127.0.0.1:3004';
 //const URL_Address = "https://shrouded-basin-24147.herokuapp.com";
-const URL_Address = "https://embroideryware.net";
+//const URL_Address = "https://embroideryware.net";
 
 function loginDeveloper() {
   updateLoginMessage('Logging on to the server please wait');
@@ -212,10 +212,10 @@ function createNewDeveloper() {
       if (obj.status === 200) {
         myDeveloper = obj.body;
         setMyAglileStoryDeveloperStorage();
+        $('#createNewDeveloperModal').modal('hide');
       } else {
         showErrorMessage('Error', obj.body.error);
       }
-      $('#createNewDeveloperModal').modal('hide');
     });
 }
 
@@ -789,6 +789,45 @@ function editDeveloper() {
         myDeveloper = obj.body;
         setMyAglileStoryDeveloperStorage();
         $('#editDeveloperModal').modal('hide');
+      } else {
+        showErrorMessage('Error', obj.body.error);
+      }
+    });
+}
+
+function editPassword() {
+  updateEditPasswordMessage('Editing developer password please wait');
+  var oldPassword = document.getElementById('edit-password-old-password').value;
+  var password = document.getElementById('edit-password-new-password').value;
+  fetch(URL_Address + '/put/developer/changePassword', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        developerId: myDeveloper._id,
+        firstName: myDeveloper.firstName,
+        lastName: myDeveloper.lastName,
+        email: myDeveloper.email,
+        password: myDeveloper.password,
+        bio: myDeveloper.bio,
+        role: myDeveloper.role,
+        oldPassword: oldPassword,
+        password: password,
+      }),
+    })
+    .then(res =>
+      res.json().then(data => ({
+        status: res.status,
+        body: data,
+      }))
+    )
+    .then(obj => {
+      if (obj.status === 200) {
+        myDeveloper = obj.body;
+        setMyAglileStoryDeveloperStorage();
+        $('#editPasswordModal').modal('hide');
       } else {
         showErrorMessage('Error', obj.body.error);
       }
