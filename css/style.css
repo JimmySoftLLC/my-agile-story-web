@@ -168,6 +168,10 @@ input[type="range"] {
         padding-top: 7rem;
     }
 
+    .voting-button {
+        margin-top: 1rem;
+        margin-left: 1rem;
+    }
 }
 
 @media only screen and (max-width: 440px) {
@@ -187,6 +191,11 @@ input[type="range"] {
 
     .content-margin-at-top {
         padding-top: 7rem;
+    }
+
+    .voting-button {
+        margin-top: 1rem;
+        margin-left: 1rem;
     }
 }
 
@@ -208,5 +217,10 @@ input[type="range"] {
 
     .content-margin-at-top {
         padding-top: 9rem;
+    }
+
+    .voting-button {
+        margin-top: 1rem;
+        margin-left: 1rem;
     }
 }

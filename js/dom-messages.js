@@ -3,7 +3,7 @@ var myUpdateTimer;
 function updateProjectInContext() {
     var myTime = Date(Date.now());
     if (myLastSelectedProject != 1) {
-        getProjects(myDeveloper, myLastSelectedProject, true);
+        //getProjects(myDeveloper, myLastSelectedProject, true);
     }
 }
 
@@ -155,7 +155,7 @@ $('#editUserStoryModal').on('show.bs.modal', function (event) {
     listHTML += ` </div>`;
     document.getElementById('edit-user-story-buttons').innerHTML = listHTML;
 
-    document.getElementById('edit-vote').innerHTML = `<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#voteUserStoryModal" data-hc-index="` +
+    document.getElementById('edit-vote').innerHTML = `<button type="button" class="btn btn-secondary voting-button" data-toggle="modal" data-target="#voteUserStoryModal" data-hc-index="` +
         myIndex +
         `"><i
     class="fas fa-vote-yea"></i></button>`;
@@ -169,13 +169,13 @@ function updateVoteResults(myIndex, showResults) {
     for (let i = 0; i < myUserStorys[myIndex].votes.length; i++) {
         if (showResults) {
             if (myUserStorys[myIndex].votes[i].vote < 2000) {
-                listHTML += 'Voter ' + i + '\t' + myUserStorys[myIndex].votes[i].vote / 10 + '\n'
+                listHTML += myUserStorys[myIndex].votes[i].firstName + '\t' + myUserStorys[myIndex].votes[i].vote / 10 + '\n'
                 myAverage += myUserStorys[myIndex].votes[i].vote / 10
                 myVoteCount++;
             } else if (myUserStorys[myIndex].votes[i].vote === 2000) {
-                listHTML += 'Voter ' + i + '\t' + '?' + '\n'
+                listHTML += myUserStorys[myIndex].votes[i].firstName + '\t' + '?' + '\n'
             } else {
-                listHTML += 'Voter ' + i + '\t' + 'Coffee' + '\n'
+                listHTML += myUserStorys[myIndex].votes[i].firstName + '\t' + 'Coffee' + '\n'
             }
         } else {
             listHTML += 'Voter ' + i + '\t' + 'voted' + '\n'
@@ -215,13 +215,13 @@ function updateVoteBugResults(myIndex, showResults) {
     for (let i = 0; i < myBugs[myIndex].votes.length; i++) {
         if (showResults) {
             if (myBugs[myIndex].votes[i].vote < 2000) {
-                listHTML += 'Voter ' + i + '\t' + myBugs[myIndex].votes[i].vote / 10 + '\n'
+                listHTML += myBugs[myIndex].votes[i].firstName + '\t' + myBugs[myIndex].votes[i].vote / 10 + '\n'
                 myAverage += myBugs[myIndex].votes[i].vote / 10
                 myVoteCount++;
             } else if (myBugs[myIndex].votes[i].vote === 2000) {
-                listHTML += 'Voter ' + i + '\t' + '?' + '\n'
+                listHTML += myBugs[myIndex].votes[i].firstName + '\t' + '?' + '\n'
             } else {
-                listHTML += 'Voter ' + i + '\t' + 'Coffee' + '\n'
+                listHTML += myBugs[myIndex].votes[i].firstName + '\t' + 'Coffee' + '\n'
             }
         } else {
             listHTML += 'Voter ' + i + '\t' + 'voted' + '\n'
@@ -432,7 +432,7 @@ $('#editBugModal').on('show.bs.modal', function (event) {
         `)">Save Changes</button>`;
     listHTML += ` </div>`;
     document.getElementById('edit-bug-buttons').innerHTML = listHTML;
-    document.getElementById('edit-bug-vote').innerHTML = `<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#voteBugModal" data-hc-index="` +
+    document.getElementById('edit-bug-vote').innerHTML = `<button type="button" class="btn btn-secondary  voting-button" data-toggle="modal" data-target="#voteBugModal" data-hc-index="` +
         myIndex +
         `"><i
 class="fas fa-vote-yea"></i></button>`;
@@ -524,11 +524,39 @@ function showErrorMessage(errorTitle, errorMessage) {
     let listHTML = '';
     listHTML = `<i class="fas fa-exclamation-triangle"></i> ` + errorTitle;
     document.getElementById('error-dialog-title').innerHTML = listHTML;
-    listHTML = errorMessage;
-    document.getElementById('error-dialog-message').innerHTML = listHTML;
-    listHTML = `<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>`;
-    document.getElementById('error-dialog-buttons').innerHTML = listHTML;
+    if (errorMessage === "Token is not valid") {
+        listHTML = 'Your session has expired login required';
+        document.getElementById('error-dialog-message').innerHTML = listHTML;
+        listHTML = `<button type="button" class="btn btn-primary" onClick = logoutAllSessionExpired()>OK</button>`;
+        document.getElementById('error-dialog-buttons').innerHTML = listHTML;
+        clearStatusMessage();
+        clearLocalStorage()
+        displayUserStoriesAndBugs()
+        loginMenu();
+        $('#createNewUserStoryModal').modal('hide');
+        $('#editUserStoryModal').modal('hide');
+        $('#voteUserStoryModal').modal('hide');
+        $('#voteBugModal').modal('hide');
+        $('#createNewBugModal').modal('hide');
+        $('#editBugModal').modal('hide');
+        $('#createNewDeveloperModal').modal('hide');
+        $('#editDeveloperModal').modal('hide');
+        $('#createNewProjectModal').modal('hide');
+        $('#editProjectModal').modal('hide');
+        $('#loginModal').modal('hide');
+        $('#editPasswordModal').modal('hide');
+    } else {
+        listHTML = errorMessage;
+        document.getElementById('error-dialog-message').innerHTML = listHTML;
+        listHTML = `<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>`;
+        document.getElementById('error-dialog-buttons').innerHTML = listHTML;
+    }
     $('#error-dialog').modal('show');
+}
+
+function logoutAllSessionExpired() {
+    $('#error-dialog').modal('hide');
+    $('#loginModal').modal('show');
 }
 
 function showChangePasswordDialog() {
@@ -970,18 +998,25 @@ function displayBug(i) {
     return listHTML;
 }
 
-function logoutAll() {
-    showPopupMessage(
-        'Good bye ' + myDeveloper.firstName + ' thanks for visiting!'
-    );
+function clearLocalStorage() {
     localStorage.removeItem('lastDeveloper');
     localStorage.removeItem('lastProjects');
     localStorage.removeItem('lastUserStorys');
     localStorage.removeItem('lastBugs');
+    localStorage.removeItem('token');
     myDeveloper = {};
     myProjects = [];
     myUserStorys = [];
     myBugs = [];
+    myToken = '';
+}
+
+function logoutAll() {
+    clearLocalStorage()
+    displayUserStoriesAndBugs()
+    showPopupMessage(
+        'Good bye ' + myDeveloper.firstName + ' thanks for visiting!'
+    );
     loginMenu();
 }
 
@@ -1104,4 +1139,19 @@ function setMyAglileStoryDeveloperStorage() {
 
 function getMyAglileStoryDeveloperStorage() {
     myDeveloper = JSON.parse(localStorage.getItem('lastDeveloper'));
+}
+
+//Local storage for token-----------------------
+if (!localStorage.getItem('token')) {
+    setMyAglileStoryTokenStorage();
+} else {
+    getMyAglileStoryTokenStorage();
+}
+
+function setMyAglileStoryTokenStorage() {
+    localStorage.setItem('token', JSON.stringify(myToken));
+}
+
+function getMyAglileStoryTokenStorage() {
+    myToken = JSON.parse(localStorage.getItem('token'));
 }

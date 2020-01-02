@@ -25,8 +25,10 @@ function loginDeveloper() {
     )
     .then(obj => {
       if (obj.status === 200) {
-        myDeveloper = obj.body;
+        myDeveloper = obj.body.developer;
         setMyAglileStoryDeveloperStorage();
+        myToken = obj.body.token;
+        setMyAglileStoryTokenStorage();
         getProjects(myDeveloper, -1, false);
         showPopupMessage('Welcome ' + myDeveloper.firstName);
       } else {
@@ -50,6 +52,7 @@ function getProjects(thisDeveloper, myProjectIndex, checkingIfUpdateIsNeeded) {
       headers: {
         Accept: 'application/json, text/plain, */*',
         'Content-Type': 'application/json',
+        'x-auth-token': myToken,
       },
       body: JSON.stringify({
         projectIds: thisDeveloper.projectIds,
@@ -92,6 +95,7 @@ function getUserStorys(thisProject) {
       headers: {
         Accept: 'application/json, text/plain, */*',
         'Content-Type': 'application/json',
+        'x-auth-token': myToken,
       },
       body: JSON.stringify({
         userStoryIds: thisProject.userStoryIds,
@@ -125,6 +129,7 @@ function getBugs(thisProject) {
       headers: {
         Accept: 'application/json, text/plain, */*',
         'Content-Type': 'application/json',
+        'x-auth-token': myToken,
       },
       body: JSON.stringify({
         bugIds: thisProject.bugIds,
@@ -228,6 +233,7 @@ function createNewProject() {
       headers: {
         Accept: 'application/json, text/plain, */*',
         'Content-Type': 'application/json',
+        'x-auth-token': myToken,
       },
       body: JSON.stringify({
         developerId: developerId,
@@ -288,6 +294,7 @@ function createNewUserStory() {
         headers: {
           Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/json',
+          'x-auth-token': myToken,
         },
         body: JSON.stringify({
           projectId: projectId,
@@ -311,6 +318,9 @@ function createNewUserStory() {
         }))
       )
       .then(obj => {
+        if (obj.status === 401) {
+          showErrorMessageUnauthorized('Error', 'Session has timed out need to login again.');
+        }
         if (obj.status === 200) {
           myUserStory = obj.body.userStory;
           myProjects[myIndex] = obj.body.project;
@@ -349,6 +359,7 @@ function createNewBug() {
         headers: {
           Accept: 'application/json, text/plain, */*',
           'Content-Type': 'application/json',
+          'x-auth-token': myToken,
         },
         body: JSON.stringify({
           projectId: projectId,
@@ -526,6 +537,8 @@ function addVoteUserStory(
   var vote = {
     developerId: myDeveloper._id,
     vote: getRadioVal('vote'),
+    firstName: myDeveloper.firstName,
+    lastName: myDeveloper.lastName,
   }
   if (myProjectIndex != -1) {
     if (myUserStoryIndex != -1) {
@@ -534,6 +547,7 @@ function addVoteUserStory(
           headers: {
             Accept: 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
+            'x-auth-token': myToken,
           },
           body: JSON.stringify({
             projectId: myProjects[myProjectIndex]._id,
@@ -568,6 +582,8 @@ function addVoteBug(
   var vote = {
     developerId: myDeveloper._id,
     vote: getRadioVal('vote-bug'),
+    firstName: myDeveloper.firstName,
+    lastName: myDeveloper.lastName,
   }
   if (myProjectIndex != -1) {
     if (myBugIndex != -1) {
@@ -576,6 +592,7 @@ function addVoteBug(
           headers: {
             Accept: 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
+            'x-auth-token': myToken,
           },
           body: JSON.stringify({
             projectId: myProjects[myProjectIndex]._id,
@@ -666,6 +683,7 @@ function updateUserStory(
           headers: {
             Accept: 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
+            'x-auth-token': myToken,
           },
           body: JSON.stringify({
             projectId: myProjects[myProjectIndex]._id,
@@ -828,6 +846,7 @@ function updateBug(
           headers: {
             Accept: 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
+            'x-auth-token': myToken,
           },
           body: JSON.stringify({
             projectId: myProjects[myProjectIndex]._id,
@@ -875,6 +894,7 @@ function editProject(myProjectIndex) {
       headers: {
         Accept: 'application/json, text/plain, */*',
         'Content-Type': 'application/json',
+        'x-auth-token': myToken,
       },
       body: JSON.stringify({
         developerId: myDeveloper._id,
@@ -906,7 +926,6 @@ function editDeveloper() {
   var firstName = document.getElementById('edit-developer-first-name').value;
   var lastName = document.getElementById('edit-developer-last-name').value;
   var email = document.getElementById('edit-developer-email').value;
-  var password = document.getElementById('edit-developer-password').value;
   var bio = document.getElementById('edit-developer-bio').value;
   var role = 'admin'; //TODO change the dialog to have roles
   fetch(URL_Address + '/put/developer', {
@@ -914,13 +933,13 @@ function editDeveloper() {
       headers: {
         Accept: 'application/json, text/plain, */*',
         'Content-Type': 'application/json',
+        'x-auth-token': myToken,
       },
       body: JSON.stringify({
         developerId: myDeveloper._id,
         firstName: firstName,
         lastName: lastName,
         email: email,
-        password: password,
         bio: bio,
         role: role,
       }),
@@ -951,6 +970,7 @@ function editPassword() {
       headers: {
         Accept: 'application/json, text/plain, */*',
         'Content-Type': 'application/json',
+        'x-auth-token': myToken,
       },
       body: JSON.stringify({
         developerId: myDeveloper._id,
@@ -1003,6 +1023,7 @@ function deleteUserStory(myUserStoryIndex) {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
+            'x-auth-token': myToken,
           },
           body: JSON.stringify({
             userStoryId: userStoryId,
@@ -1016,6 +1037,9 @@ function deleteUserStory(myUserStoryIndex) {
           }))
         )
         .then(obj => {
+          if (obj.status === 401) {
+            showErrorMessageUnauthorized('Error', 'Session has timed out need to login again.');
+          }
           if (obj.status === 200) {
             myProjects[myProjectIndex] = obj.body;
             getUserStorys(myProjects[myProjectIndex]);
@@ -1047,6 +1071,7 @@ function deleteBug(myBugIndex) {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
+            'x-auth-token': myToken,
           },
           body: JSON.stringify({
             bugId: bugId,
@@ -1060,6 +1085,9 @@ function deleteBug(myBugIndex) {
           }))
         )
         .then(obj => {
+          if (obj.status === 401) {
+            showErrorMessageUnauthorized('Error', 'Session has timed out need to login again.');
+          }
           if (obj.status === 200) {
             myProjects[myProjectIndex] = obj.body;
             getUserStorys(myProjects[myProjectIndex]);
@@ -1091,6 +1119,7 @@ function deleteProject(myProjectIndex) {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
+          'x-auth-token': myToken,
         },
         body: JSON.stringify({
           userStoryIds: myProjects[myProjectIndex].userStoryIds,
@@ -1103,6 +1132,9 @@ function deleteProject(myProjectIndex) {
         }))
       )
       .then(obj => {
+        if (obj.status === 401) {
+          showErrorMessageUnauthorized('Error', 'Session has timed out need to login again.');
+        }
         if (obj.status === 200) {
           // second delete all the bugs associated with the project
           fetch(URL_Address + '/delete/project/bugs', {
@@ -1110,6 +1142,7 @@ function deleteProject(myProjectIndex) {
               headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                'x-auth-token': myToken,
               },
               body: JSON.stringify({
                 bugIds: myProjects[myProjectIndex].bugIds,
@@ -1130,6 +1163,7 @@ function deleteProject(myProjectIndex) {
                     headers: {
                       Accept: 'application/json',
                       'Content-Type': 'application/json',
+                      'x-auth-token': myToken,
                     },
                     body: JSON.stringify({
                       projectId: myProjects[myProjectIndex]._id,
