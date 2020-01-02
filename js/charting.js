@@ -64,8 +64,6 @@ function orderUserStorysBugsBySprintId() {
     return obj1.sprint - obj2.sprint;
   });
 
-  //console.log(myUserStoriesBugsEstimate);
-
   let mySprindId = 0;
 
   for (i = 0; i < myUserStoriesBugsEstimate.length; i++) {

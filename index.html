@@ -144,7 +144,8 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-9 col-form-label my-modal-title">Password required to make changes</label>
-                        <input type="password" class="col-sm-11 form-control edit-developer-password my-modal-edit-field"
+                        <input type="password"
+                            class="col-sm-11 form-control edit-developer-password my-modal-edit-field"
                             id="edit-developer-password" placeholder="Password">
                     </div>
                     <div class="form-group row">
@@ -166,8 +167,10 @@
                     <div class="form-group row">
                         <div class="col-sm-11">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="editDeveloper()">Save Changes</button>
-                            <button type="button" class="btn btn-primary" onclick="showChangePasswordDialog()">Change Password</button>
+                            <button type="button" class="btn btn-primary" onclick="editDeveloper()">Save
+                                Changes</button>
+                            <button type="button" class="btn btn-primary" onclick="showChangePasswordDialog()">Change
+                                Password</button>
                         </div>
                     </div>
                     <div class="edit-developer-message my-modal-message" id="edit-developer-message"></div>
@@ -195,12 +198,14 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label my-modal-title">Old Password</label>
-                        <input type="password" class="col-sm-11 form-control edit-password-old-password my-modal-edit-field"
+                        <input type="password"
+                            class="col-sm-11 form-control edit-password-old-password my-modal-edit-field"
                             id="edit-password-old-password" placeholder="Password">
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label my-modal-title">New Password</label>
-                        <input type="password" class="col-sm-11 form-control edit-password-new-password my-modal-edit-field"
+                        <input type="password"
+                            class="col-sm-11 form-control edit-password-new-password my-modal-edit-field"
                             id="edit-password-new-password" placeholder="Password">
                     </div>
                     <div class="form-group row">
@@ -209,6 +214,92 @@
                             <button type="button" class="btn btn-primary" onclick="editPassword()">Save Changes</button>
                         </div>
                     </div>
+                    <div class="edit-developer-message my-modal-message" id="edit-password-message"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- planning poker user storys-->
+    <div class="modal" id="voteUserStoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Planning poker</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row my-modal-phase-row" id="vote-title"></div>
+                    <div class="form-group row my-modal-phase-row" id="vote-summary"></div>
+                    <div class="form-group row my-modal-phase-row">
+                        <label class="col-sm-4 col-form-label my-modal-phase-label">My Estimate</label>
+                        <div class="col-sm-8 col-form-label">
+                            <input type="radio" name="vote" id="vote-0" value="0" aria-label="To Do">0
+                            <input type="radio" name="vote" id="vote-5" value="5" aria-label="Doing">1/2
+                            <input type="radio" name="vote" id="vote-10" value="10" aria-label="Verify">1
+                            <input type="radio" name="vote" id="vote-30" value="30" aria-label="Done">2
+                            <input type="radio" name="vote" id="vote-50" value="50" aria-label="Done">5
+                            <input type="radio" name="vote" id="vote-80" value="80" aria-label="Done">8
+                            <input type="radio" name="vote" id="vote-130" value="130" aria-label="Done">13
+                            <input type="radio" name="vote" id="vote-200" value="200" aria-label="Done">20
+                            <input type="radio" name="vote" id="vote-400" value="400" aria-label="Done">40
+                            <input type="radio" name="vote" id="vote-1000" value="1000" aria-label="Done">100
+                            <input type="radio" name="vote" id="vote-2000" value="2000" aria-label="Done">?
+                            <input type="radio" name="vote" id="vote-3000" value="3000" aria-label="Done">Coffee
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label my-modal-title">Votes/Results</label>
+                        <textarea class="col-sm-11 form-control vote-results my-modal-edit-field" rows="8"
+                            id="vote-results" readonly></textarea>
+                    </div>
+                    <div class="vote-buttons" id="vote-buttons"></div>
+                    <div class="edit-developer-message my-modal-message" id="edit-password-message"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- planning poker bugs -->
+    <div class="modal" id="voteBugModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Planning poker</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row my-modal-phase-row" id="vote-bug-title"></div>
+                    <div class="form-group row my-modal-phase-row" id="vote-bug-summary"></div>
+                    <div class="form-group row my-modal-phase-row">
+                        <label class="col-sm-4 col-form-label my-modal-phase-label">My Estimate</label>
+                        <div class="col-sm-8 col-form-label">
+                            <input type="radio" name="vote-bug" id="vote-bug-0" value="0" aria-label="To Do">0
+                            <input type="radio" name="vote-bug" id="vote-bug-5" value="5" aria-label="Doing">1/2
+                            <input type="radio" name="vote-bug" id="vote-bug-10" value="10" aria-label="Verify">1
+                            <input type="radio" name="vote-bug" id="vote-bug-30" value="30" aria-label="Done">2
+                            <input type="radio" name="vote-bug" id="vote-bug-50" value="50" aria-label="Done">5
+                            <input type="radio" name="vote-bug" id="vote-bug-80" value="80" aria-label="Done">8
+                            <input type="radio" name="vote-bug" id="vote-bug-130" value="130" aria-label="Done">13
+                            <input type="radio" name="vote-bug" id="vote-bug-200" value="200" aria-label="Done">20
+                            <input type="radio" name="vote-bug" id="vote-bug-400" value="400" aria-label="Done">40
+                            <input type="radio" name="vote-bug" id="vote-bug-1000" value="1000" aria-label="Done">100
+                            <input type="radio" name="vote-bug" id="vote-bug-2000" value="2000" aria-label="Done">?
+                            <input type="radio" name="vote-bug" id="vote-bug-3000" value="3000" aria-label="Done">Coffee
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label my-modal-title">Votes/Results</label>
+                        <textarea class="col-sm-11 form-control vote-bug-results my-modal-edit-field" rows="8"
+                            id="vote-bug-results" readonly></textarea>
+                    </div>
+                    <div class="vote-bug-buttons" id="vote-bug-buttons"></div>
                     <div class="edit-developer-message my-modal-message" id="edit-password-message"></div>
                 </div>
             </div>
@@ -413,7 +504,11 @@
                         <label class="col-sm-2 col-form-label my-modal-label">Estimate</label>
                         <input type="number" class="col-sm-2 form-control edit-user-story-estimate my-modal-edit-field"
                             id="edit-user-story-estimate" placeholder="points">
-                        <label class="col-sm-4 col-form-label my-modal-label">Percent Complete</label>
+                        <span class="edit-vote" id="edit-vote">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                                    class="fas fa-vote-yea"></i></button>
+                        </span>
+                        <label class="col-sm-3 col-form-label my-modal-label">% Complete</label>
                         <input type="number"
                             class="col-sm-2 form-control edit-user-story-percent-done my-modal-edit-field"
                             id="edit-user-story-percent-done" placeholder="0-100">
@@ -498,7 +593,7 @@
                         <label class="col-sm-2 col-form-label my-modal-label">Estimate</label>
                         <input type="number" class="col-sm-2 form-control my-modal-text-area bug-estimate"
                             id="bug-estimate" placeholder="points">
-                        <label class="col-sm-4 col-form-label my-modal-label">Percent Complete</label>
+                        <label class="col-sm-3 col-form-label my-modal-label">% Complete</label>
                         <input type="number" class="col-sm-2 form-control my-modal-text-area bug-percent-done"
                             id="bug-percent-done" placeholder="0-100">
                     </div>
@@ -582,7 +677,11 @@
                         <label class="col-sm-2 col-form-label my-modal-label">Estimate</label>
                         <input type="number" class="col-sm-2 form-control my-modal-text-area edit-bug-estimate"
                             id="edit-bug-estimate" placeholder="points">
-                        <label class="col-sm-4 col-form-label my-modal-label">Percent Complete</label>
+                        <span class="edit-bug-vote" id="edit-bug-vote">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                                    class="fas fa-vote-yea"></i></button>
+                        </span>
+                        <label class="col-sm-3 col-form-label my-modal-label">% Complete</label>
                         <input type="number" class="col-sm-2 form-control my-modal-text-area edit-bug-percent-done"
                             id="edit-bug-percent-done" placeholder="0-100">
                     </div>

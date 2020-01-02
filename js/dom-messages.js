@@ -2,7 +2,6 @@ var myUpdateTimer;
 
 function updateProjectInContext() {
     var myTime = Date(Date.now());
-    //console.log('checking for changes' + myTime.toString());
     if (myLastSelectedProject != 1) {
         getProjects(myDeveloper, myLastSelectedProject, true);
     }
@@ -155,7 +154,210 @@ $('#editUserStoryModal').on('show.bs.modal', function (event) {
     //    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="mergeUserStory(` + myIndex + `)">Merge</button>`;
     listHTML += ` </div>`;
     document.getElementById('edit-user-story-buttons').innerHTML = listHTML;
+
+    document.getElementById('edit-vote').innerHTML = `<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#voteUserStoryModal" data-hc-index="` +
+        myIndex +
+        `"><i
+    class="fas fa-vote-yea"></i></button>`;
     updateEditUserStoryMessage('');
+});
+
+function updateVoteResults(myIndex, showResults) {
+    let listHTML = '';
+    let myAverage = 0;
+    let myVoteCount = 0;
+    for (let i = 0; i < myUserStorys[myIndex].votes.length; i++) {
+        if (showResults) {
+            if (myUserStorys[myIndex].votes[i].vote < 2000) {
+                listHTML += 'Voter ' + i + '\t' + myUserStorys[myIndex].votes[i].vote / 10 + '\n'
+                myAverage += myUserStorys[myIndex].votes[i].vote / 10
+                myVoteCount++;
+            } else if (myUserStorys[myIndex].votes[i].vote === 2000) {
+                listHTML += 'Voter ' + i + '\t' + '?' + '\n'
+            } else {
+                listHTML += 'Voter ' + i + '\t' + 'Coffee' + '\n'
+            }
+        } else {
+            listHTML += 'Voter ' + i + '\t' + 'voted' + '\n'
+        }
+    }
+    if (showResults) {
+        listHTML += '--------------------------------' + '\n'
+        if (myVoteCount > 0) {
+            listHTML += 'Average ' + '\t' + parseInt(myAverage / myVoteCount)
+        } else {
+            listHTML += 'Average ' + '\t' + 'not enough votes to calculate'
+        }
+    }
+    document.getElementById('vote-results').value = listHTML;
+}
+
+function getEstimateFromVotes(myIndex) {
+    let myAverage = 0;
+    let myVoteCount = 0;
+    for (let i = 0; i < myUserStorys[myIndex].votes.length; i++) {
+        if (myUserStorys[myIndex].votes[i].vote < 2000) {
+            myAverage += myUserStorys[myIndex].votes[i].vote / 10
+            myVoteCount++;
+        }
+    }
+    if (myVoteCount > 0) {
+        return parseInt(myAverage / myVoteCount);
+    } else {
+        return 0;
+    }
+}
+
+function updateVoteBugResults(myIndex, showResults) {
+    let listHTML = '';
+    let myAverage = 0;
+    let myVoteCount = 0;
+    for (let i = 0; i < myBugs[myIndex].votes.length; i++) {
+        if (showResults) {
+            if (myBugs[myIndex].votes[i].vote < 2000) {
+                listHTML += 'Voter ' + i + '\t' + myBugs[myIndex].votes[i].vote / 10 + '\n'
+                myAverage += myBugs[myIndex].votes[i].vote / 10
+                myVoteCount++;
+            } else if (myBugs[myIndex].votes[i].vote === 2000) {
+                listHTML += 'Voter ' + i + '\t' + '?' + '\n'
+            } else {
+                listHTML += 'Voter ' + i + '\t' + 'Coffee' + '\n'
+            }
+        } else {
+            listHTML += 'Voter ' + i + '\t' + 'voted' + '\n'
+        }
+    }
+    if (showResults) {
+        listHTML += '--------------------------------' + '\n'
+        if (myVoteCount > 0) {
+            listHTML += 'Average ' + '\t' + parseInt(myAverage / myVoteCount)
+        } else {
+            listHTML += 'Average ' + '\t' + 'not enough votes to calculate'
+        }
+    }
+    document.getElementById('vote-bug-results').value = listHTML;
+}
+
+function getEstimateFromVotesBugs(myIndex) {
+    let myAverage = 0;
+    let myVoteCount = 0;
+    for (let i = 0; i < myBugs[myIndex].votes.length; i++) {
+        if (myBugs[myIndex].votes[i].vote < 2000) {
+            myAverage += myBugs[myIndex].votes[i].vote / 10
+            myVoteCount++;
+        }
+    }
+    if (myVoteCount > 0) {
+        return parseInt(myAverage / myVoteCount);
+    } else {
+        return 0;
+    }
+}
+
+$('#voteUserStoryModal').on('show.bs.modal', function (event) {
+    $('#editUserStoryModal').modal('hide');
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var myIndex = button.data('hc-index'); // Extract info from data-* attributes
+    document.getElementById(
+        `vote-0`
+    ).checked = true;
+    for (let i = 0; i < myUserStorys[myIndex].votes.length; i++) {
+        if (myUserStorys[myIndex].votes[i].developerId === myDeveloper._id) {
+            try {
+                document.getElementById(
+                    `vote-` + myUserStorys[myIndex].votes[i].vote
+                ).checked = true;
+            } catch (error) {
+                document.getElementById(
+                    `vote-0`
+                ).checked = true;
+            }
+            break;
+        }
+    }
+    let listHTML = ''
+    listHTML +=
+        `<h5 class="card-title"><i class="fas fa-newspaper"></i> S` +
+        myUserStorys[myIndex].sprint +
+        ` - ` +
+        myUserStorys[myIndex].userStoryTitle +
+        `</h5>`;
+    document.getElementById('vote-title').innerHTML = listHTML
+    listHTML =
+        `<p style = "padding: 0px 0px 0px 0px;">As a ` +
+        myUserStorys[myIndex].userRole +
+        `, I want ` +
+        myUserStorys[myIndex].userWant +
+        ` so that ` +
+        myUserStorys[myIndex].userBenefit +
+        `</p>`;
+
+    document.getElementById('vote-summary').innerHTML = listHTML
+
+    updateVoteResults(myIndex, false);
+
+    listHTML = '';
+    listHTML += `<div class="form-group row">`
+    listHTML += `<div class="col-sm-11">`
+    listHTML += `<button type="button" class="btn btn-secondary dialogButton" data-dismiss="modal">Close</button>`
+    listHTML += `<button type="button" class="btn btn-primary dialogButton" onclick="addVoteUserStory(` + myIndex + `,false)">Vote</button>`
+    listHTML += `<button type="button" class="btn btn-primary dialogButton" onclick="updateVoteResults(` + myIndex + `,true)">Results</button>`
+    listHTML += `<button type="button" class="btn btn-primary dialogButton" onclick="editUserStoryEstimate(` + myIndex + `)">Commit</button>`
+    listHTML += `</div>`
+    listHTML += `</div>`
+    document.getElementById('vote-buttons').innerHTML = listHTML;
+    // updateEditUserStoryMessage('');
+});
+
+$('#voteBugModal').on('show.bs.modal', function (event) {
+    $('#editBugModal').modal('hide');
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var myIndex = button.data('hc-index'); // Extract info from data-* attributes
+    document.getElementById(
+        `vote-bug-0`
+    ).checked = true;
+    for (let i = 0; i < myBugs[myIndex].votes.length; i++) {
+        if (myBugs[myIndex].votes[i].developerId === myDeveloper._id) {
+            try {
+                document.getElementById(
+                    `vote-bug-` + myBugs[myIndex].votes[i].vote
+                ).checked = true;
+            } catch (error) {
+                document.getElementById(
+                    `vote-bug-0`
+                ).checked = true;
+            }
+            break;
+        }
+    }
+    let listHTML = ''
+    listHTML +=
+        `<h5 class="card-title"><i class="fas fa-bug"></i> S` +
+        myBugs[myIndex].sprint +
+        ` - ` +
+        myBugs[myIndex].bugTitle +
+        `</h5>`;
+    document.getElementById('vote-bug-title').innerHTML = listHTML
+    listHTML =
+        `<p style = "padding: 0px 0px 0px 0px;">` +
+        myBugs[myIndex].summary +
+        `</p>`;
+
+    document.getElementById('vote-bug-summary').innerHTML = listHTML
+
+    updateVoteBugResults(myIndex, false);
+
+    listHTML = '';
+    listHTML += `<div class="form-group row">`
+    listHTML += `<div class="col-sm-11">`
+    listHTML += `<button type="button" class="btn btn-secondary dialogButton" data-dismiss="modal">Close</button>`
+    listHTML += `<button type="button" class="btn btn-primary dialogButton" onclick="addVoteBug(` + myIndex + `,false)">Vote</button>`
+    listHTML += `<button type="button" class="btn btn-primary dialogButton" onclick="updateVoteBugResults(` + myIndex + `,true)">Results</button>`
+    listHTML += `<button type="button" class="btn btn-primary dialogButton" onclick="editBugEstimate(` + myIndex + `)">Commit</button>`
+    listHTML += `</div>`
+    listHTML += `</div>`
+    document.getElementById('vote-bug-buttons').innerHTML = listHTML;
+    // updateEditUserStoryMessage('');
 });
 
 $('#createNewBugModal').on('show.bs.modal', function (event) {
@@ -230,6 +432,10 @@ $('#editBugModal').on('show.bs.modal', function (event) {
         `)">Save Changes</button>`;
     listHTML += ` </div>`;
     document.getElementById('edit-bug-buttons').innerHTML = listHTML;
+    document.getElementById('edit-bug-vote').innerHTML = `<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#voteBugModal" data-hc-index="` +
+        myIndex +
+        `"><i
+class="fas fa-vote-yea"></i></button>`;
     updateEditBugMessage('');
 });
 

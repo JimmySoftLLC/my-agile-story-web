@@ -1,6 +1,6 @@
 const URL_Address = 'http://127.0.0.1:3004';
 //const URL_Address = "https://shrouded-basin-24147.herokuapp.com";
-//const URL_Address = "https://embroideryware.net";
+//const URL_Address = 'https://embroideryware.net';
 
 function loginDeveloper() {
   updateLoginMessage('Logging on to the server please wait');
@@ -43,7 +43,6 @@ function getProjects(thisDeveloper, myProjectIndex, checkingIfUpdateIsNeeded) {
       myCurrentLocalTimeStamp = myProjects[myProjectIndex].timeStampISO;
     } catch (err) {
       clearInterval(myUpdateTimer);
-      console.log(err.message);
     }
   }
   fetch(URL_Address + '/get/projects', {
@@ -75,7 +74,6 @@ function getProjects(thisDeveloper, myProjectIndex, checkingIfUpdateIsNeeded) {
             }
           } catch (err) {
             clearInterval(myUpdateTimer);
-            console.log(err.message);
           }
         } else {
           loggedinMenu(myProjectIndex);
@@ -332,11 +330,13 @@ function createNewBug() {
     var projectId = myProjects[myIndex]._id;
     var bugTitle = document.getElementById('bug-title').value;
     var summary = document.getElementById('bug-summary').value;
-    var stepsToReproduce = document.getElementById('bug-steps-to-reproduce').value;
+    var stepsToReproduce = document.getElementById('bug-steps-to-reproduce')
+      .value;
     var expectedResults = document.getElementById('bug-expected-results').value;
     var actualResults = document.getElementById('bug-actual-results').value;
     var resolution = document.getElementById('bug-resolution').value;
-    var acceptanceCriteria = document.getElementById('bug-acceptance-criteria').value;
+    var acceptanceCriteria = document.getElementById('bug-acceptance-criteria')
+      .value;
     var estimate = document.getElementById('bug-estimate').value;
     var phase = getRadioVal('bug-phase');
     var percentDone = document.getElementById('bug-percent-done').value;
@@ -457,6 +457,150 @@ function editUserStoryPriority(myUserStoryIndex) {
     priority,
     sprint
   );
+}
+
+function editUserStoryEstimate(myUserStoryIndex) {
+  var userStoryTitle = myUserStorys[myUserStoryIndex].userStoryTitle;
+  var userRole = myUserStorys[myUserStoryIndex].userRole;
+  var userWant = myUserStorys[myUserStoryIndex].userWant;
+  var userBenefit = myUserStorys[myUserStoryIndex].userBenefit;
+  var acceptanceCriteria = myUserStorys[myUserStoryIndex].acceptanceCriteria;
+  var conversation = myUserStorys[myUserStoryIndex].conversation;
+  var estimate = getEstimateFromVotes(myUserStoryIndex);
+  var phase = myUserStorys[myUserStoryIndex].phase;
+  var percentDone = myUserStorys[myUserStoryIndex].percentDone;
+  var sprint = myUserStorys[myUserStoryIndex].sprint;
+  var priority = myUserStorys[myUserStoryIndex].priority;
+  updateUserStory(
+    myUserStoryIndex,
+    userStoryTitle,
+    userRole,
+    userWant,
+    userBenefit,
+    acceptanceCriteria,
+    conversation,
+    estimate,
+    phase,
+    percentDone,
+    priority,
+    sprint
+  );
+  $('#voteUserStoryModal').modal('hide');
+}
+
+function editBugEstimate(myBugIndex) {
+  var bugTitle = myBugs[myBugIndex].bugTitle;
+  var summary = myBugs[myBugIndex].summary;
+  var stepsToReproduce = myBugs[myBugIndex].stepsToReproduce;
+  var expectedResults = myBugs[myBugIndex].expectedResults;
+  var actualResults = myBugs[myBugIndex].actualResults;
+  var resolution = myBugs[myBugIndex].resolution;
+  var acceptanceCriteria = myBugs[myBugIndex].acceptanceCriteria;
+  var estimate = getEstimateFromVotesBugs(myBugIndex);
+  var phase = myBugs[myBugIndex].phase;
+  var percentDone = myBugs[myBugIndex].percentDone;
+  var sprint = myBugs[myBugIndex].sprint;
+  var priority = myBugs[myBugIndex].priority;
+  updateBug(
+    myBugIndex,
+    bugTitle,
+    summary,
+    stepsToReproduce,
+    expectedResults,
+    actualResults,
+    resolution,
+    acceptanceCriteria,
+    estimate,
+    phase,
+    percentDone,
+    priority,
+    sprint,
+  );
+  $('#voteBugModal').modal('hide');
+}
+
+function addVoteUserStory(
+  myUserStoryIndex
+) {
+  var myProjectIndex = document.getElementById('select-project').value;
+  var vote = {
+    developerId: myDeveloper._id,
+    vote: getRadioVal('vote'),
+  }
+  if (myProjectIndex != -1) {
+    if (myUserStoryIndex != -1) {
+      fetch(URL_Address + '/put/userStory/voteReturnUserStoryProject', {
+          method: 'post',
+          headers: {
+            Accept: 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            projectId: myProjects[myProjectIndex]._id,
+            userStoryId: myUserStorys[myUserStoryIndex]._id,
+            vote: vote,
+          }),
+        })
+        .then(res =>
+          res.json().then(data => ({
+            status: res.status,
+            body: data,
+          }))
+        )
+        .then(obj => {
+          if (obj.status === 200) {
+            myUserStory = obj.body.userStory;
+            myProjects[myProjectIndex] = obj.body.project;
+            getUserStorys(myProjects[myProjectIndex]);
+          } else {
+            showErrorMessage('Error', obj.body.error);
+          }
+          $('#voteUserStoryModal').modal('hide');
+        });
+    }
+  }
+}
+
+function addVoteBug(
+  myBugIndex
+) {
+  var myProjectIndex = document.getElementById('select-project').value;
+  var vote = {
+    developerId: myDeveloper._id,
+    vote: getRadioVal('vote-bug'),
+  }
+  if (myProjectIndex != -1) {
+    if (myBugIndex != -1) {
+      fetch(URL_Address + '/put/bug/voteReturnBugProject', {
+          method: 'post',
+          headers: {
+            Accept: 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            projectId: myProjects[myProjectIndex]._id,
+            bugId: myBugs[myBugIndex]._id,
+            vote: vote,
+          }),
+        })
+        .then(res =>
+          res.json().then(data => ({
+            status: res.status,
+            body: data,
+          }))
+        )
+        .then(obj => {
+          if (obj.status === 200) {
+            myBug = obj.body.bug;
+            myProjects[myProjectIndex] = obj.body.project;
+            getUserStorys(myProjects[myProjectIndex]);
+          } else {
+            showErrorMessage('Error', obj.body.error);
+          }
+          $('#voteBugModal').modal('hide');
+        });
+    }
+  }
 }
 
 function editUserStory(myUserStoryIndex) {
@@ -604,9 +748,8 @@ function editBugPriority(myBugIndex) {
   var phase = myBugs[myBugIndex].phase;
   var percentDone = myBugs[myBugIndex].percentDone;
   var sprint = myBugs[myBugIndex].sprint;
-  var priority = document.getElementById(
-    `bug-priority-slider-` + myBugIndex
-  ).value;
+  var priority = document.getElementById(`bug-priority-slider-` + myBugIndex)
+    .value;
   updateBug(
     myBugIndex,
     bugTitle,
@@ -628,11 +771,15 @@ function editBug(myBugIndex) {
   updateEditBugMessage('Editing bug please wait');
   var bugTitle = document.getElementById('edit-bug-title').value;
   var summary = document.getElementById('edit-bug-summary').value;
-  var stepsToReproduce = document.getElementById('edit-bug-steps-to-reproduce').value;
-  var expectedResults = document.getElementById('edit-bug-expected-results').value;
+  var stepsToReproduce = document.getElementById('edit-bug-steps-to-reproduce')
+    .value;
+  var expectedResults = document.getElementById('edit-bug-expected-results')
+    .value;
   var actualResults = document.getElementById('edit-bug-actual-results').value;
   var resolution = document.getElementById('edit-bug-resolution').value;
-  var acceptanceCriteria = document.getElementById('edit-bug-acceptance-criteria').value;
+  var acceptanceCriteria = document.getElementById(
+    'edit-bug-acceptance-criteria'
+  ).value;
   var estimate = document.getElementById('edit-bug-estimate').value;
   var phase = getRadioVal('edit-bug-phase');
   var percentDone = document.getElementById('edit-bug-percent-done').value;
@@ -884,9 +1031,7 @@ function deleteBugSetup(myBugIndex) {
   showConfirmDeletePopup(
     'deleteBug',
     myBugIndex,
-    ' bug <strong>' +
-    myBugs[myBugIndex].bugTitle +
-    '</strong>'
+    ' bug <strong>' + myBugs[myBugIndex].bugTitle + '</strong>'
   );
 }
 
