@@ -485,13 +485,69 @@ $('#editProjectModal').on('show.bs.modal', function (event) {
         .val(myProjects[myProjectIndex].description);
     let listHTML = '';
     listHTML = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
-    listHTML =
-        `<button type="button" class="btn btn-primary" onclick="editProject(` +
+    listHTML +=
+        `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="editProject(` +
         myProjectIndex +
         `)">Save Changes</button>`;
     document.getElementById('edit-project-buttons').innerHTML = listHTML;
+    myProjectDevelopers = myProjects[myProjectIndex].developers;
+    // start of code to update old developers
+    let foundDeveloper = false;
+    for (let i = 0; i < myProjectDevelopers.length; i++) {
+        if (myDeveloper.email === myProjectDevelopers[i].email) {
+            foundDeveloper = true;
+            break;
+        }
+    };
+    if (!foundDeveloper) {
+        myProjectDevelopers.push({
+            developerId: myDeveloper._id,
+            canRead: true,
+            canWrite: true,
+            canAdmin: true,
+            firstName: myDeveloper.firstName,
+            lastName: myDeveloper.lastName,
+            email: myDeveloper.email,
+        });
+    }
+    // end of code to update old developers
+    updateDevelopersInProject(myProjectIndex, myProjectDevelopers);
     updateEditProjectMessage('');
 });
+
+function updateDevelopersInProject(myProjectIndex, myDevelopers) {
+    listHTML = `<label class="col-sm-11 col-form-label my-modal-title">Add developer</label>`;
+    listHTML += `<input type="text" class="col-sm-4 form-control edit-project-developer-email my-modal-edit-field"
+        id="edit-project-developer-email" placeholder="developer email"></input>`;
+    listHTML +=
+        `<input type="checkbox" class="project-edit-permissions" id = "project-edit-permissions-read"><span class="project-edit-permissions-text">Read</span>`;
+    listHTML +=
+        `<input type="checkbox" class="project-edit-permissions" id = "project-edit-permissions-write"><span class="project-edit-permissions-text">Write</span>`;
+    listHTML +=
+        `<input type="checkbox" class="project-edit-permissions" id = "project-edit-permissions-admin"><span class="project-edit-permissions-text">Admin</span>`;
+    listHTML +=
+        `<button type="button" class="btn btn-primary voting-button" onclick="addDeveloperToProject(` +
+        myProjectIndex +
+        `)"><i class="fas fa-user-plus"></i></button>`;
+    listHTML += `<label class="col-sm-11 col-form-label my-modal-title">Developers</label>`;
+    listHTML += `<ul class="list-group col-sm-11 my-modal-edit-field">`;
+    for (let i = 0; i < myDevelopers.length; i++) {
+        let myPermissions = myDevelopers[i].canRead ? 'R' : '';
+        myPermissions += myDevelopers[i].canWrite ? 'W' : '';
+        myPermissions += myDevelopers[i].canAdmin ? 'A' : '';
+        listHTML += `    <li class="list-group-item">` + myDevelopers[i].email + ' - ' + myPermissions +
+            `<button type="button" class="btn-sm btn-secondary" onclick="removeDeveloperFromProject(` + myProjectIndex + `,` +
+            i +
+            `)" style="margin-left: .25rem; float: right;"><i class="fas fa-trash"></i></button>` +
+            `<button type="button" class="btn-sm btn-secondary" onclick="editDeveloperInProject(` +
+            i +
+            `)" style="margin-left: 0rem;float: right;"><i class="fas fa-edit"></i></button>` +
+            `</li>`;
+    }
+    listHTML += `</ul>`;
+    document.getElementById('edit-project-developers').innerHTML = listHTML;
+}
+
 
 $('#loginModal').on('show.bs.modal', function (event) {
     var modal = $(this);
@@ -502,7 +558,7 @@ $('#loginModal').on('show.bs.modal', function (event) {
 
 function showConfirmDeletePopup(functionName, functionValue, functionMessage) {
     let listHTML = '';
-    listHTML = `<i class="fas fa-exclamation-triangle"></i> Delete warning`;
+    listHTML = ` <i class = "fas fa-exclamation-triangle" ></i> Delete warning`;
     document.getElementById('confirm-delete-title').innerHTML = listHTML;
     listHTML =
         `You about to delete ` +

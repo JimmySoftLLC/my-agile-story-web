@@ -36,6 +36,13 @@ textarea {
 
 }
 
+.list-group-item {
+    padding-left: .5rem;
+    padding-right: 0.25rem;
+    padding-top: .25rem;
+    padding-bottom: 0.25rem;
+}
+
 .navbar-dark {
     background-color: #42A5F5;
     border-color: #E7E7E7;
@@ -149,6 +156,15 @@ input[type="range"] {
     display: none;
 }
 
+.project-edit-permissions {
+    margin-top: .7rem;
+}
+
+.project-edit-permissions-text {
+    margin-top: .5rem;
+    margin-right: .5rem;
+}
+
 @media only screen and (max-width: 600px) {
     .select-project {
         width: 200px;
@@ -171,6 +187,16 @@ input[type="range"] {
     .voting-button {
         margin-top: 1rem;
         margin-left: 1rem;
+    }
+
+    .project-edit-permissions {
+        margin-left: 1rem;
+        margin-top: 1.7rem;
+    }
+
+    .project-edit-permissions-text {
+        margin-top: 1.3rem;
+        margin-right: .5rem;
     }
 }
 
