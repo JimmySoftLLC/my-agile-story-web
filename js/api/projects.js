@@ -89,37 +89,47 @@ function editProject(myProjectIndex) {
     updateEditProjectMessage('Editing project please wait');
     var name = document.getElementById('edit-project-name').value;
     var description = document.getElementById('edit-project-description').value;
-    fetch(URL_Address + '/put/project/returnProjectAndDeveloper', {
-            method: 'post',
-            headers: {
-                Accept: 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'x-auth-token': myToken,
-            },
-            body: JSON.stringify({
-                developerId: myDeveloper._id,
-                projectId: myProjects[myProjectIndex]._id,
-                name: name,
-                description: description,
-                developers: myProjectDevelopers,
-            }),
-        })
-        .then(res =>
-            res.json().then(data => ({
-                status: res.status,
-                body: data,
-            }))
-        )
-        .then(obj => {
-            if (obj.status === 200) {
-                myProject = obj.body.project;
-                myDeveloper = obj.body.developer;
-                getProjects(myDeveloper, myProjectIndex);
-                $('#editProjectModal').modal('hide');
-            } else {
-                showErrorMessage('Error', obj.body.error);
-            }
-        });
+    var addedDeveloperEmails = arrayEmailDifference(myProjectDevelopers, myProjects[myProjectIndex].developers);
+    var removedDeveloperEmails = arrayEmailDifference(myProjects[myProjectIndex].developers, myProjectDevelopers);
+    var developersHighestPrivilege2 = developersHighestPrivilege(myProjectDevelopers);
+    if (developersHighestPrivilege2 === 'R') {
+        $('#editProjectModal').modal('hide');
+        showErrorMessage('Error', 'The project cannot be edited.  It needs at least one team member with admin privileges.');
+    } else {
+        addDeveloperByEmail(addedDeveloperEmails, myProjectIndex);
+        removeDeveloperByEmail(removedDeveloperEmails, myProjectIndex);
+        fetch(URL_Address + '/put/project/returnProjectAndDeveloper', {
+                method: 'post',
+                headers: {
+                    Accept: 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json',
+                    'x-auth-token': myToken,
+                },
+                body: JSON.stringify({
+                    developerId: myDeveloper._id,
+                    projectId: myProjects[myProjectIndex]._id,
+                    name: name,
+                    description: description,
+                    developers: myProjectDevelopers,
+                }),
+            })
+            .then(res =>
+                res.json().then(data => ({
+                    status: res.status,
+                    body: data,
+                }))
+            )
+            .then(obj => {
+                if (obj.status === 200) {
+                    myProject = obj.body.project;
+                    myDeveloper = obj.body.developer;
+                    getProjects(myDeveloper, myProjectIndex);
+                    $('#editProjectModal').modal('hide');
+                } else {
+                    showErrorMessage('Error', obj.body.error);
+                }
+            });
+    }
 }
 
 function deleteProjectSetup() {
@@ -180,8 +190,6 @@ function deleteProject(myProjectIndex) {
                         .then(obj => {
                             if (obj.status === 200) {
                                 getUserStorys(myProjects[myProjectIndex]);
-                                // user stories are now deleted now delete the project
-                                console.log(myProjects[myProjectIndex]);
                                 fetch(URL_Address + '/delete/developer/project', {
                                         method: 'post',
                                         headers: {

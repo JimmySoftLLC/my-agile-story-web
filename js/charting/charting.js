@@ -19,29 +19,31 @@ class UserStoryBugsEstimates {
 }
 
 function showBurnDownChart() {
-  var myProjectIndex = (document.getElementById('select-project').value);
-  if (myProjectIndex != -1) {
-    totalProjectPoints = 0;
-    orderUserStorysBugsBySprintId();
-    generateBurnChartData();
-    document.getElementById('user-story-bug-elements').innerHTML = "";
-    let listHTML = '';
-    listHTML += '<div class="row user-story-div">';
-    listHTML += '   <div class="col-lg-12">';
-    listHTML += '      <div class="card mb-3">';
-    listHTML += '         <div class="card-header">';
-    listHTML += '            <i class="fas fa-chart-bar"></i>';
-    listHTML += `               Burndown for project: ` + myProjects[myProjectIndex].name + `</div>`;
-    listHTML += '            <div class="card-body">';
-    listHTML += '                <canvas id="myBarChart" width="100%" height="50"></canvas>';
-    listHTML += '            </div>';
-    listHTML += '         <div class="card-footer small text-muted"></div>';
-    listHTML += '      </div>';
-    listHTML += '   </div>';
-    listHTML += '</div>';
-    document.getElementById('graph-elements').innerHTML = listHTML;
-    showChartNow();
-  }
+  try {
+    var myProjectIndex = (document.getElementById('select-project').value);
+    if (myProjectIndex != -1) {
+      totalProjectPoints = 0;
+      orderUserStorysBugsBySprintId();
+      generateBurnChartData();
+      document.getElementById('user-story-bug-elements').innerHTML = "";
+      let listHTML = '';
+      listHTML += '<div class="row user-story-div">';
+      listHTML += '   <div class="col-lg-12">';
+      listHTML += '      <div class="card mb-3">';
+      listHTML += '         <div class="card-header">';
+      listHTML += '            <i class="fas fa-chart-bar"></i>';
+      listHTML += `               Burndown for project: ` + myProjects[myProjectIndex].name + `</div>`;
+      listHTML += '            <div class="card-body">';
+      listHTML += '                <canvas id="myBarChart" width="100%" height="50"></canvas>';
+      listHTML += '            </div>';
+      listHTML += '         <div class="card-footer small text-muted"></div>';
+      listHTML += '      </div>';
+      listHTML += '   </div>';
+      listHTML += '</div>';
+      document.getElementById('graph-elements').innerHTML = listHTML;
+      showChartNow();
+    }
+  } catch (error) {}
 }
 
 function hideBurnDownChart() {

@@ -134,14 +134,16 @@ function updateVoteBugResults(myIndex, showResults) {
     let myVoteCount = 0;
     for (let i = 0; i < myBugs[myIndex].votes.length; i++) {
         if (showResults) {
+            let myUser = myBugs[myIndex].votes[i].firstName + ' ' + myBugs[myIndex].votes[i].lastName.substr(0, 1) + '                                      ';
+            myUser = myUser.substr(0, 15);
             if (myBugs[myIndex].votes[i].vote < 2000) {
-                listHTML += myBugs[myIndex].votes[i].firstName + '\t' + myBugs[myIndex].votes[i].vote / 10 + '\n'
+                listHTML += myUser + '\t' + myBugs[myIndex].votes[i].vote / 10 + '\n'
                 myAverage += myBugs[myIndex].votes[i].vote / 10
                 myVoteCount++;
             } else if (myBugs[myIndex].votes[i].vote === 2000) {
-                listHTML += myBugs[myIndex].votes[i].firstName + '\t' + '?' + '\n'
+                listHTML += myUser + '\t' + '?' + '\n'
             } else {
-                listHTML += myBugs[myIndex].votes[i].firstName + '\t' + 'Coffee' + '\n'
+                listHTML += myUser + '\t' + 'Coffee' + '\n'
             }
         } else {
             listHTML += 'Voter ' + i + '\t' + 'voted' + '\n'
@@ -149,10 +151,12 @@ function updateVoteBugResults(myIndex, showResults) {
     }
     if (showResults) {
         listHTML += '--------------------------------' + '\n'
+        let average = 'Average                                      ';
+        average = average.substr(0, 15);
         if (myVoteCount > 0) {
-            listHTML += 'Average ' + '\t' + parseInt(myAverage / myVoteCount)
+            listHTML += average + '\t' + parseInt(myAverage / myVoteCount)
         } else {
-            listHTML += 'Average ' + '\t' + 'not enough votes to calculate'
+            listHTML += average + '\t' + 'not enough votes to calculate'
         }
     }
     document.getElementById('vote-bug-results').value = listHTML;

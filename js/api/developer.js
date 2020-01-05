@@ -44,7 +44,6 @@ function getDeveloperByEmail(developerEmail, myProjectIndex) {
             },
             body: JSON.stringify({
                 developerEmail: developerEmail,
-                projectId: myProjects[myProjectIndex]._id
             }),
         })
         .then(res =>
@@ -56,17 +55,71 @@ function getDeveloperByEmail(developerEmail, myProjectIndex) {
         .then(obj => {
             if (obj.status === 200) {
                 let developer = obj.body;
-                console.log(developer);
-                myProjectDevelopers = myProjects[myProjectIndex].developers;
                 myProjectDevelopers.push({
                     developerId: developer._id,
-                    canRead: document.getElementById('project-edit-permissions-read').checked,
                     canWrite: document.getElementById('project-edit-permissions-write').checked,
+                    canAdmin: document.getElementById('project-edit-permissions-admin').checked,
                     firstName: developer.firstName,
                     lastName: developer.lastName,
                     email: developer.email,
                 });
                 updateDevelopersInProject(myProjectIndex, myProjectDevelopers)
+            } else {
+                showErrorMessage('Error', obj.body.error);
+            }
+        });
+}
+
+function removeDeveloperByEmail(developerEmails, myProjectIndex) {
+    fetch(URL_Address + '/delete/developer/byEmail', {
+            method: 'post',
+            headers: {
+                Accept: 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'x-auth-token': myToken,
+            },
+            body: JSON.stringify({
+                developerEmails: developerEmails,
+                projectId: myProjects[myProjectIndex]._id
+            }),
+        })
+        .then(res =>
+            res.json().then(data => ({
+                status: res.status,
+                body: data,
+            }))
+        )
+        .then(obj => {
+            if (obj.status === 200) {
+                let developers = obj.body;
+            } else {
+                showErrorMessage('Error', obj.body.error);
+            }
+        });
+}
+
+function addDeveloperByEmail(developerEmails, myProjectIndex) {
+    fetch(URL_Address + '/put/developer/byEmail', {
+            method: 'post',
+            headers: {
+                Accept: 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'x-auth-token': myToken,
+            },
+            body: JSON.stringify({
+                developerEmails: developerEmails,
+                projectId: myProjects[myProjectIndex]._id
+            }),
+        })
+        .then(res =>
+            res.json().then(data => ({
+                status: res.status,
+                body: data,
+            }))
+        )
+        .then(obj => {
+            if (obj.status === 200) {
+                let developers = obj.body;
             } else {
                 showErrorMessage('Error', obj.body.error);
             }

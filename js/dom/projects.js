@@ -22,7 +22,9 @@ $('#editProjectModal').on('show.bs.modal', function (event) {
         myProjectIndex +
         `)">Save Changes</button>`;
     document.getElementById('edit-project-buttons').innerHTML = listHTML;
-    myProjectDevelopers = myProjects[myProjectIndex].developers;
+
+    myProjectDevelopers = JSON.parse(JSON.stringify(myProjects[myProjectIndex].developers))
+
     // start of code to update old developers
     let foundDeveloper = false;
     for (let i = 0; i < myProjectDevelopers.length; i++) {
@@ -34,7 +36,6 @@ $('#editProjectModal').on('show.bs.modal', function (event) {
     if (!foundDeveloper) {
         myProjectDevelopers.push({
             developerId: myDeveloper._id,
-            canRead: true,
             canWrite: true,
             canAdmin: true,
             firstName: myDeveloper.firstName,
@@ -43,6 +44,7 @@ $('#editProjectModal').on('show.bs.modal', function (event) {
         });
     }
     // end of code to update old developers
+
     updateDevelopersInProject(myProjectIndex, myProjectDevelopers);
     updateEditProjectMessage('');
 });

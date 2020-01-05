@@ -9,7 +9,7 @@ function displayUserStoriesAndBugs() {
             if (myLastSelectedProject != -1) {
                 for (let i = userStoryIndex; i < myUserStorys.length; i++) {
                     if (myUserStorys[i].priority === priorityNumb) {
-                        listHTML += displayUserStory(i);
+                        listHTML += displayUserStory(i, myLastSelectedProject);
                         userStoryIndex = i;
                     }
                 }
@@ -17,7 +17,7 @@ function displayUserStoriesAndBugs() {
             if (myLastSelectedProject != -1) {
                 for (let i = bugIndex; i < myBugs.length; i++) {
                     if (myBugs[i].priority === priorityNumb) {
-                        listHTML += displayBug(i);
+                        listHTML += displayBug(i, myLastSelectedProject);
                         bugIndex = i;
                     }
                 }

@@ -31,3 +31,20 @@ function getRadioVal(radioName) {
     var myReturnVal = parseInt(selectedVal);
     return Number(myReturnVal);
 }
+
+function arrayEmailDifference(a1, a2) {
+    let difference = [];
+    for (let i = 0; i < a1.length; i++) {
+        let foundOne = false;
+        for (j = 0; j < a2.length; j++) {
+            if (a1[i].email == a2[j].email) {
+                foundOne = true;
+            }
+            if (foundOne) break;
+        }
+        if (!foundOne) {
+            difference.push(a1[i].email)
+        }
+    }
+    return difference
+}

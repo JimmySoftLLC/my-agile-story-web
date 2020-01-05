@@ -78,7 +78,6 @@ function getBugs(thisProject) {
         });
 }
 
-
 function createNewBug() {
     var myIndex = document.getElementById('select-project').value;
     if (myIndex != -1) {
@@ -250,6 +249,44 @@ function deleteBug(myBugIndex) {
                     } else {
                         showErrorMessage('Error', obj.body.error);
                     }
+                });
+        }
+    }
+}
+
+function deleteVotesBug(
+    myBugIndex,
+) {
+    var myProjectIndex = document.getElementById('select-project').value;
+    if (myProjectIndex != -1) {
+        if (myBugIndex != -1) {
+            fetch(URL_Address + '/delete/bug/votes', {
+                    method: 'post',
+                    headers: {
+                        Accept: 'application/json, text/plain, */*',
+                        'Content-Type': 'application/json',
+                        'x-auth-token': myToken,
+                    },
+                    body: JSON.stringify({
+                        projectId: myProjects[myProjectIndex]._id,
+                        bugId: myBugs[myBugIndex]._id,
+                    }),
+                })
+                .then(res =>
+                    res.json().then(data => ({
+                        status: res.status,
+                        body: data,
+                    }))
+                )
+                .then(obj => {
+                    if (obj.status === 200) {
+                        myBug = obj.body.bug;
+                        myProjects[myProjectIndex] = obj.body.project;
+                        getUserStorys(myProjects[myProjectIndex]);
+                    } else {
+                        showErrorMessage('Error', obj.body.error);
+                    }
+                    $('#voteBugModal').modal('hide');
                 });
         }
     }

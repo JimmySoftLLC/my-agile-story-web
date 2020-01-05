@@ -359,7 +359,6 @@
                             id="edit-project-description" placeholder=""></textarea>
                     </div>
                     <div class="form-group row edit-project-developers" id="edit-project-developers">
-
                     </div>
                     <div class="form-group row my-modal-button-row"">
                         <div class=" col-sm-11" id="edit-project-buttons"></div>
@@ -368,6 +367,30 @@
             </div>
         </div>
     </div>
+    </div>
+
+    <!-- Edit project developer permissions modal -->
+    <div class="modal" id="editDeveloperProjectPermissionsModal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit developer permissions</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row  my-modal-button-row">
+                        <div class=" col-sm-11" id="edit-developer-project-permissions"></div>
+                    </div>
+                    <div class="form-group row my-modal-button-row">
+                        <div class=" col-sm-11" id="edit-developer-project-permissions-buttons"></div>
+                        <div class="edit-project-message my-modal-message" id="edit-project-message"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Create new user story modal -->
@@ -801,7 +824,7 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
     <script src="/js/charting/Chart.min.js"></script>
-    <script src="js/charting/charting.js"></script>
+    <script src="/js/charting/charting.js"></script>
     <script src="/js/misc.js"></script>
     <script src="/js/dom/messages.js"></script>
     <script src="/js/dom/userStorys.js"></script>
@@ -819,8 +842,8 @@
     <script src="/js/model/developer.js"></script>
     <script src="/js/model/userStorys.js"></script>
     <script src="/js/model/projects.js"></script>
-    <script src="/js/model/user-data.js"></script>
-    <script src="/js/model/updateData.js"></script>
+    <script src="/js/model/userData.js"></script>
+    <script src="/js/model/getUpdates.js"></script>
     <script src="/js/model/localStorage.js"></script>
     <script src="/js/model/validation.js"></script>
     <script src="https://kit.fontawesome.com/9c3ba4b8c1.js"></script>

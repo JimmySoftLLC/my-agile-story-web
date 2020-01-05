@@ -77,7 +77,7 @@ function updateEditBugMessage(message) {
 
 function showConfirmDeletePopup(functionName, functionValue, functionMessage) {
     let listHTML = '';
-    listHTML = ` <i class = "fas fa-exclamation-triangle" ></i> Delete warning`;
+    listHTML = `<i class = "fas fa-exclamation-triangle" ></i> Delete warning`;
     document.getElementById('confirm-delete-title').innerHTML = listHTML;
     listHTML =
         `You about to delete ` +

@@ -17,11 +17,11 @@ function loginMenu(statusMessage) {
     document.getElementById('nav-bar-items').innerHTML = listHTML;
     listHTML = '';
     listHTML +=
-        '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
+        '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
     listHTML +=
-        '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
+        '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
     listHTML +=
-        '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
+        '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
     document.getElementById('footer-items').innerHTML = listHTML;
     showVideo();
     hideBurnDownChart();
@@ -32,11 +32,11 @@ function showVideo() {
     var myVideo = 'https://www.youtube.com/embed/Nw9RbTWs_O0';
     let listHTML = '';
     listHTML +=
-        '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video-slash"></i></button>';
+        '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" onclick="hideVideo()" data-hc-index=""><i class="fas fa-video-slash"></i></button>';
     listHTML +=
-        '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
+        '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
     listHTML +=
-        '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
+        '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
     document.getElementById('footer-items').innerHTML = listHTML;
     listHTML = '<h4 class = "content-margin-at-top">';
     listHTML += 'Overview';
@@ -162,11 +162,11 @@ function showVideo() {
 function hideVideo() {
     let listHTML = '';
     listHTML +=
-        '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" onclick="showVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
+        '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" onclick="showVideo()" data-hc-index=""><i class="fas fa-video"></i></button>';
     listHTML +=
-        '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
+        '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewDeveloperModal" data-hc-index=""><i class="fas fa-user-plus"></i></button>';
     listHTML +=
-        '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
+        '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
     document.getElementById('footer-items').innerHTML = listHTML;
     document.getElementById('myVideoInstructions').innerHTML = '';
 }
@@ -175,11 +175,11 @@ function loggedinMenu(myProjectIndex) {
     document.getElementById('user-story-bug-elements').innerHTML = '';
     let listHTML = '';
     listHTML +=
-        '   <select class="form-control select-project" id="select-project" onchange="selectProjectDropDownChanged()">';
+        '<select class="form-control select-project" id="select-project" onchange="selectProjectDropDownChanged()">';
     listHTML += '<div class="btn-group">';
     if (Number(myProjectIndex) === -1) {
         clearInterval(myUpdateTimer);
-        listHTML += '       <option selected value = "-1" >Select Project</option>';
+        listHTML += '<option selected value = "-1" >Select Project</option>';
         for (var j = 0; j < myProjects.length; j++) {
             listHTML +=
                 `<option value = "` + j + `">` + myProjects[j].name + `</option>`;
@@ -187,7 +187,7 @@ function loggedinMenu(myProjectIndex) {
     } else {
         clearInterval(myUpdateTimer);
         myUpdateTimer = setInterval(updateProjectInContext, 5000);
-        listHTML += '       <option value = "-1" >Select Project</option>';
+        listHTML += '<option value = "-1" >Select Project</option>';
         for (var j = 0; j < myProjects.length; j++) {
             if (j === Number(myProjectIndex)) {
                 listHTML +=
@@ -202,47 +202,52 @@ function loggedinMenu(myProjectIndex) {
             }
         }
     }
-    listHTML += '   </div>';
-    listHTML += '   </select>';
+    listHTML += '</div>';
+    listHTML += '</select>';
     listHTML +=
-        '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewProjectModal" data-hc-index=""><i class="fas fa-project-diagram"></i></button>';
+        '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewProjectModal" data-hc-index=""><i class="fas fa-project-diagram"></i></button>';
     if (Number(myProjectIndex) != -1) {
-        listHTML +=
-            '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" onclick="deleteProjectSetup()" data-hc-index=""><i class="fas fa-trash"></i></button>';
-        listHTML +=
-            '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#editProjectModal" data-hc-index=""><i class="fas fa-edit"></i></button>';
-        listHTML +=
-            '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewUserStoryModal" data-hc-index=""><i class="fas fa-newspaper"></i></button>';
-        listHTML +=
-            '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewBugModal" data-hc-index=""><i class="fas fa-bug"></i></button>';
+        let privilegeLevel = developerHighestPrivilege(myProjectIndex);
+        if (privilegeLevel === 'A') {
+            listHTML +=
+                '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" onclick="deleteProjectSetup()" data-hc-index=""><i class="fas fa-trash"></i></button>';
+        }
+        if (privilegeLevel === 'W' || privilegeLevel === 'A') {
+            listHTML +=
+                '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#editProjectModal" data-hc-index=""><i class="fas fa-edit"></i></button>';
+            listHTML +=
+                '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewUserStoryModal" data-hc-index=""><i class="fas fa-newspaper"></i></button>';
+            listHTML +=
+                '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#createNewBugModal" data-hc-index=""><i class="fas fa-bug"></i></button>';
+        }
     }
     listHTML +=
-        '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#editDeveloperModal" data-hc-index=""><i class="fas fa-user-edit"></i></button>';
+        '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#editDeveloperModal" data-hc-index=""><i class="fas fa-user-edit"></i></button>';
     listHTML +=
-        '    <button type="button" class="btn btn-light dialogButton" data-toggle="modal" onclick="logoutAll()" data-hc-index=""><i class="fas fa-sign-out-alt"></i></button>';
+        '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" onclick="logoutAll()" data-hc-index=""><i class="fas fa-sign-out-alt"></i></button>';
     document.getElementById('footer-items').innerHTML = listHTML;
     listHTML = aboutUsDrowdown();
     listHTML +=
-        '    <button type="button" class="btn btn-primary dialogButton button-primary-override" data-toggle="modal" onclick="setPhase(0)" data-hc-index=""><i class="fas fa-list"></i></button>';
+        '<button type="button" class="btn btn-primary dialogButton button-primary-override" data-toggle="modal" onclick="setPhase(0)" data-hc-index=""><i class="fas fa-list"></i></button>';
     listHTML +=
-        '    <button type="button" class="btn btn-primary dialogButton button-primary-override" data-toggle="modal" onclick="setPhase(1)" data-hc-index=""><i class="fas fa-running"></i></button>';
+        '<button type="button" class="btn btn-primary dialogButton button-primary-override" data-toggle="modal" onclick="setPhase(1)" data-hc-index=""><i class="fas fa-running"></i></button>';
     listHTML +=
-        '    <button type="button" class="btn btn-primary dialogButton button-primary-override" data-toggle="modal" onclick="setPhase(2)" data-hc-index=""><i class="fas fa-check"></i></button>';
+        '<button type="button" class="btn btn-primary dialogButton button-primary-override" data-toggle="modal" onclick="setPhase(2)" data-hc-index=""><i class="fas fa-check"></i></button>';
     listHTML +=
-        '    <button type="button" class="btn btn-primary dialogButton button-primary-override" data-toggle="modal" onclick="setPhase(3)" data-hc-index=""><i class="fas fa-hands-helping"></i></button>';
+        '<button type="button" class="btn btn-primary dialogButton button-primary-override" data-toggle="modal" onclick="setPhase(3)" data-hc-index=""><i class="fas fa-hands-helping"></i></button>';
     listHTML +=
-        '    <button type="button" class="btn btn-primary dialogButton button-primary-override" data-toggle="modal" onclick="setPhase(4)" data-hc-index=""><i class="fas fa-chart-bar"></i></button>';
-    displayUserStoriesAndBugs();
+        '<button type="button" class="btn btn-primary dialogButton button-primary-override" data-toggle="modal" onclick="setPhase(4)" data-hc-index=""><i class="fas fa-chart-bar"></i></button>';
+    displayUserStoriesAndBugs(myProjectIndex);
     document.getElementById('nav-bar-items').innerHTML = listHTML;
     document.getElementById('myVideoInstructions').innerHTML = '';
 }
 
 function logoutAll() {
-    clearLocalStorage()
-    displayUserStoriesAndBugs()
     showPopupMessage(
         'Good bye ' + myDeveloper.firstName + ' thanks for visiting!'
     );
+    clearLocalStorage()
+    displayUserStoriesAndBugs()
     loginMenu();
 }
 
@@ -250,23 +255,23 @@ function aboutUsDrowdown() {
     let listHTML = '';
     listHTML += '<div class="btn-group">';
     listHTML +=
-        '   <button type="button" class="btn btn-primary dialogButton dropdown-toggle button-primary-override-dropdown" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-external-link-alt"></i></button>';
-    listHTML += '   <div class="dropdown-menu">';
+        '<button type="button" class="btn btn-primary dialogButton dropdown-toggle button-primary-override-dropdown" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-external-link-alt"></i></button>';
+    listHTML += '<div class="dropdown-menu">';
     listHTML +=
-        '       <a class="dropdown-item" href="https://jimmysoftllc.com" target="_blank">JimmySoft LLC</a>';
+        '<a class="dropdown-item" href="https://jimmysoftllc.com" target="_blank">JimmySoft LLC</a>';
     listHTML +=
-        '       <a class="dropdown-item" href="https://embroiderywaresoftware.com" target="_blank">EmbroideryWare</a>';
+        '<a class="dropdown-item" href="https://embroiderywaresoftware.com" target="_blank">EmbroideryWare</a>';
     listHTML +=
-        '       <a class="dropdown-item" href="https://www.heatercalc.com" target="_blank">Heater Calc</a>';
+        '<a class="dropdown-item" href="https://www.heatercalc.com" target="_blank">Heater Calc</a>';
     listHTML +=
-        '       <a class="dropdown-item" href="https://www.weathermany.com" target="_blank">Weather Many</a>';
+        '<a class="dropdown-item" href="https://www.weathermany.com" target="_blank">Weather Many</a>';
     listHTML +=
-        '       <a class="dropdown-item" href="https://www.mydynamodb.com" target="_blank">myDynamoDB</a>';
+        '<a class="dropdown-item" href="https://www.mydynamodb.com" target="_blank">myDynamoDB</a>';
     listHTML +=
-        '       <a class="dropdown-item" href="https://www.mysoftwarejourney.com" target="_blank">Blog</a>';
+        '<a class="dropdown-item" href="https://www.mysoftwarejourney.com" target="_blank">Blog</a>';
     listHTML +=
-        '       <a class="dropdown-item" href="https://www.youtube.com/channel/UCBjCjqpPynS3grLinevnAPA?view_as=subscriber" target="_blank">Videos</a>';
-    listHTML += '   </div>';
+        '<a class="dropdown-item" href="https://www.youtube.com/channel/UCBjCjqpPynS3grLinevnAPA?view_as=subscriber" target="_blank">Videos</a>';
+    listHTML += '</div>';
     listHTML += '</div>';
     return listHTML;
 }

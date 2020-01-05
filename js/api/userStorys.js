@@ -141,8 +141,6 @@ function createNewUserStory() {
     }
 }
 
-
-
 function updateUserStory(
     myUserStoryIndex,
     userStoryTitle,
@@ -206,7 +204,6 @@ function updateUserStory(
     }
 }
 
-
 function deleteUserStorySetup(myUserStoryIndex) {
     showConfirmDeletePopup(
         'deleteUserStory',
@@ -252,6 +249,44 @@ function deleteUserStory(myUserStoryIndex) {
                     } else {
                         showErrorMessage('Error', obj.body.error);
                     }
+                });
+        }
+    }
+}
+
+function deleteVotesUserStory(
+    myUserStoryIndex,
+) {
+    var myProjectIndex = document.getElementById('select-project').value;
+    if (myProjectIndex != -1) {
+        if (myUserStoryIndex != -1) {
+            fetch(URL_Address + '/delete/userStory/votes', {
+                    method: 'post',
+                    headers: {
+                        Accept: 'application/json, text/plain, */*',
+                        'Content-Type': 'application/json',
+                        'x-auth-token': myToken,
+                    },
+                    body: JSON.stringify({
+                        projectId: myProjects[myProjectIndex]._id,
+                        userStoryId: myUserStorys[myUserStoryIndex]._id,
+                    }),
+                })
+                .then(res =>
+                    res.json().then(data => ({
+                        status: res.status,
+                        body: data,
+                    }))
+                )
+                .then(obj => {
+                    if (obj.status === 200) {
+                        myUserStory = obj.body.userStory;
+                        myProjects[myProjectIndex] = obj.body.project;
+                        getUserStorys(myProjects[myProjectIndex]);
+                    } else {
+                        showErrorMessage('Error', obj.body.error);
+                    }
+                    $('#voteUserStoryModal').modal('hide');
                 });
         }
     }

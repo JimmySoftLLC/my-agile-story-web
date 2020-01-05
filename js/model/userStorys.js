@@ -132,14 +132,16 @@ function updateVoteResults(myIndex, showResults) {
     let myVoteCount = 0;
     for (let i = 0; i < myUserStorys[myIndex].votes.length; i++) {
         if (showResults) {
+            let myUser = myUserStorys[myIndex].votes[i].firstName + ' ' + myUserStorys[myIndex].votes[i].lastName.substr(0, 1) + '                                      ';
+            myUser = myUser.substr(0, 15);
             if (myUserStorys[myIndex].votes[i].vote < 2000) {
-                listHTML += myUserStorys[myIndex].votes[i].firstName + '\t' + myUserStorys[myIndex].votes[i].vote / 10 + '\n'
+                listHTML += myUser + '\t' + myUserStorys[myIndex].votes[i].vote / 10 + '\n'
                 myAverage += myUserStorys[myIndex].votes[i].vote / 10
                 myVoteCount++;
             } else if (myUserStorys[myIndex].votes[i].vote === 2000) {
-                listHTML += myUserStorys[myIndex].votes[i].firstName + '\t' + '?' + '\n'
+                listHTML += myUser + '\t' + '?' + '\n'
             } else {
-                listHTML += myUserStorys[myIndex].votes[i].firstName + '\t' + 'Coffee' + '\n'
+                listHTML += myUser + '\t' + 'Coffee' + '\n'
             }
         } else {
             listHTML += 'Voter ' + i + '\t' + 'voted' + '\n'
