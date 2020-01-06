@@ -13,20 +13,33 @@ $('#editDeveloperModal').on('show.bs.modal', function (event) {
     var modal = $(this);
     modal.find('.modal-body input.edit-developer-email').val(myDeveloper.email);
     modal
-        .find('.modal-body input.edit-developer-password')
-        .val(myDeveloper.password);
-    modal
         .find('.modal-body input.edit-developer-first-name')
         .val(myDeveloper.firstName);
     modal
         .find('.modal-body input.edit-developer-last-name')
         .val(myDeveloper.lastName);
     modal.find('.modal-body textarea.edit-developer-bio').val(myDeveloper.bio);
+    let listHTML = '';
+    if (myDeveloper.email === 'demouser@anywhere.com') {
+        listHTML += `<div class="form-group row">`
+        listHTML += `<div class="col-sm-11">`
+        listHTML += `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`
+        listHTML += `</div>`
+        listHTML += `</div>`
+    } else {
+        listHTML += `<div class="form-group row">`
+        listHTML += `<div class="col-sm-11">`
+        listHTML += `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`
+        listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="editDeveloper()">Save Changes</button>`
+        listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="showChangePasswordDialog()">Change Password</button>`
+        listHTML += `</div>`
+        listHTML += `</div>`
+    }
+    document.getElementById('edit-developer-buttons').innerHTML = listHTML;
     updateEditDeveloperMessage('');
 });
 
 function updateDevelopersInProject(myProjectIndex, myDevelopers) {
-    let canAdmin = false;
     let privilegeLevel = developerHighestPrivilege(myProjectIndex)
     for (let i = 0; i < myDevelopers.length; i++) {
         if (myDevelopers[i].email === myDeveloper.email) {

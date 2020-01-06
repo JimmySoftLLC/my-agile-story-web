@@ -4,7 +4,7 @@ function getProjects(thisDeveloper, myProjectIndex, checkingIfUpdateIsNeeded) {
         try {
             myCurrentLocalTimeStamp = myProjects[myProjectIndex].timeStampISO;
         } catch (err) {
-            clearInterval(myUpdateTimer);
+            clearInterval(myProjectUpdateTimer);
         }
     }
     fetch(URL_Address + '/get/projects', {
@@ -28,15 +28,17 @@ function getProjects(thisDeveloper, myProjectIndex, checkingIfUpdateIsNeeded) {
             if (obj.status === 200) {
                 myProjects = obj.body;
                 setMyAglileStoryProjectStorage();
+                clearInterval(myDeveloperUpdateTimer);
+                myDeveloperUpdateTimer = setInterval(updateDeveloperInContext, 5000);
                 if (checkingIfUpdateIsNeeded && myProjectIndex != -1) {
                     try {
                         if (
                             myCurrentLocalTimeStamp != myProjects[myProjectIndex].timeStampISO
                         ) {
-                            getUserStorys(myProjects[myProjectIndex]);
+                            getUserStorys(myProjects[myProjectIndex], myProjectIndex);
                         }
                     } catch (err) {
-                        clearInterval(myUpdateTimer);
+                        clearInterval(myProjectUpdateTimer);
                     }
                 } else {
                     loggedinMenu(myProjectIndex);
@@ -91,8 +93,8 @@ function editProject(myProjectIndex) {
     var description = document.getElementById('edit-project-description').value;
     var addedDeveloperEmails = arrayEmailDifference(myProjectDevelopers, myProjects[myProjectIndex].developers);
     var removedDeveloperEmails = arrayEmailDifference(myProjects[myProjectIndex].developers, myProjectDevelopers);
-    var developersHighestPrivilege2 = developersHighestPrivilege(myProjectDevelopers);
-    if (developersHighestPrivilege2 === 'R') {
+    var myCurrentPrivilege = developersHighestPrivilege(myProjectDevelopers);
+    if (myCurrentPrivilege === 'R') {
         $('#editProjectModal').modal('hide');
         showErrorMessage('Error', 'The project cannot be edited.  It needs at least one team member with admin privileges.');
     } else {
@@ -189,7 +191,7 @@ function deleteProject(myProjectIndex) {
                         )
                         .then(obj => {
                             if (obj.status === 200) {
-                                getUserStorys(myProjects[myProjectIndex]);
+                                getUserStorys(myProjects[myProjectIndex], myProjectIndex);
                                 fetch(URL_Address + '/delete/developer/project', {
                                         method: 'post',
                                         headers: {
@@ -209,6 +211,13 @@ function deleteProject(myProjectIndex) {
                                     )
                                     .then(obj => {
                                         if (obj.status === 200) {
+                                            let developers = obj.body;
+                                            for (let i = 0; i < developers.length; i++) {
+                                                if (developers[i]._id == myDeveloper._id) {
+                                                    myDeveloper = JSON.parse(JSON.stringify(developers[i]))
+                                                    break;
+                                                }
+                                            }
                                             getProjects(myDeveloper, -1);
                                         } else {
                                             showErrorMessage('Error', obj.body.error);

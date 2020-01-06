@@ -10,8 +10,9 @@ function logoutAllSessionExpired() {
     $('#loginModal').modal('show');
 }
 
-function loginMenu(statusMessage) {
-    clearInterval(myUpdateTimer);
+function loginMenu() {
+    clearInterval(myDeveloperUpdateTimer);
+    clearInterval(myProjectUpdateTimer);
     let listHTML = '';
     listHTML = aboutUsDrowdown();
     document.getElementById('nav-bar-items').innerHTML = listHTML;
@@ -38,21 +39,27 @@ function showVideo() {
     listHTML +=
         '<button type="button" class="btn btn-light dialogButton" data-toggle="modal" data-target="#loginModal" data-hc-index=""><i class="fas fa-sign-in-alt"></i></button>';
     document.getElementById('footer-items').innerHTML = listHTML;
-    listHTML = '<h4 class = "content-margin-at-top">';
+    listHTML = '<h4 class = "">';
     listHTML += 'Overview';
     listHTML += '</h4>';
+    listHTML += '<p>';
+    listHTML += '</p>';
     listHTML += '<p>';
     listHTML +=
         'My Agile Story is a virtual Agile board that organizes user stories and bugs into four sections: to do, doing, verify and done.';
     listHTML += '</p>';
     listHTML += '<p>';
     listHTML +=
-        'Add user story / bug cards, create sprints and measure your progress with a burn down chart.';
+        'Add user story / bug cards, create sprints and measure your progress with a burn down chart.  Estimate User Storys and Bugs with Scrum Poker voting.';
     listHTML += '</p>';
     listHTML += '<p>';
     listHTML +=
-        'All information is saved on the cloud and updated automatically for each logged in user.  Your team can collaborate virtually, no need for post it notes.  Create your own account and have fun!';
+        'All information is saved on the cloud and updated automatically for each logged in user.  Your team can collaborate virtually, no need for post it notes.  Use the Demo User or create your own account and have fun!';
     listHTML += '</p>';
+    listHTML += '<p>';
+    listHTML += '<button type="button" class="btn btn-primary button-primary-override" onClick = "loginDemoUser()">Try out the Demo User press here !</button>';
+    listHTML += '</p>';
+
     listHTML += '<h4>';
     listHTML += 'Button definitions, when signed out';
     listHTML += '</h4>';
@@ -172,21 +179,22 @@ function hideVideo() {
 }
 
 function loggedinMenu(myProjectIndex) {
+    myLastSelectedProject = myProjectIndex;
     document.getElementById('user-story-bug-elements').innerHTML = '';
     let listHTML = '';
     listHTML +=
         '<select class="form-control select-project" id="select-project" onchange="selectProjectDropDownChanged()">';
     listHTML += '<div class="btn-group">';
     if (Number(myProjectIndex) === -1) {
-        clearInterval(myUpdateTimer);
+        clearInterval(myProjectUpdateTimer);
         listHTML += '<option selected value = "-1" >Select Project</option>';
         for (var j = 0; j < myProjects.length; j++) {
             listHTML +=
                 `<option value = "` + j + `">` + myProjects[j].name + `</option>`;
         }
     } else {
-        clearInterval(myUpdateTimer);
-        myUpdateTimer = setInterval(updateProjectInContext, 5000);
+        clearInterval(myProjectUpdateTimer);
+        myProjectUpdateTimer = setInterval(updateProjectInContext, 5000);
         listHTML += '<option value = "-1" >Select Project</option>';
         for (var j = 0; j < myProjects.length; j++) {
             if (j === Number(myProjectIndex)) {
@@ -243,11 +251,13 @@ function loggedinMenu(myProjectIndex) {
 }
 
 function logoutAll() {
+    clearInterval(myProjectUpdateTimer);
+    clearInterval(myDeveloperUpdateTimer);
     showPopupMessage(
         'Good bye ' + myDeveloper.firstName + ' thanks for visiting!'
     );
-    clearLocalStorage()
-    displayUserStoriesAndBugs()
+    clearLocalStorage();
+    displayUserStoriesAndBugs();
     loginMenu();
 }
 

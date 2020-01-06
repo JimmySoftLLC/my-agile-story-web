@@ -33,7 +33,7 @@ function addVoteBug(
                     if (obj.status === 200) {
                         myBug = obj.body.bug;
                         myProjects[myProjectIndex] = obj.body.project;
-                        getUserStorys(myProjects[myProjectIndex]);
+                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
                     } else {
                         showErrorMessage('Error', obj.body.error);
                     }
@@ -43,7 +43,7 @@ function addVoteBug(
     }
 }
 
-function getBugs(thisProject) {
+function getBugs(thisProject, myProjectIndex) {
     updateStatusMessageNoClear('Getting bugs.');
     fetch(URL_Address + '/get/bugs', {
             method: 'post',
@@ -69,7 +69,7 @@ function getBugs(thisProject) {
                     return obj1.priority - obj2.priority;
                 });
                 setMyAglileStoryBugStorage();
-                displayUserStoriesAndBugs();
+                loggedinMenu(myProjectIndex);
                 clearStatusMessage();
             } else {
                 showErrorMessage('Error', obj.body.error);
@@ -79,10 +79,10 @@ function getBugs(thisProject) {
 }
 
 function createNewBug() {
-    var myIndex = document.getElementById('select-project').value;
-    if (myIndex != -1) {
+    var myProjectIndex = document.getElementById('select-project').value;
+    if (myProjectIndex != -1) {
         updateUserStoryMessage('Creating new bug please wait');
-        var projectId = myProjects[myIndex]._id;
+        var projectId = myProjects[myProjectIndex]._id;
         var bugTitle = document.getElementById('bug-title').value;
         var summary = document.getElementById('bug-summary').value;
         var stepsToReproduce = document.getElementById('bug-steps-to-reproduce')
@@ -131,8 +131,8 @@ function createNewBug() {
             .then(obj => {
                 if (obj.status === 200) {
                     myBug = obj.body.userStory;
-                    myProjects[myIndex] = obj.body.project;
-                    getUserStorys(myProjects[myIndex]);
+                    myProjects[myProjectIndex] = obj.body.project;
+                    getUserStorys(myProjects[myProjectIndex], myProjectIndex);
                 } else {
                     showErrorMessage('Error', obj.body.error);
                 }
@@ -196,7 +196,7 @@ function updateBug(
                     if (obj.status === 200) {
                         myBug = obj.body.bug;
                         myProjects[myProjectIndex] = obj.body.project;
-                        getBugs(myProjects[myProjectIndex]);
+                        getBugs(myProjects[myProjectIndex], myProjectIndex);
                     } else {
                         showErrorMessage('Error', obj.body.error);
                     }
@@ -245,7 +245,7 @@ function deleteBug(myBugIndex) {
                     }
                     if (obj.status === 200) {
                         myProjects[myProjectIndex] = obj.body;
-                        getUserStorys(myProjects[myProjectIndex]);
+                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
                     } else {
                         showErrorMessage('Error', obj.body.error);
                     }
@@ -282,7 +282,7 @@ function deleteVotesBug(
                     if (obj.status === 200) {
                         myBug = obj.body.bug;
                         myProjects[myProjectIndex] = obj.body.project;
-                        getUserStorys(myProjects[myProjectIndex]);
+                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
                     } else {
                         showErrorMessage('Error', obj.body.error);
                     }

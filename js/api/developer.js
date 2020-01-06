@@ -34,16 +34,19 @@ function loginDeveloper() {
         });
 }
 
-function getDeveloperByEmail(developerEmail, myProjectIndex) {
-    fetch(URL_Address + '/get/developer/byEmail', {
+function loginDemoUser() {
+    updateLoginMessage('Logging on to the server please wait');
+    var email = document.getElementById('login-email').value;
+    var password = document.getElementById('login-password').value;
+    fetch(URL_Address + '/get/developer/demo', {
             method: 'post',
             headers: {
                 Accept: 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
-                'x-auth-token': myToken,
             },
             body: JSON.stringify({
-                developerEmail: developerEmail,
+                email: email,
+                password: password,
             }),
         })
         .then(res =>
@@ -54,7 +57,69 @@ function getDeveloperByEmail(developerEmail, myProjectIndex) {
         )
         .then(obj => {
             if (obj.status === 200) {
-                let developer = obj.body;
+                myDeveloper = obj.body.developer;
+                setMyAglileStoryDeveloperStorage();
+                myToken = obj.body.token;
+                setMyAglileStoryTokenStorage();
+                getProjects(myDeveloper, -1, false);
+                showPopupMessage('Welcome ' + myDeveloper.firstName);
+            } else {
+                showErrorMessage('Error', obj.body.error);
+            }
+        });
+}
+
+const checkDeveloperTimeStamp = async () => {
+    try {
+        const res = await fetch(URL_Address + '/get/developer/byEmail', {
+            method: 'post',
+            headers: {
+                Accept: 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'x-auth-token': myToken,
+            },
+            body: JSON.stringify({
+                developerEmail: myDeveloper.email,
+            }),
+        })
+        try {
+            const data = await res.json()
+            if (res.status === 200) {
+                if (data.timeStampISO !== myDeveloper.timeStampISO) {
+                    myDeveloper = data;
+                    hideAllDialogs();
+                    showPopupMessage('Your user data is being updated please wait for a moment.')
+                    setMyAglileStoryDeveloperStorage();
+                    getProjects(myDeveloper, -1, false);
+                }
+            } else {
+                showErrorMessage('Error', data.error);
+            }
+        } catch (error) {
+            showErrorMessage('Error', error.message);
+        }
+    } catch (error) {
+        showErrorMessage('Error', error.message);
+    }
+}
+
+const getDeveloperByEmail = async (developerEmail, myProjectIndex) => {
+    try {
+        const res = await fetch(URL_Address + '/get/developer/byEmail', {
+            method: 'post',
+            headers: {
+                Accept: 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'x-auth-token': myToken,
+            },
+            body: JSON.stringify({
+                developerEmail: developerEmail,
+            }),
+        })
+        try {
+            const data = await res.json()
+            if (res.status === 200) {
+                let developer = data;
                 myProjectDevelopers.push({
                     developerId: developer._id,
                     canWrite: document.getElementById('project-edit-permissions-write').checked,
@@ -65,9 +130,14 @@ function getDeveloperByEmail(developerEmail, myProjectIndex) {
                 });
                 updateDevelopersInProject(myProjectIndex, myProjectDevelopers)
             } else {
-                showErrorMessage('Error', obj.body.error);
+                showErrorMessage('Error', data.error);
             }
-        });
+        } catch (error) {
+            showErrorMessage('Error', error.message);
+        }
+    } catch (error) {
+        showErrorMessage('Error', error.message);
+    }
 }
 
 function removeDeveloperByEmail(developerEmails, myProjectIndex) {

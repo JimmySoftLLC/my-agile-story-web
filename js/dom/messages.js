@@ -129,6 +129,24 @@ function showErrorMessage(errorTitle, errorMessage) {
     $('#error-dialog').modal('show');
 }
 
+function hideAllDialogs() {
+    $('#createNewDeveloperModal').modal('hide');
+    $('#editDeveloperModal').modal('hide');
+    $('#editPasswordModal').modal('hide');
+    $('#voteUserStoryModal').modal('hide');
+    $('#voteBugModal').modal('hide');
+    $('#createNewProjectModal').modal('hide');
+    $('#editProjectModal').modal('hide');
+    $('#editDeveloperProjectPermissionsModal').modal('hide');
+    $('#createNewUserStoryModal').modal('hide');
+    $('#editUserStoryModal').modal('hide');
+    $('#createNewBugModal').modal('hide');
+    $('#editBugModal').modal('hide');
+    $('#loginModal').modal('hide');
+    $('#confirm-delete').modal('hide');
+    $('#error-dialog').modal('hide');
+}
+
 // module.exports = {
 //     showPopupMessage: showPopupMessage,
 //     showPopupMessageNoClear: showPopupMessageNoClear,

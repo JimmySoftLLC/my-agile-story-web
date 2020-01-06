@@ -33,7 +33,7 @@ function addVoteUserStory(
                     if (obj.status === 200) {
                         myUserStory = obj.body.userStory;
                         myProjects[myProjectIndex] = obj.body.project;
-                        getUserStorys(myProjects[myProjectIndex]);
+                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
                     } else {
                         showErrorMessage('Error', obj.body.error);
                     }
@@ -43,7 +43,7 @@ function addVoteUserStory(
     }
 }
 
-function getUserStorys(thisProject) {
+function getUserStorys(thisProject, myProjectIndex) {
     updateStatusMessageNoClear('Getting user stories.');
     fetch(URL_Address + '/get/userStorys', {
             method: 'post',
@@ -69,7 +69,7 @@ function getUserStorys(thisProject) {
                     return obj1.priority - obj2.priority;
                 });
                 setMyAglileStoryUserStoryStorage();
-                getBugs(thisProject);
+                getBugs(thisProject, myProjectIndex);
             } else {
                 showErrorMessage('Error', obj.body.error);
             }
@@ -78,10 +78,10 @@ function getUserStorys(thisProject) {
 }
 
 function createNewUserStory() {
-    var myIndex = document.getElementById('select-project').value;
-    if (myIndex != -1) {
+    var myProjectIndex = document.getElementById('select-project').value;
+    if (myProjectIndex != -1) {
         updateUserStoryMessage('Creating new user story please wait');
-        var projectId = myProjects[myIndex]._id;
+        var projectId = myProjects[myProjectIndex]._id;
         var userStoryTitle = document.getElementById('user-story-title').value;
         var userRole = document.getElementById('user-story-user-role').value;
         var userWant = document.getElementById('user-story-user-want').value;
@@ -131,8 +131,8 @@ function createNewUserStory() {
                 }
                 if (obj.status === 200) {
                     myUserStory = obj.body.userStory;
-                    myProjects[myIndex] = obj.body.project;
-                    getUserStorys(myProjects[myIndex]);
+                    myProjects[myProjectIndex] = obj.body.project;
+                    getUserStorys(myProjects[myProjectIndex], myProjectIndex);
                 } else {
                     showErrorMessage('Error', obj.body.error);
                 }
@@ -194,7 +194,7 @@ function updateUserStory(
                     if (obj.status === 200) {
                         myUserStory = obj.body.userStory;
                         myProjects[myProjectIndex] = obj.body.project;
-                        getUserStorys(myProjects[myProjectIndex]);
+                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
                     } else {
                         showErrorMessage('Error', obj.body.error);
                     }
@@ -245,7 +245,7 @@ function deleteUserStory(myUserStoryIndex) {
                     }
                     if (obj.status === 200) {
                         myProjects[myProjectIndex] = obj.body;
-                        getUserStorys(myProjects[myProjectIndex]);
+                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
                     } else {
                         showErrorMessage('Error', obj.body.error);
                     }
@@ -282,7 +282,7 @@ function deleteVotesUserStory(
                     if (obj.status === 200) {
                         myUserStory = obj.body.userStory;
                         myProjects[myProjectIndex] = obj.body.project;
-                        getUserStorys(myProjects[myProjectIndex]);
+                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
                     } else {
                         showErrorMessage('Error', obj.body.error);
                     }

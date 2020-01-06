@@ -1,24 +1,24 @@
 function selectProjectDropDownChanged() {
-    var myIndex = document.getElementById('select-project').value;
-    myLastSelectedProject = myIndex;
+    var myProjectIndex = document.getElementById('select-project').value;
+    myLastSelectedProject = myProjectIndex;
     setMyAglileStorylastSelectedProjectStorage();
     hideBurnDownChart();
-    if (myIndex != -1) {
-        getUserStorys(myProjects[myIndex]);
-        loggedinMenu(myIndex);
+    if (myProjectIndex != -1) {
+        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
+        loggedinMenu(myProjectIndex);
     } else {
-        loggedinMenu(myIndex);
+        loggedinMenu(myProjectIndex);
     }
 }
 
 function setPhase(phase) {
     myLastSelectedPhase = phase;
-    var myIndex = document.getElementById('select-project').value;
-    myLastSelectedProject = myIndex;
+    var myProjectIndex = document.getElementById('select-project').value;
+    myLastSelectedProject = myProjectIndex;
     setMyAglileStorylastSelectedProjectStorage();
     hideBurnDownChart();
-    if (myIndex != -1) {
-        getUserStorys(myProjects[myIndex]);
+    if (myProjectIndex != -1) {
+        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
     }
 }
 
