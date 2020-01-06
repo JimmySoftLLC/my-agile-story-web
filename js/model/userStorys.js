@@ -132,7 +132,7 @@ function updateVoteResults(myIndex, showResults) {
     let myVoteCount = 0;
     for (let i = 0; i < myUserStorys[myIndex].votes.length; i++) {
         if (showResults) {
-            let myUser = myUserStorys[myIndex].votes[i].firstName + ' ' + myUserStorys[myIndex].votes[i].lastName.substr(0, 1) + '                                      ';
+            let myUser = myUserStorys[myIndex].votes[i].firstName + ' ' + myUserStorys[myIndex].votes[i].lastName + '                                      ';
             myUser = myUser.substr(0, 15);
             if (myUserStorys[myIndex].votes[i].vote < 2000) {
                 listHTML += myUser + '\t' + myUserStorys[myIndex].votes[i].vote / 10 + '\n'
@@ -149,10 +149,12 @@ function updateVoteResults(myIndex, showResults) {
     }
     if (showResults) {
         listHTML += '--------------------------------' + '\n'
+        let average = 'Average                                      ';
+        average = average.substr(0, 15);
         if (myVoteCount > 0) {
-            listHTML += 'Average ' + '\t' + parseInt(myAverage / myVoteCount)
+            listHTML += average + '\t' + parseInt(myAverage / myVoteCount)
         } else {
-            listHTML += 'Average ' + '\t' + 'not enough votes to calculate'
+            listHTML += average + '\t' + 'not enough votes to calculate'
         }
     }
     document.getElementById('vote-results').value = listHTML;

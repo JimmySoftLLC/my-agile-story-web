@@ -134,7 +134,7 @@ function updateVoteBugResults(myIndex, showResults) {
     let myVoteCount = 0;
     for (let i = 0; i < myBugs[myIndex].votes.length; i++) {
         if (showResults) {
-            let myUser = myBugs[myIndex].votes[i].firstName + ' ' + myBugs[myIndex].votes[i].lastName.substr(0, 1) + '                                      ';
+            let myUser = myBugs[myIndex].votes[i].firstName + ' ' + myBugs[myIndex].votes[i].lastName + '                                      ';
             myUser = myUser.substr(0, 15);
             if (myBugs[myIndex].votes[i].vote < 2000) {
                 listHTML += myUser + '\t' + myBugs[myIndex].votes[i].vote / 10 + '\n'

@@ -53,7 +53,7 @@ function updateDevelopersInProject(myProjectIndex, myDevelopers) {
     for (let i = 0; i < myDevelopers.length; i++) {
         let myPermissions = myDevelopers[i].canWrite ? 'W' : '';
         myPermissions += myDevelopers[i].canAdmin ? 'A' : '';
-        listHTML += `    <li class="list-group-item">` + myDevelopers[i].email + ' - ' + myPermissions;
+        listHTML += `    <li class="list-group-item">` + myDevelopers[i].firstName + ' ' + myDevelopers[i].lastName + ' - ' + myPermissions;
         if (privilegeLevel === 'A') {
             listHTML += `<button type="button" class="btn-sm btn-secondary" onclick="removeDeveloperFromProject(` +
                 myProjectIndex + `,` + i +
@@ -76,12 +76,12 @@ function showChangePasswordDialog() {
 function editDeveloperProjectPermissions(myProjectIndex, myDeveloperIndex) {
     let listHTML = '';
     listHTML = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
-    listHTML +=
-        `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="updateDeveloperPermission(` +
+    listHTML += `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="updateDeveloperPermission(` +
         myProjectIndex + `,` + myDeveloperIndex +
         `)">Save Changes</button>`;
     document.getElementById('edit-developer-project-permissions-buttons').innerHTML = listHTML;
-    listHTML =
+    listHTML = myProjectDevelopers[myDeveloperIndex].firstName + ' ' + myProjectDevelopers[myDeveloperIndex].lastName + '    ';
+    listHTML +=
         `<input type="checkbox" class="project-edit-permissions" id = "edit-project-permissions-write"><span class="project-edit-permissions-text">Write</span>`;
     listHTML +=
         `<input type="checkbox" class="project-edit-permissions" id = "edit-project-permissions-admin"><span class="project-edit-permissions-text">Admin</span>`;

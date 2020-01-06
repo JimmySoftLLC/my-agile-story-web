@@ -41,9 +41,13 @@ $('#voteBugModal').on('show.bs.modal', function (event) {
     listHTML += `<div class="col-sm-11">`
     listHTML += `<button type="button" class="btn btn-secondary dialogButton" data-dismiss="modal">Close</button>`
     listHTML += `<button type="button" class="btn btn-primary dialogButton" onclick="addVoteBug(` + myIndex + `,false)">Vote</button>`
-    listHTML += `<button type="button" class="btn btn-primary dialogButton" onclick="updateVoteBugResults(` + myIndex + `,true)">Results</button>`
-    listHTML += `<button type="button" class="btn btn-primary dialogButton" onclick="editBugEstimate(` + myIndex + `)">Commit</button>`
-    listHTML += `<button type="button" class="btn btn-primary dialogButton" onclick="deleteVotesBug(` + myIndex + `)">Clear</button>`
+    var myProjectIndex = document.getElementById('select-project').value;
+    let privilegeLevel = developerHighestPrivilege(myProjectIndex)
+    if (privilegeLevel === 'A') {
+        listHTML += `<button type="button" class="btn btn-primary dialogButton" onclick="updateVoteBugResults(` + myIndex + `,true)">Results</button>`
+        listHTML += `<button type="button" class="btn btn-primary dialogButton" onclick="editBugEstimate(` + myIndex + `)">Commit</button>`
+        listHTML += `<button type="button" class="btn btn-primary dialogButton" onclick="deleteVotesBug(` + myIndex + `)">Clear</button>`
+    }
     listHTML += `</div>`
     listHTML += `</div>`
     document.getElementById('vote-bug-buttons').innerHTML = listHTML;
