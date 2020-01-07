@@ -1,4 +1,4 @@
-function getProjects(thisDeveloper, myProjectIndex, checkingIfUpdateIsNeeded) {
+const getProjects = async (thisDeveloper, myProjectIndex, checkingIfUpdateIsNeeded) => {
     var myCurrentLocalTimeStamp = '';
     if (checkingIfUpdateIsNeeded && myProjectIndex != -1) {
         try {
@@ -7,7 +7,8 @@ function getProjects(thisDeveloper, myProjectIndex, checkingIfUpdateIsNeeded) {
             clearInterval(myProjectUpdateTimer);
         }
     }
-    fetch(URL_Address + '/get/projects', {
+    try {
+        const res = await fetch(URL_Address + '/get/projects', {
             method: 'post',
             headers: {
                 Accept: 'application/json, text/plain, */*',
@@ -18,45 +19,41 @@ function getProjects(thisDeveloper, myProjectIndex, checkingIfUpdateIsNeeded) {
                 projectIds: thisDeveloper.projectIds,
             }),
         })
-        .then(res =>
-            res.json().then(data => ({
-                status: res.status,
-                body: data,
-            }))
-        )
-        .then(obj => {
-            if (obj.status === 200) {
-                myProjects = obj.body;
-                setMyAglileStoryProjectStorage();
-                clearInterval(myDeveloperUpdateTimer);
-                myDeveloperUpdateTimer = setInterval(updateDeveloperInContext, 5000);
-                if (checkingIfUpdateIsNeeded && myProjectIndex != -1) {
-                    try {
-                        if (
-                            myCurrentLocalTimeStamp != myProjects[myProjectIndex].timeStampISO
-                        ) {
-                            getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                        }
-                    } catch (err) {
-                        clearInterval(myProjectUpdateTimer);
+        const obj = await res.json()
+        if (res.status === 200) {
+            myProjects = obj;
+            setMyAglileStoryProjectStorage();
+            clearInterval(myDeveloperUpdateTimer);
+            myDeveloperUpdateTimer = setInterval(updateDeveloperInContext, 5000);
+            if (checkingIfUpdateIsNeeded && myProjectIndex != -1) {
+                try {
+                    if (
+                        myCurrentLocalTimeStamp != myProjects[myProjectIndex].timeStampISO
+                    ) {
+                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
                     }
-                } else {
-                    loggedinMenu(myProjectIndex);
+                } catch (err) {
+                    clearInterval(myProjectUpdateTimer);
                 }
             } else {
-                showErrorMessage('Error', obj.body.error);
-                $('#loginModal').modal('hide');
+                loggedInMenu(myProjectIndex);
             }
-        });
+        } else {
+            showErrorMessage('Error', obj.error);
+            $('#loginModal').modal('hide');
+        }
+    } catch (error) {
+        showErrorMessage('Error', error.message);
+    }
 }
 
-function createNewProject() {
+const createNewProject = async () => {
     updateProjectMessage('Creating new project please wait');
     var developerId = myDeveloper._id;
     var name = document.getElementById('project-name').value;
     var description = document.getElementById('project-description').value;
-
-    fetch(URL_Address + '/developer/project/returnProjectAndDeveloper', {
+    try {
+        const res = await fetch(URL_Address + '/developer/project/returnProjectAndDeveloper', {
             method: 'post',
             headers: {
                 Accept: 'application/json, text/plain, */*',
@@ -69,25 +66,21 @@ function createNewProject() {
                 description: description,
             }),
         })
-        .then(res =>
-            res.json().then(data => ({
-                status: res.status,
-                body: data,
-            }))
-        )
-        .then(obj => {
-            if (obj.status === 200) {
-                myProject = obj.body.project;
-                myDeveloper = obj.body.developer;
-                getProjects(myDeveloper, -1);
-            } else {
-                showErrorMessage('Error', obj.body.error);
-            }
-            $('#createNewProjectModal').modal('hide');
-        });
+        const obj = await res.json();
+        if (res.status === 200) {
+            myProject = obj.project;
+            myDeveloper = obj.developer;
+            getProjects(myDeveloper, -1);
+        } else {
+            showErrorMessage('Error', obj.error);
+        }
+        $('#createNewProjectModal').modal('hide');
+    } catch (error) {
+        showErrorMessage('Error', error.message);
+    }
 }
 
-function editProject(myProjectIndex) {
+const editProject = async (myProjectIndex) => {
     updateEditProjectMessage('Editing project please wait');
     var name = document.getElementById('edit-project-name').value;
     var description = document.getElementById('edit-project-description').value;
@@ -100,7 +93,8 @@ function editProject(myProjectIndex) {
     } else {
         addDeveloperByEmail(addedDeveloperEmails, myProjectIndex);
         removeDeveloperByEmail(removedDeveloperEmails, myProjectIndex);
-        fetch(URL_Address + '/put/project/returnProjectAndDeveloper', {
+        try {
+            const res = await fetch(URL_Address + '/put/project/returnProjectAndDeveloper', {
                 method: 'post',
                 headers: {
                     Accept: 'application/json, text/plain, */*',
@@ -115,22 +109,18 @@ function editProject(myProjectIndex) {
                     developers: myProjectDevelopers,
                 }),
             })
-            .then(res =>
-                res.json().then(data => ({
-                    status: res.status,
-                    body: data,
-                }))
-            )
-            .then(obj => {
-                if (obj.status === 200) {
-                    myProject = obj.body.project;
-                    myDeveloper = obj.body.developer;
-                    getProjects(myDeveloper, myProjectIndex);
-                    $('#editProjectModal').modal('hide');
-                } else {
-                    showErrorMessage('Error', obj.body.error);
-                }
-            });
+            const obj = await res.json()
+            if (res.status === 200) {
+                myProject = obj.project;
+                myDeveloper = obj.developer;
+                getProjects(myDeveloper, myProjectIndex);
+                $('#editProjectModal').modal('hide');
+            } else {
+                showErrorMessage('Error', obj.error);
+            }
+        } catch (error) {
+            showErrorMessage('Error', error.message);
+        }
     }
 }
 
@@ -145,11 +135,12 @@ function deleteProjectSetup() {
     }
 }
 
-function deleteProject(myProjectIndex) {
+const deleteProject = async (myProjectIndex) => {
     $('#confirm-delete').modal('hide');
     if (myProjectIndex != -1) {
-        // first delete all the user stories associated with the project
-        fetch(URL_Address + '/delete/project/userStorys', {
+        try {
+            // first delete all the user stories associated with the project
+            const res = await fetch(URL_Address + '/delete/project/userStorys', {
                 method: 'post',
                 headers: {
                     Accept: 'application/json',
@@ -160,76 +151,41 @@ function deleteProject(myProjectIndex) {
                     userStoryIds: myProjects[myProjectIndex].userStoryIds,
                 }),
             })
-            .then(res =>
-                res.json().then(data => ({
-                    status: res.status,
-                    body: data,
-                }))
-            )
-            .then(obj => {
-                if (obj.status === 401) {
-                    showErrorMessageUnauthorized('Error', 'Session has timed out need to login again.');
+            // second delete all the bugs associated with the project
+            const res2 = await fetch(URL_Address + '/delete/project/bugs', {
+                method: 'post',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'x-auth-token': myToken,
+                },
+                body: JSON.stringify({
+                    bugIds: myProjects[myProjectIndex].bugIds,
+                }),
+            })
+            // now delete project
+            const res3 = await fetch(URL_Address + '/delete/developer/project', {
+                method: 'post',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'x-auth-token': myToken,
+                },
+                body: JSON.stringify({
+                    project: myProjects[myProjectIndex],
+                }),
+            })
+            const obj = await res3.json();
+            let developers = obj;
+            for (let i = 0; i < developers.length; i++) {
+                if (developers[i]._id == myDeveloper._id) {
+                    myDeveloper = JSON.parse(JSON.stringify(developers[i]))
+                    break;
                 }
-                if (obj.status === 200) {
-                    // second delete all the bugs associated with the project
-                    fetch(URL_Address + '/delete/project/bugs', {
-                            method: 'post',
-                            headers: {
-                                Accept: 'application/json',
-                                'Content-Type': 'application/json',
-                                'x-auth-token': myToken,
-                            },
-                            body: JSON.stringify({
-                                bugIds: myProjects[myProjectIndex].bugIds,
-                            }),
-                        })
-                        .then(res =>
-                            res.json().then(data => ({
-                                status: res.status,
-                                body: data,
-                            }))
-                        )
-                        .then(obj => {
-                            if (obj.status === 200) {
-                                getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                                fetch(URL_Address + '/delete/developer/project', {
-                                        method: 'post',
-                                        headers: {
-                                            Accept: 'application/json',
-                                            'Content-Type': 'application/json',
-                                            'x-auth-token': myToken,
-                                        },
-                                        body: JSON.stringify({
-                                            project: myProjects[myProjectIndex],
-                                        }),
-                                    })
-                                    .then(res =>
-                                        res.json().then(data => ({
-                                            status: res.status,
-                                            body: data,
-                                        }))
-                                    )
-                                    .then(obj => {
-                                        if (obj.status === 200) {
-                                            let developers = obj.body;
-                                            for (let i = 0; i < developers.length; i++) {
-                                                if (developers[i]._id == myDeveloper._id) {
-                                                    myDeveloper = JSON.parse(JSON.stringify(developers[i]))
-                                                    break;
-                                                }
-                                            }
-                                            getProjects(myDeveloper, -1);
-                                        } else {
-                                            showErrorMessage('Error', obj.body.error);
-                                        }
-                                    });
-                            } else {
-                                showErrorMessage('Error', obj.body.error);
-                            }
-                        });
-                } else {
-                    showErrorMessage('Error', obj.body.error);
-                }
-            });
+            }
+            getProjects(myDeveloper, -1);
+        } catch (error) {
+            showErrorMessage('Error', error.message);
+        }
     }
 }

@@ -67,7 +67,7 @@ if (!localStorage.getItem('lastDeveloper')) {
     if (Object.keys(myDeveloper).length === 0) {
         loginMenu();
     } else {
-        loggedinMenu(myLastSelectedProject);
+        loggedInMenu(myLastSelectedProject);
     }
 }
 

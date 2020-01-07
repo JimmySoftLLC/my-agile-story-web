@@ -2,12 +2,11 @@ var myProjectUpdateTimer;
 var myDeveloperUpdateTimer;
 
 function updateDeveloperInContext() {
-    checkDeveloperTimeStamp()
+    //checkDeveloperTimeStamp()
 }
 
 function updateProjectInContext() {
-    checkDeveloperTimeStamp()
     if (myLastSelectedProject != -1) {
-        getProjects(myDeveloper, myLastSelectedProject, true);
+        //getProjects(myDeveloper, myLastSelectedProject, true);
     }
 }

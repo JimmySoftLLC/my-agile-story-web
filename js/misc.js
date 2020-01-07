@@ -5,9 +5,9 @@ function selectProjectDropDownChanged() {
     hideBurnDownChart();
     if (myProjectIndex != -1) {
         getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-        loggedinMenu(myProjectIndex);
+        loggedInMenu(myProjectIndex);
     } else {
-        loggedinMenu(myProjectIndex);
+        loggedInMenu(myProjectIndex);
     }
 }
 

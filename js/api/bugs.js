@@ -1,6 +1,4 @@
-function addVoteBug(
-    myBugIndex
-) {
+const addVoteBug = async (myBugIndex) => {
     var myProjectIndex = document.getElementById('select-project').value;
     var vote = {
         developerId: myDeveloper._id,
@@ -10,7 +8,8 @@ function addVoteBug(
     }
     if (myProjectIndex != -1) {
         if (myBugIndex != -1) {
-            fetch(URL_Address + '/put/bug/voteReturnBugProject', {
+            try {
+                const res = await fetch(URL_Address + '/put/bug/voteReturnBugProject', {
                     method: 'post',
                     headers: {
                         Accept: 'application/json, text/plain, */*',
@@ -23,29 +22,26 @@ function addVoteBug(
                         vote: vote,
                     }),
                 })
-                .then(res =>
-                    res.json().then(data => ({
-                        status: res.status,
-                        body: data,
-                    }))
-                )
-                .then(obj => {
-                    if (obj.status === 200) {
-                        myBug = obj.body.bug;
-                        myProjects[myProjectIndex] = obj.body.project;
-                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                    } else {
-                        showErrorMessage('Error', obj.body.error);
-                    }
-                    $('#voteBugModal').modal('hide');
-                });
+                const obj = await res.json()
+                if (res.status === 200) {
+                    myBug = obj.bug;
+                    myProjects[myProjectIndex] = obj.project;
+                    getUserStorys(myProjects[myProjectIndex], myProjectIndex);
+                } else {
+                    showErrorMessage('Error', obj.error);
+                }
+                $('#voteBugModal').modal('hide');
+            } catch (error) {
+                showErrorMessage('Error', error.message);
+            }
         }
     }
 }
 
-function getBugs(thisProject, myProjectIndex) {
+const getBugs = async (thisProject, myProjectIndex) => {
     updateStatusMessageNoClear('Getting bugs.');
-    fetch(URL_Address + '/get/bugs', {
+    try {
+        const res = await fetch(URL_Address + '/get/bugs', {
             method: 'post',
             headers: {
                 Accept: 'application/json, text/plain, */*',
@@ -56,29 +52,25 @@ function getBugs(thisProject, myProjectIndex) {
                 bugIds: thisProject.bugIds,
             }),
         })
-        .then(res =>
-            res.json().then(data => ({
-                status: res.status,
-                body: data,
-            }))
-        )
-        .then(obj => {
-            if (obj.status === 200) {
-                myBugs = obj.body;
-                myBugs.sort(function (obj1, obj2) {
-                    return obj1.priority - obj2.priority;
-                });
-                setMyAglileStoryBugStorage();
-                loggedinMenu(myProjectIndex);
-                clearStatusMessage();
-            } else {
-                showErrorMessage('Error', obj.body.error);
-            }
-            $('#loginModal').modal('hide');
-        });
+        const obj = await res.json()
+        if (res.status === 200) {
+            myBugs = obj;
+            myBugs.sort((obj1, obj2) => {
+                return obj1.priority - obj2.priority;
+            });
+            setMyAglileStoryBugStorage();
+            loggedInMenu(myProjectIndex);
+            clearStatusMessage();
+        } else {
+            showErrorMessage('Error', obj.error);
+        }
+        $('#loginModal').modal('hide');
+    } catch (error) {
+        showErrorMessage('Error', error.message);
+    }
 }
 
-function createNewBug() {
+const createNewBug = async () => {
     var myProjectIndex = document.getElementById('select-project').value;
     if (myProjectIndex != -1) {
         updateUserStoryMessage('Creating new bug please wait');
@@ -99,7 +91,8 @@ function createNewBug() {
         var priority = document.getElementById('bug-priority').value;
         priority = rangeLimit(priority, 1, 10);
         var sprint = document.getElementById('bug-sprint').value;
-        fetch(URL_Address + '/project/bug/returnBugAndProject', {
+        try {
+            const res = await fetch(URL_Address + '/project/bug/returnBugAndProject', {
                 method: 'post',
                 headers: {
                     Accept: 'application/json, text/plain, */*',
@@ -122,26 +115,22 @@ function createNewBug() {
                     sprint: sprint,
                 }),
             })
-            .then(res =>
-                res.json().then(data => ({
-                    status: res.status,
-                    body: data,
-                }))
-            )
-            .then(obj => {
-                if (obj.status === 200) {
-                    myBug = obj.body.userStory;
-                    myProjects[myProjectIndex] = obj.body.project;
-                    getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                } else {
-                    showErrorMessage('Error', obj.body.error);
-                }
-                $('#createNewBugModal').modal('hide');
-            });
+            const obj = await res.json();
+            if (res.status === 200) {
+                myBug = obj.userStory;
+                myProjects[myProjectIndex] = obj.project;
+                getUserStorys(myProjects[myProjectIndex], myProjectIndex);
+            } else {
+                showErrorMessage('Error', obj.error);
+            }
+            $('#createNewBugModal').modal('hide');
+        } catch (error) {
+            showErrorMessage('Error', error.message);
+        }
     }
 }
 
-function updateBug(
+const updateBug = async (
     myBugIndex,
     bugTitle,
     summary,
@@ -155,14 +144,15 @@ function updateBug(
     percentDone,
     priority,
     sprint
-) {
+) => {
     var myProjectIndex = document.getElementById('select-project').value;
     if (myProjectIndex != -1) {
         if (myBugIndex != -1) {
             percentDone = rangeLimit(percentDone, 0, 100);
             priority = rangeLimit(priority, 1, 10);
             estimate = rangeLimit(estimate, 0, 100000000000);
-            fetch(URL_Address + '/put/bug/returnBugAndProject', {
+            try {
+                const res = await fetch(URL_Address + '/put/bug/returnBugAndProject', {
                     method: 'post',
                     headers: {
                         Accept: 'application/json, text/plain, */*',
@@ -186,22 +176,18 @@ function updateBug(
                         sprint: sprint,
                     }),
                 })
-                .then(res =>
-                    res.json().then(data => ({
-                        status: res.status,
-                        body: data,
-                    }))
-                )
-                .then(obj => {
-                    if (obj.status === 200) {
-                        myBug = obj.body.bug;
-                        myProjects[myProjectIndex] = obj.body.project;
-                        getBugs(myProjects[myProjectIndex], myProjectIndex);
-                    } else {
-                        showErrorMessage('Error', obj.body.error);
-                    }
-                    $('#editBugModal').modal('hide');
-                });
+                const obj = await res.json();
+                if (res.status === 200) {
+                    myBug = obj.bug;
+                    myProjects[myProjectIndex] = obj.project;
+                    getBugs(myProjects[myProjectIndex], myProjectIndex);
+                } else {
+                    showErrorMessage('Error', obj.error);
+                }
+                $('#editBugModal').modal('hide');
+            } catch (error) {
+
+            }
         }
     }
 }
@@ -214,14 +200,15 @@ function deleteBugSetup(myBugIndex) {
     );
 }
 
-function deleteBug(myBugIndex) {
+const deleteBug = async (myBugIndex) => {
     $('#confirm-delete').modal('hide');
     var myProjectIndex = document.getElementById('select-project').value;
     if (myProjectIndex != -1) {
         if (myBugIndex != -1) {
             var bugId = myBugs[myBugIndex]._id;
             var projectId = myBugs[myBugIndex].projectId;
-            fetch(URL_Address + '/delete/project/bug', {
+            try {
+                const res = await fetch(URL_Address + '/delete/project/bug', {
                     method: 'post',
                     headers: {
                         Accept: 'application/json',
@@ -233,34 +220,26 @@ function deleteBug(myBugIndex) {
                         projectId: projectId,
                     }),
                 })
-                .then(res =>
-                    res.json().then(data => ({
-                        status: res.status,
-                        body: data,
-                    }))
-                )
-                .then(obj => {
-                    if (obj.status === 401) {
-                        showErrorMessageUnauthorized('Error', 'Session has timed out need to login again.');
-                    }
-                    if (obj.status === 200) {
-                        myProjects[myProjectIndex] = obj.body;
-                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                    } else {
-                        showErrorMessage('Error', obj.body.error);
-                    }
-                });
+                const obj = await res.json()
+                if (res.status === 200) {
+                    myProjects[myProjectIndex] = obj;
+                    getUserStorys(myProjects[myProjectIndex], myProjectIndex);
+                } else {
+                    showErrorMessage('Error', obj.error);
+                }
+            } catch (error) {
+                showErrorMessage('Error', error.message);
+            }
         }
     }
 }
 
-function deleteVotesBug(
-    myBugIndex,
-) {
+const deleteVotesBug = async (myBugIndex) => {
     var myProjectIndex = document.getElementById('select-project').value;
     if (myProjectIndex != -1) {
         if (myBugIndex != -1) {
-            fetch(URL_Address + '/delete/bug/votes', {
+            try {
+                const res = await fetch(URL_Address + '/delete/bug/votes', {
                     method: 'post',
                     headers: {
                         Accept: 'application/json, text/plain, */*',
@@ -272,22 +251,19 @@ function deleteVotesBug(
                         bugId: myBugs[myBugIndex]._id,
                     }),
                 })
-                .then(res =>
-                    res.json().then(data => ({
-                        status: res.status,
-                        body: data,
-                    }))
-                )
-                .then(obj => {
-                    if (obj.status === 200) {
-                        myBug = obj.body.bug;
-                        myProjects[myProjectIndex] = obj.body.project;
-                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                    } else {
-                        showErrorMessage('Error', obj.body.error);
-                    }
-                    $('#voteBugModal').modal('hide');
-                });
+                const obj = await res.json()
+                if (res.status === 200) {
+                    myBug = obj.bug;
+                    myProjects[myProjectIndex] = obj.project;
+                    getUserStorys(myProjects[myProjectIndex], myProjectIndex);
+                } else {
+                    showErrorMessage('Error', obj.error);
+                }
+                $('#voteBugModal').modal('hide');
+            } catch (error) {
+                showErrorMessage('Error', error.message);
+            }
+
         }
     }
 }

@@ -178,7 +178,7 @@ function hideVideo() {
     document.getElementById('myVideoInstructions').innerHTML = '';
 }
 
-function loggedinMenu(myProjectIndex) {
+function loggedInMenu(myProjectIndex) {
     myLastSelectedProject = myProjectIndex;
     document.getElementById('user-story-bug-elements').innerHTML = '';
     let listHTML = '';

@@ -126,9 +126,6 @@ function createNewUserStory() {
                 }))
             )
             .then(obj => {
-                if (obj.status === 401) {
-                    showErrorMessageUnauthorized('Error', 'Session has timed out need to login again.');
-                }
                 if (obj.status === 200) {
                     myUserStory = obj.body.userStory;
                     myProjects[myProjectIndex] = obj.body.project;
@@ -240,9 +237,6 @@ function deleteUserStory(myUserStoryIndex) {
                     }))
                 )
                 .then(obj => {
-                    if (obj.status === 401) {
-                        showErrorMessageUnauthorized('Error', 'Session has timed out need to login again.');
-                    }
                     if (obj.status === 200) {
                         myProjects[myProjectIndex] = obj.body;
                         getUserStorys(myProjects[myProjectIndex], myProjectIndex);
