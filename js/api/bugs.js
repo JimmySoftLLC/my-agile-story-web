@@ -23,13 +23,9 @@ const addVoteBug = async (myBugIndex) => {
                     }),
                 })
                 const obj = await res.json()
-                if (res.status === 200) {
-                    myBug = obj.bug;
-                    myProjects[myProjectIndex] = obj.project;
-                    getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                } else {
-                    showErrorMessage('Error', obj.error);
-                }
+                myBug = obj.bug;
+                myProjects[myProjectIndex] = obj.project;
+                getUserStorys(myProjects[myProjectIndex], myProjectIndex);
                 $('#voteBugModal').modal('hide');
             } catch (error) {
                 showErrorMessage('Error', error.message);
@@ -53,17 +49,14 @@ const getBugs = async (thisProject, myProjectIndex) => {
             }),
         })
         const obj = await res.json()
-        if (res.status === 200) {
-            myBugs = obj;
-            myBugs.sort((obj1, obj2) => {
-                return obj1.priority - obj2.priority;
-            });
-            setMyAglileStoryBugStorage();
-            loggedInMenu(myProjectIndex);
-            clearStatusMessage();
-        } else {
-            showErrorMessage('Error', obj.error);
-        }
+
+        myBugs = obj;
+        myBugs.sort((obj1, obj2) => {
+            return obj1.priority - obj2.priority;
+        });
+        setMyAglileStoryBugStorage();
+        loggedInMenu(myProjectIndex);
+        clearStatusMessage();
         $('#loginModal').modal('hide');
     } catch (error) {
         showErrorMessage('Error', error.message);
@@ -116,13 +109,9 @@ const createNewBug = async () => {
                 }),
             })
             const obj = await res.json();
-            if (res.status === 200) {
-                myBug = obj.userStory;
-                myProjects[myProjectIndex] = obj.project;
-                getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-            } else {
-                showErrorMessage('Error', obj.error);
-            }
+            myBug = obj.userStory;
+            myProjects[myProjectIndex] = obj.project;
+            getUserStorys(myProjects[myProjectIndex], myProjectIndex);
             $('#createNewBugModal').modal('hide');
         } catch (error) {
             showErrorMessage('Error', error.message);
@@ -177,13 +166,9 @@ const updateBug = async (
                     }),
                 })
                 const obj = await res.json();
-                if (res.status === 200) {
-                    myBug = obj.bug;
-                    myProjects[myProjectIndex] = obj.project;
-                    getBugs(myProjects[myProjectIndex], myProjectIndex);
-                } else {
-                    showErrorMessage('Error', obj.error);
-                }
+                myBug = obj.bug;
+                myProjects[myProjectIndex] = obj.project;
+                getBugs(myProjects[myProjectIndex], myProjectIndex);
                 $('#editBugModal').modal('hide');
             } catch (error) {
 
@@ -221,12 +206,8 @@ const deleteBug = async (myBugIndex) => {
                     }),
                 })
                 const obj = await res.json()
-                if (res.status === 200) {
-                    myProjects[myProjectIndex] = obj;
-                    getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                } else {
-                    showErrorMessage('Error', obj.error);
-                }
+                myProjects[myProjectIndex] = obj;
+                getUserStorys(myProjects[myProjectIndex], myProjectIndex);
             } catch (error) {
                 showErrorMessage('Error', error.message);
             }
@@ -252,13 +233,9 @@ const deleteVotesBug = async (myBugIndex) => {
                     }),
                 })
                 const obj = await res.json()
-                if (res.status === 200) {
-                    myBug = obj.bug;
-                    myProjects[myProjectIndex] = obj.project;
-                    getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                } else {
-                    showErrorMessage('Error', obj.error);
-                }
+                myBug = obj.bug;
+                myProjects[myProjectIndex] = obj.project;
+                getUserStorys(myProjects[myProjectIndex], myProjectIndex);
                 $('#voteBugModal').modal('hide');
             } catch (error) {
                 showErrorMessage('Error', error.message);

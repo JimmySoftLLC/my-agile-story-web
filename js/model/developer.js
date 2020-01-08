@@ -1,5 +1,6 @@
 function addDeveloperToProject(myProjectIndex) {
     var developerEmail = document.getElementById('edit-project-developer-email').value
+    developerEmail = developerEmail.toLowerCase()
     getDeveloperByEmail(developerEmail, myProjectIndex);
 }
 

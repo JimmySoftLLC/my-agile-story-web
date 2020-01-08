@@ -1,6 +1,7 @@
 const loginDeveloper = async () => {
     updateLoginMessage('Logging on to the server please wait');
     var email = document.getElementById('login-email').value;
+    email = email.toLowerCase()
     var password = document.getElementById('login-password').value;
     try {
         const res = await fetch(URL_Address + '/get/developer', {
@@ -15,16 +16,12 @@ const loginDeveloper = async () => {
             }),
         })
         const obj = await res.json()
-        if (res.status === 200) {
-            myDeveloper = obj.developer;
-            setMyAglileStoryDeveloperStorage();
-            myToken = obj.token;
-            setMyAglileStoryTokenStorage();
-            getProjects(myDeveloper, -1, false);
-            showPopupMessage('Welcome ' + myDeveloper.firstName);
-        } else {
-            showErrorMessage('Error', obj.error);
-        }
+        myDeveloper = obj.developer;
+        setMyAglileStoryDeveloperStorage();
+        myToken = obj.token;
+        setMyAglileStoryTokenStorage();
+        getProjects(myDeveloper, -1, false);
+        showPopupMessage('Welcome ' + myDeveloper.firstName);
         $('#loginModal').modal('hide');
     } catch (error) {
         showErrorMessage('Error', error.message);
@@ -43,16 +40,12 @@ const loginDemoUser = async () => {
             body: JSON.stringify({}),
         })
         const obj = await res.json()
-        if (res.status === 200) {
-            myDeveloper = obj.developer;
-            setMyAglileStoryDeveloperStorage();
-            myToken = obj.token;
-            setMyAglileStoryTokenStorage();
-            getProjects(myDeveloper, -1, false);
-            showPopupMessage('Welcome ' + myDeveloper.firstName);
-        } else {
-            showErrorMessage('Error', obj.error);
-        }
+        myDeveloper = obj.developer;
+        setMyAglileStoryDeveloperStorage();
+        myToken = obj.token;
+        setMyAglileStoryTokenStorage();
+        getProjects(myDeveloper, -1, false);
+        showPopupMessage('Welcome ' + myDeveloper.firstName);
     } catch (error) {
         showErrorMessage('Error', error.message);
     }
@@ -71,17 +64,12 @@ const checkDeveloperTimeStamp = async () => {
                 developerEmail: myDeveloper.email,
             }),
         })
-        const obj = await res.json()
-        if (res.status === 200) {
-            if (obj.timeStampISO !== myDeveloper.timeStampISO) {
-                myDeveloper = obj;
-                hideAllDialogs();
-                showPopupMessage('Your user data is being updated please wait for a moment.')
-                setMyAglileStoryDeveloperStorage();
-                getProjects(myDeveloper, -1, false);
-            }
-        } else {
-            showErrorMessage('Error', obj.error);
+        if (obj.timeStampISO !== myDeveloper.timeStampISO) {
+            myDeveloper = obj;
+            hideAllDialogs();
+            showPopupMessage('Your user data is being updated please wait for a moment.')
+            setMyAglileStoryDeveloperStorage();
+            getProjects(myDeveloper, -1, false);
         }
     } catch (error) {
         showErrorMessage('Error', error.message);
@@ -90,6 +78,7 @@ const checkDeveloperTimeStamp = async () => {
 
 const getDeveloperByEmail = async (developerEmail, myProjectIndex) => {
     try {
+
         const res = await fetch(URL_Address + '/get/developer/byEmail', {
             method: 'post',
             headers: {
@@ -102,20 +91,16 @@ const getDeveloperByEmail = async (developerEmail, myProjectIndex) => {
             }),
         })
         const obj = await res.json()
-        if (res.status === 200) {
-            let developer = obj;
-            myProjectDevelopers.push({
-                developerId: developer._id,
-                canWrite: document.getElementById('project-edit-permissions-write').checked,
-                canAdmin: document.getElementById('project-edit-permissions-admin').checked,
-                firstName: developer.firstName,
-                lastName: developer.lastName,
-                email: developer.email,
-            });
-            updateDevelopersInProject(myProjectIndex, myProjectDevelopers)
-        } else {
-            showErrorMessage('Error', obj.error);
-        }
+        let developer = obj;
+        myProjectDevelopers.push({
+            developerId: developer._id,
+            canWrite: document.getElementById('project-edit-permissions-write').checked,
+            canAdmin: document.getElementById('project-edit-permissions-admin').checked,
+            firstName: developer.firstName,
+            lastName: developer.lastName,
+            email: developer.email,
+        });
+        updateDevelopersInProject(myProjectIndex, myProjectDevelopers)
     } catch (error) {
         showErrorMessage('Error', error.message);
     }
@@ -136,11 +121,7 @@ const removeDeveloperByEmail = async (developerEmails, myProjectIndex) => {
             }),
         })
         const obj = await res.json()
-        if (res.status === 200) {
-            let developers = obj;
-        } else {
-            showErrorMessage('Error', obj.error);
-        }
+        let developers = obj;
     } catch (error) {
         showErrorMessage('Error', error.message);
     }
@@ -161,11 +142,7 @@ const addDeveloperByEmail = async (developerEmails, myProjectIndex) => {
             }),
         })
         const obj = await res.json()
-        if (res.status === 200) {
-            let developers = obj;
-        } else {
-            showErrorMessage('Error', obj.error);
-        }
+        let developers = obj;
     } catch (error) {
         showErrorMessage('Error', error.message);
     }
@@ -178,7 +155,8 @@ const createNewDeveloper = async () => {
     var firstName = document.getElementById('developer-first-name').value;
     var lastName = document.getElementById('developer-last-name').value;
     var bio = document.getElementById('developer-bio').value;
-    var role = 'admin'; // TODO document.getElementById('developer-role').value;  
+    var role = 'admin'; // TODO document.getElementById('developer-role').value; 
+    email = email.toLowerCase()
     try {
         const res = await fetch(URL_Address + '/developer', {
             method: 'post',
@@ -196,13 +174,9 @@ const createNewDeveloper = async () => {
             }),
         })
         const obj = await res.json()
-        if (res.status === 200) {
-            myDeveloper = obj;
-            setMyAglileStoryDeveloperStorage();
-            $('#createNewDeveloperModal').modal('hide');
-        } else {
-            showErrorMessage('Error', obj.error);
-        }
+        myDeveloper = obj;
+        setMyAglileStoryDeveloperStorage();
+        $('#createNewDeveloperModal').modal('hide');
     } catch (error) {
         showErrorMessage('Error', error.message);
     }
@@ -233,13 +207,9 @@ const editDeveloper = async () => {
             }),
         })
         const obj = await res.json()
-        if (res.status === 200) {
-            myDeveloper = obj;
-            setMyAglileStoryDeveloperStorage();
-            $('#editDeveloperModal').modal('hide');
-        } else {
-            showErrorMessage('Error', obj.error);
-        }
+        myDeveloper = obj;
+        setMyAglileStoryDeveloperStorage();
+        $('#editDeveloperModal').modal('hide');
     } catch (error) {
         showErrorMessage('Error', error.message);
     }
@@ -274,13 +244,9 @@ const editPassword = async () => {
                 }),
             })
             const obj = await res.json()
-            if (res.status === 200) {
-                myDeveloper = obj;
-                setMyAglileStoryDeveloperStorage();
-                $('#editPasswordModal').modal('hide');
-            } else {
-                showErrorMessage('Error', obj.error);
-            }
+            myDeveloper = obj;
+            setMyAglileStoryDeveloperStorage();
+            $('#editPasswordModal').modal('hide');
         } catch (error) {
             showErrorMessage('Error', error.message);
         }

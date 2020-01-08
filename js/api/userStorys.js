@@ -1,6 +1,4 @@
-function addVoteUserStory(
-    myUserStoryIndex
-) {
+const addVoteUserStory = async (myUserStoryIndex) => {
     var myProjectIndex = document.getElementById('select-project').value;
     var vote = {
         developerId: myDeveloper._id,
@@ -10,7 +8,8 @@ function addVoteUserStory(
     }
     if (myProjectIndex != -1) {
         if (myUserStoryIndex != -1) {
-            fetch(URL_Address + '/put/userStory/voteReturnUserStoryProject', {
+            try {
+                const res = await fetch(URL_Address + '/put/userStory/voteReturnUserStoryProject', {
                     method: 'post',
                     headers: {
                         Accept: 'application/json, text/plain, */*',
@@ -23,29 +22,22 @@ function addVoteUserStory(
                         vote: vote,
                     }),
                 })
-                .then(res =>
-                    res.json().then(data => ({
-                        status: res.status,
-                        body: data,
-                    }))
-                )
-                .then(obj => {
-                    if (obj.status === 200) {
-                        myUserStory = obj.body.userStory;
-                        myProjects[myProjectIndex] = obj.body.project;
-                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                    } else {
-                        showErrorMessage('Error', obj.body.error);
-                    }
-                    $('#voteUserStoryModal').modal('hide');
-                });
+                const obj = await res.json()
+                myUserStory = obj.userStory;
+                myProjects[myProjectIndex] = obj.project;
+                getUserStorys(myProjects[myProjectIndex], myProjectIndex);
+                $('#voteUserStoryModal').modal('hide');
+            } catch (error) {
+                showErrorMessage('Error', error.message);
+            }
         }
     }
 }
 
-function getUserStorys(thisProject, myProjectIndex) {
+const getUserStorys = async (thisProject, myProjectIndex) => {
     updateStatusMessageNoClear('Getting user stories.');
-    fetch(URL_Address + '/get/userStorys', {
+    try {
+        const res = await fetch(URL_Address + '/get/userStorys', {
             method: 'post',
             headers: {
                 Accept: 'application/json, text/plain, */*',
@@ -56,28 +48,20 @@ function getUserStorys(thisProject, myProjectIndex) {
                 userStoryIds: thisProject.userStoryIds,
             }),
         })
-        .then(res =>
-            res.json().then(data => ({
-                status: res.status,
-                body: data,
-            }))
-        )
-        .then(obj => {
-            if (obj.status === 200) {
-                myUserStorys = obj.body;
-                myUserStorys.sort(function (obj1, obj2) {
-                    return obj1.priority - obj2.priority;
-                });
-                setMyAglileStoryUserStoryStorage();
-                getBugs(thisProject, myProjectIndex);
-            } else {
-                showErrorMessage('Error', obj.body.error);
-            }
-            $('#loginModal').modal('hide');
+        obj = await res.json()
+        myUserStorys = obj;
+        myUserStorys.sort(function (obj1, obj2) {
+            return obj1.priority - obj2.priority;
         });
+        setMyAglileStoryUserStoryStorage();
+        getBugs(thisProject, myProjectIndex);
+        $('#loginModal').modal('hide');
+    } catch (error) {
+        showErrorMessage('Error', error.message);
+    }
 }
 
-function createNewUserStory() {
+const createNewUserStory = async () => {
     var myProjectIndex = document.getElementById('select-project').value;
     if (myProjectIndex != -1) {
         updateUserStoryMessage('Creating new user story please wait');
@@ -97,7 +81,8 @@ function createNewUserStory() {
         var priority = document.getElementById('user-story-priority').value;
         priority = rangeLimit(priority, 1, 10);
         var sprint = document.getElementById('user-story-sprint').value;
-        fetch(URL_Address + '/project/userStory/returnUserStoryAndProject', {
+        try {
+            const res = await fetch(URL_Address + '/project/userStory/returnUserStoryAndProject', {
                 method: 'post',
                 headers: {
                     Accept: 'application/json, text/plain, */*',
@@ -119,26 +104,18 @@ function createNewUserStory() {
                     sprint: sprint,
                 }),
             })
-            .then(res =>
-                res.json().then(data => ({
-                    status: res.status,
-                    body: data,
-                }))
-            )
-            .then(obj => {
-                if (obj.status === 200) {
-                    myUserStory = obj.body.userStory;
-                    myProjects[myProjectIndex] = obj.body.project;
-                    getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                } else {
-                    showErrorMessage('Error', obj.body.error);
-                }
-                $('#createNewUserStoryModal').modal('hide');
-            });
+            const obj = await res.json();
+            myUserStory = obj.userStory;
+            myProjects[myProjectIndex] = obj.project;
+            getUserStorys(myProjects[myProjectIndex], myProjectIndex);
+            $('#createNewUserStoryModal').modal('hide');
+        } catch (error) {
+            showErrorMessage('Error', error.message);
+        }
     }
 }
 
-function updateUserStory(
+const updateUserStory = async (
     myUserStoryIndex,
     userStoryTitle,
     userRole,
@@ -151,14 +128,15 @@ function updateUserStory(
     percentDone,
     priority,
     sprint
-) {
+) => {
     var myProjectIndex = document.getElementById('select-project').value;
     if (myProjectIndex != -1) {
         if (myUserStoryIndex != -1) {
             percentDone = rangeLimit(percentDone, 0, 100);
             priority = rangeLimit(priority, 1, 10);
             estimate = rangeLimit(estimate, 0, 100000000000);
-            fetch(URL_Address + '/put/userStory/returnUserStoryAndProject', {
+            try {
+                const res = await fetch(URL_Address + '/put/userStory/returnUserStoryAndProject', {
                     method: 'post',
                     headers: {
                         Accept: 'application/json, text/plain, */*',
@@ -181,22 +159,14 @@ function updateUserStory(
                         sprint: sprint,
                     }),
                 })
-                .then(res =>
-                    res.json().then(data => ({
-                        status: res.status,
-                        body: data,
-                    }))
-                )
-                .then(obj => {
-                    if (obj.status === 200) {
-                        myUserStory = obj.body.userStory;
-                        myProjects[myProjectIndex] = obj.body.project;
-                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                    } else {
-                        showErrorMessage('Error', obj.body.error);
-                    }
-                    $('#editUserStoryModal').modal('hide');
-                });
+                const obj = await res.json()
+                myUserStory = obj.userStory;
+                myProjects[myProjectIndex] = obj.project;
+                getUserStorys(myProjects[myProjectIndex], myProjectIndex);
+                $('#editUserStoryModal').modal('hide');
+            } catch (error) {
+                showErrorMessage('Error', error.message);
+            }
         }
     }
 }
@@ -211,50 +181,38 @@ function deleteUserStorySetup(myUserStoryIndex) {
     );
 }
 
-function deleteUserStory(myUserStoryIndex) {
+const deleteUserStory = async (myUserStoryIndex) => {
     $('#confirm-delete').modal('hide');
     var myProjectIndex = document.getElementById('select-project').value;
     if (myProjectIndex != -1) {
         if (myUserStoryIndex != -1) {
             var userStoryId = myUserStorys[myUserStoryIndex]._id;
             var projectId = myUserStorys[myUserStoryIndex].projectId;
-            fetch(URL_Address + '/delete/project/userStory', {
-                    method: 'post',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        'x-auth-token': myToken,
-                    },
-                    body: JSON.stringify({
-                        userStoryId: userStoryId,
-                        projectId: projectId,
-                    }),
-                })
-                .then(res =>
-                    res.json().then(data => ({
-                        status: res.status,
-                        body: data,
-                    }))
-                )
-                .then(obj => {
-                    if (obj.status === 200) {
-                        myProjects[myProjectIndex] = obj.body;
-                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                    } else {
-                        showErrorMessage('Error', obj.body.error);
-                    }
-                });
+            const res = await fetch(URL_Address + '/delete/project/userStory', {
+                method: 'post',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    'x-auth-token': myToken,
+                },
+                body: JSON.stringify({
+                    userStoryId: userStoryId,
+                    projectId: projectId,
+                }),
+            })
+            const obj = await res.json()
+            myProjects[myProjectIndex] = obj;
+            getUserStorys(myProjects[myProjectIndex], myProjectIndex);
         }
     }
 }
 
-function deleteVotesUserStory(
-    myUserStoryIndex,
-) {
+const deleteVotesUserStory = async (myUserStoryIndex) => {
     var myProjectIndex = document.getElementById('select-project').value;
     if (myProjectIndex != -1) {
         if (myUserStoryIndex != -1) {
-            fetch(URL_Address + '/delete/userStory/votes', {
+            try {
+                const res = fetch(URL_Address + '/delete/userStory/votes', {
                     method: 'post',
                     headers: {
                         Accept: 'application/json, text/plain, */*',
@@ -266,22 +224,14 @@ function deleteVotesUserStory(
                         userStoryId: myUserStorys[myUserStoryIndex]._id,
                     }),
                 })
-                .then(res =>
-                    res.json().then(data => ({
-                        status: res.status,
-                        body: data,
-                    }))
-                )
-                .then(obj => {
-                    if (obj.status === 200) {
-                        myUserStory = obj.body.userStory;
-                        myProjects[myProjectIndex] = obj.body.project;
-                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                    } else {
-                        showErrorMessage('Error', obj.body.error);
-                    }
-                    $('#voteUserStoryModal').modal('hide');
-                });
+                const obj = res.json()
+                myUserStory = obj.userStory;
+                myProjects[myProjectIndex] = obj.project;
+                getUserStorys(myProjects[myProjectIndex], myProjectIndex);
+                $('#voteUserStoryModal').modal('hide');
+            } catch (error) {
+                showErrorMessage('Error', obj.error);
+            }
         }
     }
 }

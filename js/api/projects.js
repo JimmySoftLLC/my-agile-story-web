@@ -20,27 +20,22 @@ const getProjects = async (thisDeveloper, myProjectIndex, checkingIfUpdateIsNeed
             }),
         })
         const obj = await res.json()
-        if (res.status === 200) {
-            myProjects = obj;
-            setMyAglileStoryProjectStorage();
-            clearInterval(myDeveloperUpdateTimer);
-            myDeveloperUpdateTimer = setInterval(updateDeveloperInContext, 5000);
-            if (checkingIfUpdateIsNeeded && myProjectIndex != -1) {
-                try {
-                    if (
-                        myCurrentLocalTimeStamp != myProjects[myProjectIndex].timeStampISO
-                    ) {
-                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                    }
-                } catch (err) {
-                    clearInterval(myProjectUpdateTimer);
+        myProjects = obj;
+        setMyAglileStoryProjectStorage();
+        clearInterval(myDeveloperUpdateTimer);
+        myDeveloperUpdateTimer = setInterval(updateDeveloperInContext, 5000);
+        if (checkingIfUpdateIsNeeded && myProjectIndex != -1) {
+            try {
+                if (
+                    myCurrentLocalTimeStamp != myProjects[myProjectIndex].timeStampISO
+                ) {
+                    getUserStorys(myProjects[myProjectIndex], myProjectIndex);
                 }
-            } else {
-                loggedInMenu(myProjectIndex);
+            } catch (err) {
+                clearInterval(myProjectUpdateTimer);
             }
         } else {
-            showErrorMessage('Error', obj.error);
-            $('#loginModal').modal('hide');
+            loggedInMenu(myProjectIndex);
         }
     } catch (error) {
         showErrorMessage('Error', error.message);
@@ -67,13 +62,9 @@ const createNewProject = async () => {
             }),
         })
         const obj = await res.json();
-        if (res.status === 200) {
-            myProject = obj.project;
-            myDeveloper = obj.developer;
-            getProjects(myDeveloper, -1);
-        } else {
-            showErrorMessage('Error', obj.error);
-        }
+        myProject = obj.project;
+        myDeveloper = obj.developer;
+        getProjects(myDeveloper, -1);
         $('#createNewProjectModal').modal('hide');
     } catch (error) {
         showErrorMessage('Error', error.message);
@@ -110,14 +101,10 @@ const editProject = async (myProjectIndex) => {
                 }),
             })
             const obj = await res.json()
-            if (res.status === 200) {
-                myProject = obj.project;
-                myDeveloper = obj.developer;
-                getProjects(myDeveloper, myProjectIndex);
-                $('#editProjectModal').modal('hide');
-            } else {
-                showErrorMessage('Error', obj.error);
-            }
+            myProject = obj.project;
+            myDeveloper = obj.developer;
+            getProjects(myDeveloper, myProjectIndex);
+            $('#editProjectModal').modal('hide');
         } catch (error) {
             showErrorMessage('Error', error.message);
         }
