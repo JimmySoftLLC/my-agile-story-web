@@ -263,7 +263,6 @@ const deleteVotesBug = async (myBugIndex) => {
             } catch (error) {
                 showErrorMessage('Error', error.message);
             }
-
         }
     }
 }

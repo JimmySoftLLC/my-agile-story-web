@@ -151,7 +151,7 @@ function showVideo() {
     listHTML += '</p>';
 
     listHTML += '<h4>';
-    listHTML += 'Video Instuctions';
+    listHTML += 'Video Instructions';
     listHTML += '</h4>';
     listHTML += '<p>';
     listHTML +=
