@@ -20,22 +20,26 @@ const getProjects = async (thisDeveloper, myProjectIndex, checkingIfUpdateIsNeed
             }),
         })
         const obj = await res.json()
-        myProjects = obj;
-        setMyAglileStoryProjectStorage();
-        clearInterval(myDeveloperUpdateTimer);
-        myDeveloperUpdateTimer = setInterval(updateDeveloperInContext, 5000);
-        if (checkingIfUpdateIsNeeded && myProjectIndex != -1) {
-            try {
-                if (
-                    myCurrentLocalTimeStamp != myProjects[myProjectIndex].timeStampISO
-                ) {
-                    getUserStorys(myProjects[myProjectIndex], myProjectIndex);
+        if (res.status === 200) {
+            myProjects = obj;
+            setMyAglileStoryProjectStorage();
+            clearInterval(myDeveloperUpdateTimer);
+            myDeveloperUpdateTimer = setInterval(updateDeveloperInContext, 5000);
+            if (checkingIfUpdateIsNeeded && myProjectIndex != -1) {
+                try {
+                    if (
+                        myCurrentLocalTimeStamp != myProjects[myProjectIndex].timeStampISO
+                    ) {
+                        getUserStorys(myProjects[myProjectIndex], myProjectIndex);
+                    }
+                } catch (err) {
+                    clearInterval(myProjectUpdateTimer);
                 }
-            } catch (err) {
-                clearInterval(myProjectUpdateTimer);
+            } else {
+                loggedInMenu(myProjectIndex);
             }
         } else {
-            loggedInMenu(myProjectIndex);
+            showErrorMessage('Error', obj.error);
         }
     } catch (error) {
         showErrorMessage('Error', error.message);
@@ -61,11 +65,16 @@ const createNewProject = async () => {
                 description: description,
             }),
         })
-        const obj = await res.json();
-        myProject = obj.project;
-        myDeveloper = obj.developer;
-        getProjects(myDeveloper, -1);
-        $('#createNewProjectModal').modal('hide');
+
+        const obj = await res.json()
+        if (res.status === 200) {
+            myProject = obj.project;
+            myDeveloper = obj.developer;
+            getProjects(myDeveloper, -1);
+            $('#createNewProjectModal').modal('hide');
+        } else {
+            showErrorMessage('Error', obj.error);
+        }
     } catch (error) {
         showErrorMessage('Error', error.message);
     }
@@ -100,11 +109,16 @@ const editProject = async (myProjectIndex) => {
                     developers: myProjectDevelopers,
                 }),
             })
+
             const obj = await res.json()
-            myProject = obj.project;
-            myDeveloper = obj.developer;
-            getProjects(myDeveloper, myProjectIndex);
-            $('#editProjectModal').modal('hide');
+            if (res.status === 200) {
+                myProject = obj.project;
+                myDeveloper = obj.developer;
+                getProjects(myDeveloper, myProjectIndex);
+                $('#editProjectModal').modal('hide');
+            } else {
+                showErrorMessage('Error', obj.error);
+            }
         } catch (error) {
             showErrorMessage('Error', error.message);
         }
@@ -127,7 +141,7 @@ const deleteProject = async (myProjectIndex) => {
     if (myProjectIndex != -1) {
         try {
             // first delete all the user stories associated with the project
-            const res = await fetch(URL_Address + '/delete/project/userStorys', {
+            const resUserStorys = await fetch(URL_Address + '/delete/project/userStorys', {
                 method: 'post',
                 headers: {
                     Accept: 'application/json',
@@ -138,8 +152,12 @@ const deleteProject = async (myProjectIndex) => {
                     userStoryIds: myProjects[myProjectIndex].userStoryIds,
                 }),
             })
+            const objUserStorys = await resUserStorys.json()
+            if (resUserStorys.status != 200) {
+                showErrorMessage('Error', objUserStorys.error);
+            }
             // second delete all the bugs associated with the project
-            const res2 = await fetch(URL_Address + '/delete/project/bugs', {
+            const resBugs = await fetch(URL_Address + '/delete/project/bugs', {
                 method: 'post',
                 headers: {
                     Accept: 'application/json',
@@ -150,8 +168,12 @@ const deleteProject = async (myProjectIndex) => {
                     bugIds: myProjects[myProjectIndex].bugIds,
                 }),
             })
+            const objBugs = await resBugs.json()
+            if (resBugs.status != 200) {
+                showErrorMessage('Error', objBugs.error);
+            }
             // now delete project
-            const res3 = await fetch(URL_Address + '/delete/developer/project', {
+            const resProject = await fetch(URL_Address + '/delete/developer/project', {
                 method: 'post',
                 headers: {
                     Accept: 'application/json',
@@ -162,15 +184,19 @@ const deleteProject = async (myProjectIndex) => {
                     project: myProjects[myProjectIndex],
                 }),
             })
-            const obj = await res3.json();
-            let developers = obj;
-            for (let i = 0; i < developers.length; i++) {
-                if (developers[i]._id == myDeveloper._id) {
-                    myDeveloper = JSON.parse(JSON.stringify(developers[i]))
-                    break;
+            const objProject = await resProject.json()
+            if (resProject.status === 200) {
+                let developers = objProject;
+                for (let i = 0; i < developers.length; i++) {
+                    if (developers[i]._id == myDeveloper._id) {
+                        myDeveloper = JSON.parse(JSON.stringify(developers[i]))
+                        break;
+                    }
                 }
+                getProjects(myDeveloper, -1);
+            } else {
+                showErrorMessage('Error', objProject.error);
             }
-            getProjects(myDeveloper, -1);
         } catch (error) {
             showErrorMessage('Error', error.message);
         }

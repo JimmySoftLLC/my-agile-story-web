@@ -16,13 +16,17 @@ const loginDeveloper = async () => {
             }),
         })
         const obj = await res.json()
-        myDeveloper = obj.developer;
-        setMyAglileStoryDeveloperStorage();
-        myToken = obj.token;
-        setMyAglileStoryTokenStorage();
-        getProjects(myDeveloper, -1, false);
-        showPopupMessage('Welcome ' + myDeveloper.firstName);
-        $('#loginModal').modal('hide');
+        if (res.status === 200) {
+            myDeveloper = obj.developer;
+            setMyAglileStoryDeveloperStorage();
+            myToken = obj.token;
+            setMyAglileStoryTokenStorage();
+            getProjects(myDeveloper, -1, false);
+            showPopupMessage('Welcome ' + myDeveloper.firstName);
+            $('#loginModal').modal('hide');
+        } else {
+            showErrorMessage('Error', obj.error);
+        }
     } catch (error) {
         showErrorMessage('Error', error.message);
     }
@@ -40,12 +44,16 @@ const loginDemoUser = async () => {
             body: JSON.stringify({}),
         })
         const obj = await res.json()
-        myDeveloper = obj.developer;
-        setMyAglileStoryDeveloperStorage();
-        myToken = obj.token;
-        setMyAglileStoryTokenStorage();
-        getProjects(myDeveloper, -1, false);
-        showPopupMessage('Welcome ' + myDeveloper.firstName);
+        if (res.status === 200) {
+            myDeveloper = obj.developer;
+            setMyAglileStoryDeveloperStorage();
+            myToken = obj.token;
+            setMyAglileStoryTokenStorage();
+            getProjects(myDeveloper, -1, false);
+            showPopupMessage('Welcome ' + myDeveloper.firstName);
+        } else {
+            showErrorMessage('Error', obj.error);
+        }
     } catch (error) {
         showErrorMessage('Error', error.message);
     }
@@ -64,12 +72,17 @@ const checkDeveloperTimeStamp = async () => {
                 developerEmail: myDeveloper.email,
             }),
         })
-        if (obj.timeStampISO !== myDeveloper.timeStampISO) {
-            myDeveloper = obj;
-            hideAllDialogs();
-            showPopupMessage('Your user data is being updated please wait for a moment.')
-            setMyAglileStoryDeveloperStorage();
-            getProjects(myDeveloper, -1, false);
+        const obj = await res.json()
+        if (res.status === 200) {
+            if (obj.timeStampISO !== myDeveloper.timeStampISO) {
+                myDeveloper = obj;
+                hideAllDialogs();
+                showPopupMessage('Your user data is being updated please wait for a moment.')
+                setMyAglileStoryDeveloperStorage();
+                getProjects(myDeveloper, -1, false);
+            }
+        } else {
+            showErrorMessage('Error', obj.error);
         }
     } catch (error) {
         showErrorMessage('Error', error.message);
@@ -91,16 +104,20 @@ const getDeveloperByEmail = async (developerEmail, myProjectIndex) => {
             }),
         })
         const obj = await res.json()
-        let developer = obj;
-        myProjectDevelopers.push({
-            developerId: developer._id,
-            canWrite: document.getElementById('project-edit-permissions-write').checked,
-            canAdmin: document.getElementById('project-edit-permissions-admin').checked,
-            firstName: developer.firstName,
-            lastName: developer.lastName,
-            email: developer.email,
-        });
-        updateDevelopersInProject(myProjectIndex, myProjectDevelopers)
+        if (res.status === 200) {
+            let developer = obj;
+            myProjectDevelopers.push({
+                developerId: developer._id,
+                canWrite: document.getElementById('project-edit-permissions-write').checked,
+                canAdmin: document.getElementById('project-edit-permissions-admin').checked,
+                firstName: developer.firstName,
+                lastName: developer.lastName,
+                email: developer.email,
+            });
+            updateDevelopersInProject(myProjectIndex, myProjectDevelopers)
+        } else {
+            showErrorMessage('Error', obj.error);
+        }
     } catch (error) {
         showErrorMessage('Error', error.message);
     }
@@ -121,7 +138,11 @@ const removeDeveloperByEmail = async (developerEmails, myProjectIndex) => {
             }),
         })
         const obj = await res.json()
-        let developers = obj;
+        if (res.status === 200) {
+            let developers = obj;
+        } else {
+            showErrorMessage('Error', obj.error);
+        }
     } catch (error) {
         showErrorMessage('Error', error.message);
     }
@@ -142,7 +163,11 @@ const addDeveloperByEmail = async (developerEmails, myProjectIndex) => {
             }),
         })
         const obj = await res.json()
-        let developers = obj;
+        if (res.status === 200) {
+            let developers = obj;
+        } else {
+            showErrorMessage('Error', obj.error);
+        }
     } catch (error) {
         showErrorMessage('Error', error.message);
     }
@@ -174,9 +199,13 @@ const createNewDeveloper = async () => {
             }),
         })
         const obj = await res.json()
-        myDeveloper = obj;
-        setMyAglileStoryDeveloperStorage();
-        $('#createNewDeveloperModal').modal('hide');
+        if (res.status === 200) {
+            myDeveloper = obj;
+            setMyAglileStoryDeveloperStorage();
+            $('#createNewDeveloperModal').modal('hide');
+        } else {
+            showErrorMessage('Error', obj.error);
+        }
     } catch (error) {
         showErrorMessage('Error', error.message);
     }
@@ -207,9 +236,13 @@ const editDeveloper = async () => {
             }),
         })
         const obj = await res.json()
-        myDeveloper = obj;
-        setMyAglileStoryDeveloperStorage();
-        $('#editDeveloperModal').modal('hide');
+        if (res.status === 200) {
+            myDeveloper = obj;
+            setMyAglileStoryDeveloperStorage();
+            $('#editDeveloperModal').modal('hide');
+        } else {
+            showErrorMessage('Error', obj.error);
+        }
     } catch (error) {
         showErrorMessage('Error', error.message);
     }
@@ -244,9 +277,13 @@ const editPassword = async () => {
                 }),
             })
             const obj = await res.json()
-            myDeveloper = obj;
-            setMyAglileStoryDeveloperStorage();
-            $('#editPasswordModal').modal('hide');
+            if (res.status === 200) {
+                myDeveloper = obj;
+                setMyAglileStoryDeveloperStorage();
+                $('#editPasswordModal').modal('hide');
+            } else {
+                showErrorMessage('Error', obj.error);
+            }
         } catch (error) {
             showErrorMessage('Error', error.message);
         }

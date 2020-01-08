@@ -23,10 +23,14 @@ const addVoteBug = async (myBugIndex) => {
                     }),
                 })
                 const obj = await res.json()
-                myBug = obj.bug;
-                myProjects[myProjectIndex] = obj.project;
-                getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                $('#voteBugModal').modal('hide');
+                if (res.status === 200) {
+                    myBug = obj.bug;
+                    myProjects[myProjectIndex] = obj.project;
+                    getUserStorys(myProjects[myProjectIndex], myProjectIndex);
+                    $('#voteBugModal').modal('hide');
+                } else {
+                    showErrorMessage('Error', obj.error);
+                }
             } catch (error) {
                 showErrorMessage('Error', error.message);
             }
@@ -49,15 +53,18 @@ const getBugs = async (thisProject, myProjectIndex) => {
             }),
         })
         const obj = await res.json()
-
-        myBugs = obj;
-        myBugs.sort((obj1, obj2) => {
-            return obj1.priority - obj2.priority;
-        });
-        setMyAglileStoryBugStorage();
-        loggedInMenu(myProjectIndex);
-        clearStatusMessage();
-        $('#loginModal').modal('hide');
+        if (res.status === 200) {
+            myBugs = obj;
+            myBugs.sort((obj1, obj2) => {
+                return obj1.priority - obj2.priority;
+            });
+            setMyAglileStoryBugStorage();
+            loggedInMenu(myProjectIndex);
+            clearStatusMessage();
+            $('#loginModal').modal('hide');
+        } else {
+            showErrorMessage('Error', obj.error);
+        }
     } catch (error) {
         showErrorMessage('Error', error.message);
     }
@@ -108,11 +115,15 @@ const createNewBug = async () => {
                     sprint: sprint,
                 }),
             })
-            const obj = await res.json();
-            myBug = obj.userStory;
-            myProjects[myProjectIndex] = obj.project;
-            getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-            $('#createNewBugModal').modal('hide');
+            const obj = await res.json()
+            if (res.status === 200) {
+                myBug = obj.userStory;
+                myProjects[myProjectIndex] = obj.project;
+                getUserStorys(myProjects[myProjectIndex], myProjectIndex);
+                $('#createNewBugModal').modal('hide');
+            } else {
+                showErrorMessage('Error', obj.error);
+            }
         } catch (error) {
             showErrorMessage('Error', error.message);
         }
@@ -165,11 +176,15 @@ const updateBug = async (
                         sprint: sprint,
                     }),
                 })
-                const obj = await res.json();
-                myBug = obj.bug;
-                myProjects[myProjectIndex] = obj.project;
-                getBugs(myProjects[myProjectIndex], myProjectIndex);
-                $('#editBugModal').modal('hide');
+                const obj = await res.json()
+                if (res.status === 200) {
+                    myBug = obj.bug;
+                    myProjects[myProjectIndex] = obj.project;
+                    getBugs(myProjects[myProjectIndex], myProjectIndex);
+                    $('#editBugModal').modal('hide');
+                } else {
+                    showErrorMessage('Error', obj.error);
+                }
             } catch (error) {
 
             }
@@ -206,8 +221,12 @@ const deleteBug = async (myBugIndex) => {
                     }),
                 })
                 const obj = await res.json()
-                myProjects[myProjectIndex] = obj;
-                getUserStorys(myProjects[myProjectIndex], myProjectIndex);
+                if (res.status === 200) {
+                    myProjects[myProjectIndex] = obj;
+                    getUserStorys(myProjects[myProjectIndex], myProjectIndex);
+                } else {
+                    showErrorMessage('Error', obj.error);
+                }
             } catch (error) {
                 showErrorMessage('Error', error.message);
             }
@@ -233,10 +252,14 @@ const deleteVotesBug = async (myBugIndex) => {
                     }),
                 })
                 const obj = await res.json()
-                myBug = obj.bug;
-                myProjects[myProjectIndex] = obj.project;
-                getUserStorys(myProjects[myProjectIndex], myProjectIndex);
-                $('#voteBugModal').modal('hide');
+                if (res.status === 200) {
+                    myBug = obj.bug;
+                    myProjects[myProjectIndex] = obj.project;
+                    getUserStorys(myProjects[myProjectIndex], myProjectIndex);
+                    $('#voteBugModal').modal('hide');
+                } else {
+                    showErrorMessage('Error', obj.error);
+                }
             } catch (error) {
                 showErrorMessage('Error', error.message);
             }

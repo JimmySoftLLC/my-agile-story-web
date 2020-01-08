@@ -143,9 +143,10 @@ function showVideo() {
     listHTML +=
         '<button type="button" class="btn btn-light"><i class="fas fa-trash"></i></button>';
     listHTML += '  Delete user story / bug ';
-    listHTML +=
-        '<button type="button" class="btn btn-light"><i class="fas fa-edit"></i></button>';
+    listHTML += '<button type="button" class="btn btn-light"><i class="fas fa-edit"></i></button>';
     listHTML += '  Edit user story / bug ';
+    listHTML += '<button type="button" class="btn btn-light"><i class="fas fa-vote-yea"></i></button>';
+    listHTML += '  Scrum poker voting ';
     listHTML += '</row>';
     listHTML += '</p>';
 
