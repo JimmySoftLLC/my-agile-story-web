@@ -10,11 +10,13 @@ let labelsForChart = [];
 let burndown = [];
 let myXs = [];
 
-
 class UserStoryBugsEstimates {
-  constructor(sprint, estimate) {
+  constructor(sprint, estimate, userStoryOrBug, index, priority) {
     this.sprint = sprint;
     this.estimate = estimate;
+    this.userStoryOrBug = userStoryOrBug;
+    this.index = index;
+    this.priority = priority
   }
 }
 
@@ -23,7 +25,7 @@ function showBurnDownChart() {
     var myProjectIndex = (document.getElementById('select-project').value);
     if (myProjectIndex != -1) {
       totalProjectPoints = 0;
-      orderUserStorysBugsBySprintId();
+      calculateTotalProjectPoints();
       generateBurnChartData();
       document.getElementById('user-story-bug-elements').innerHTML = "";
       let listHTML = '';
@@ -43,29 +45,16 @@ function showBurnDownChart() {
       document.getElementById('graph-elements').innerHTML = listHTML;
       showChartNow();
     }
-  } catch (error) {}
+  } catch (error) { }
 }
 
 function hideBurnDownChart() {
   document.getElementById('graph-elements').innerHTML = "";
 }
 
-function orderUserStorysBugsBySprintId() {
+function calculateTotalProjectPoints() {
   sprints = [];
-  myUserStoriesBugsEstimate = [];
-
-  for (let i = 0; i < myUserStorys.length; i++) {
-    myUserStoriesBugsEstimate.push(new UserStoryBugsEstimates(myUserStorys[i].sprint, myUserStorys[i].estimate));
-  }
-
-  for (let i = 0; i < myBugs.length; i++) {
-    myUserStoriesBugsEstimate.push(new UserStoryBugsEstimates(myBugs[i].sprint, myBugs[i].estimate));
-  }
-
-  myUserStoriesBugsEstimate.sort(function (obj1, obj2) {
-    return obj1.sprint - obj2.sprint;
-  });
-
+  let myUserStoriesBugsEstimate = orderUserStorysBugsBySprintId();
   let mySprindId = 0;
 
   for (i = 0; i < myUserStoriesBugsEstimate.length; i++) {
@@ -78,6 +67,25 @@ function orderUserStorysBugsBySprintId() {
     }
     totalProjectPoints += myUserStoriesBugsEstimate[i].estimate;
   }
+}
+
+function orderUserStorysBugsBySprintId() {
+  myUserStoriesBugsEstimate = [];
+  for (let i = 0; i < myUserStorys.length; i++) {
+    myUserStoriesBugsEstimate.push(new UserStoryBugsEstimates(myUserStorys[i].sprint, myUserStorys[i].estimate, 0, i, myUserStorys[i].priority));
+  }
+  for (let i = 0; i < myBugs.length; i++) {
+    myUserStoriesBugsEstimate.push(new UserStoryBugsEstimates(myBugs[i].sprint, myBugs[i].estimate, 1, i, myBugs[i].priority));
+  }
+
+  myUserStoriesBugsEstimate.sort(function (obj1, obj2) {
+    return obj1.priority - obj2.priority;
+  });
+  myUserStoriesBugsEstimate.sort(function (obj1, obj2) {
+    return obj1.sprint - obj2.sprint;
+  });
+
+  return myUserStoriesBugsEstimate;
 }
 
 function generateBurnChartData() {
@@ -151,23 +159,23 @@ function showChartNow() {
     data: {
       labels: labelsForChart,
       datasets: [{
-          label: "Velocity",
-          backgroundColor: "rgba(0,0,0,0)",
-          borderColor: "rgba(255,0,0,1)",
-          data: burndown,
-          type: 'line'
-        },
-        {
-          label: "To Do",
-          backgroundColor: "rgba(2,117,216,1)",
-          borderColor: "rgba(2,117,216,1)",
-          data: todo,
-        }, {
-          label: "Sprint",
-          backgroundColor: "rgba(0,125,0,1)",
-          borderColor: "rgba(2,117,216,1)",
-          data: sprints,
-        }
+        label: "Velocity",
+        backgroundColor: "rgba(0,0,0,0)",
+        borderColor: "rgba(255,0,0,1)",
+        data: burndown,
+        type: 'line'
+      },
+      {
+        label: "To Do",
+        backgroundColor: "rgba(2,117,216,1)",
+        borderColor: "rgba(2,117,216,1)",
+        data: todo,
+      }, {
+        label: "Sprint",
+        backgroundColor: "rgba(0,125,0,1)",
+        borderColor: "rgba(2,117,216,1)",
+        data: sprints,
+      }
       ],
     },
     options: {

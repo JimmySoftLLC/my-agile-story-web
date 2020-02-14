@@ -3,23 +3,17 @@ function displayUserStoriesAndBugs() {
     if (myLastSelectedPhase === 4) {
         showBurnDownChart();
     } else {
-        let userStoryIndex = 0;
-        let bugIndex = 0
-        for (let priorityNumb = 1; priorityNumb < 11; priorityNumb++) {
-            if (myLastSelectedProject != -1) {
-                for (let i = userStoryIndex; i < myUserStorys.length; i++) {
-                    if (myUserStorys[i].priority === priorityNumb) {
-                        listHTML += displayUserStory(i, myLastSelectedProject);
-                        userStoryIndex = i;
-                    }
-                }
-            }
-            if (myLastSelectedProject != -1) {
-                for (let i = bugIndex; i < myBugs.length; i++) {
-                    if (myBugs[i].priority === priorityNumb) {
-                        listHTML += displayBug(i, myLastSelectedProject);
-                        bugIndex = i;
-                    }
+        let myLocalUserStoriesBugs = orderUserStorysBugsBySprintId();
+        if (myLastSelectedProject != -1) {
+            for (let i = 0; i < myLocalUserStoriesBugs.length; i++) {
+                switch (myLocalUserStoriesBugs[i].userStoryOrBug) {
+                    case 0: //user story
+                        listHTML += displayUserStory(myLocalUserStoriesBugs[i].index, myLastSelectedProject);
+                        break;
+                    case 1: //bug
+                        listHTML += displayBug(myLocalUserStoriesBugs[i].index, myLastSelectedProject);
+                        break;
+                    default:
                 }
             }
         }
