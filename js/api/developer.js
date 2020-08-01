@@ -1,5 +1,5 @@
 const loginDeveloper = async () => {
-  showPopupMessage('Starting the server please wait');
+  showPopupMessage('Starting remote server please wait');
   var email = document.getElementById('login-email').value;
   email = email.toLowerCase();
   var password = document.getElementById('login-password').value;
@@ -33,7 +33,7 @@ const loginDeveloper = async () => {
 };
 
 const loginDemoUser = async () => {
-  showPopupMessage('Starting the server please wait');
+  showPopupMessage('Starting remote server please wait');
   try {
     const res = await fetch(URL_Address + '/get/developer/demo', {
       method: 'post',
