@@ -1,5 +1,5 @@
 const loginDeveloper = async () => {
-  showPopupMessage('Starting remote server please wait');
+  showPopupMessageNoClear('Starting remote server please wait');
   var email = document.getElementById('login-email').value;
   email = email.toLowerCase();
   var password = document.getElementById('login-password').value;
@@ -25,15 +25,17 @@ const loginDeveloper = async () => {
       showPopupMessage('Welcome ' + myDeveloper.firstName);
       $('#loginModal').modal('hide');
     } else {
+      hidePopupMessage();
       showErrorMessage('Error', obj.error);
     }
   } catch (error) {
+    hidePopupMessage();
     showErrorMessage('Error', error.message);
   }
 };
 
 const loginDemoUser = async () => {
-  showPopupMessage('Starting remote server please wait');
+  showPopupMessageNoClear('Starting remote server please wait');
   try {
     const res = await fetch(URL_Address + '/get/developer/demo', {
       method: 'post',
@@ -52,9 +54,11 @@ const loginDemoUser = async () => {
       getProjects(myDeveloper, -1, false);
       showPopupMessage('Welcome ' + myDeveloper.firstName);
     } else {
+      hidePopupMessage();
       showErrorMessage('Error', obj.error);
     }
   } catch (error) {
+    hidePopupMessage();
     showErrorMessage('Error', error.message);
   }
 };
