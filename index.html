@@ -1,826 +1,1757 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>My Agile Story</title>
-    <meta name="description"
-        content="My Agile Story is a software planning web app.  You add story cards, bugs to a backlog.  Then add these to sprints and measure your progress with a burn down chart.">
-    <meta name="keywords" content="agile, scrum, user story, sprint, software planning, verification, validation">
-    <meta name="author" content="James Bailey">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+    <meta
+      name="description"
+      content="My Agile Story is a software planning web app.  You add story cards, bugs to a backlog.  Then add these to sprints and measure your progress with a burn down chart."
+    />
+    <meta
+      name="keywords"
+      content="agile, scrum, user story, sprint, software planning, verification, validation"
+    />
+    <meta name="author" content="James Bailey" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
 
     <!-- open graph meta tags -->
-    <meta property="og:url" content="https://www.myagilestory.com/">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="MyAgileStory agile planning app">
+    <meta property="og:url" content="https://www.myagilestory.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="MyAgileStory agile planning app" />
     <!--1200x630 pixels and an aspect ratio of 1.91:1 -->
-    <meta property="og:image" content="https://www.myagilestory.com/assets/site_image.jpg">
-    <meta property="og:description" content="Manage your project with user stories, bugs, burn down chart.">
-    <meta property="og:site_name" content="MyAgileStory">
+    <meta
+      property="og:image"
+      content="https://www.myagilestory.com/assets/site_image.jpg"
+    />
+    <meta
+      property="og:description"
+      content="Manage your project with user stories, bugs, burn down chart."
+    />
+    <meta property="og:site_name" content="MyAgileStory" />
     <meta property="og:updated_time" content="2020-05-05T19:00:00-00:00" />
-    <meta property="og:image:alt" content="MyAgileStory screenshot">
+    <meta property="og:image:alt" content="MyAgileStory screenshot" />
 
     <!-- twitter card settings -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:creator" content="@jimmysoftllc">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:creator" content="@jimmysoftllc" />
 
     <!-- site favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
 
     <!-- Bootstrap -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-grid.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/style.css">
-</head>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-grid.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
 
-<body>
+  <body>
     <div class="container-fluid">
-        <div class="fixed-top">
-            <div class="navbar navbar-dark">
-                <div class="navbar-header ">
-                    <a class="navbar-brand nav-bar-override" href="/">My Agile Story</a>
-                    <span id="nav-bar-items"></span>
-                </div>
-            </div>
+      <div class="fixed-top">
+        <div class="navbar navbar-dark">
+          <div class="navbar-header">
+            <a class="navbar-brand nav-bar-override" href="/">My Agile Story</a>
+            <span id="navBarItems"></span>
+          </div>
         </div>
-        <div class="content-margin-at-top"></div>
+      </div>
+      <div class="content-margin-at-top"></div>
 
-        <div id="graph-elements"></div>
+      <div id="burndownChart"></div>
 
-        <div class="myVideoInstructions myBarChart" id="myVideoInstructions"></div>
+      <div class="video-instructions myBarChart" id="videoInstructions"></div>
 
-        <div id="user-story-bug-elements"></div>
+      <div id="userStoryBugCards"></div>
 
-        <div class="content-margin-at-bottom"></div>
+      <div class="content-margin-at-bottom"></div>
 
-        <div id="information-message"></div>
+      <div id="informationMessage"></div>
 
-        <footer class="footer fixed-bottom">
-            <div class="navbar navbar-dark bg-light">
-                <div class="navbar-header pull-left">
-                    <span id="footer-items"></span>
-                    <span class="status-message" id="status-message"></span>
-                </div>
-            </div>
-        </footer>
+      <footer class="footer fixed-bottom">
+        <div class="navbar navbar-dark bg-light">
+          <div class="navbar-header pull-left">
+            <span id="footerItems"></span>
+            <span class="status-message" id="statusMessage"></span>
+          </div>
+        </div>
+      </footer>
     </div>
 
     <!-- Create new developer modal -->
-    <div class="modal" id="createNewDeveloperModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create new developer</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label my-modal-title">Email</label>
-                        <input type="email" class="col-sm-11 form-control developer-email my-modal-edit-field"
-                            id="developer-email" placeholder="Email">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label my-modal-title">Password</label>
-                        <input type="password" class="col-sm-11 form-control developer-password my-modal-edit-field"
-                            id="developer-password" placeholder="Password">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label my-modal-title">First Name</label>
-                        <input type="text" class="col-sm-11 form-control developer-first-name my-modal-edit-field"
-                            id="developer-first-name" placeholder="First Name">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label my-modal-title">Last Name</label>
-                        <input type="text" class="col-sm-11 form-control developer-last-name my-modal-edit-field"
-                            id="developer-last-name" placeholder="Last Name">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label my-modal-title">Your bio</label>
-                        <textarea class="col-sm-11 form-control developer-bio my-modal-edit-field" rows="5"
-                            id="developer-bio" placeholder="Tell us about yourself"></textarea>
-                    </div>
-                    <!--TODO add role-->
-                    <div class="form-group row">
-                        <div class="col-sm-11">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="createNewDeveloper()">Add
-                                Developer</button>
-                        </div>
-                    </div>
-                    <div class="developer-message my-modal-message" id="developer-message"></div>
-                </div>
+    <div
+      class="modal"
+      id="createNewDeveloperModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="createNewDeveloperModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Create new developer
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label my-modal-title"
+                >Email</label
+              >
+              <input
+                type="email"
+                class="col-sm-11 form-control developer-email my-modal-edit-field"
+                id="developerEmail"
+                placeholder="Email"
+              />
             </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label my-modal-title"
+                >Password</label
+              >
+              <input
+                type="password"
+                class="col-sm-11 form-control developer-password my-modal-edit-field"
+                id="developerPassword"
+                placeholder="Password"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label my-modal-title"
+                >First Name</label
+              >
+              <input
+                type="text"
+                class="col-sm-11 form-control developer-first-name my-modal-edit-field"
+                id="developerFirstName"
+                placeholder="First Name"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label my-modal-title"
+                >Last Name</label
+              >
+              <input
+                type="text"
+                class="col-sm-11 form-control developer-last-name my-modal-edit-field"
+                id="developerLastName"
+                placeholder="Last Name"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label my-modal-title"
+                >Your bio</label
+              >
+              <textarea
+                class="col-sm-11 form-control developer-bio my-modal-edit-field"
+                rows="5"
+                id="developerBio"
+                placeholder="Tell us about yourself"
+              ></textarea>
+            </div>
+            <!--TODO add role-->
+            <div class="form-group row">
+              <div class="col-sm-11">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onclick="createNewDeveloper()"
+                >
+                  Add Developer
+                </button>
+              </div>
+            </div>
+            <div
+              class="developer-message my-modal-message"
+              id="developerMessage"
+            ></div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Edit developer modal -->
-    <div class="modal" id="editDeveloperModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit developer</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label my-modal-title">Email</label>
-                        <input type="email" class="col-sm-11 form-control edit-developer-email my-modal-edit-field"
-                            id="edit-developer-email" placeholder="Email" readonly>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label my-modal-title">First Name</label>
-                        <input type="text" class="col-sm-11 form-control edit-developer-first-name my-modal-edit-field"
-                            id="edit-developer-first-name" placeholder="First Name">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label my-modal-title">Last Name</label>
-                        <input type="text" class="col-sm-11 form-control edit-developer-last-name my-modal-edit-field"
-                            id="edit-developer-last-name" placeholder="Last Name">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label my-modal-title">Your bio</label>
-                        <textarea class="col-sm-11 form-control edit-developer-bio my-modal-edit-field" rows="5"
-                            id="edit-developer-bio" placeholder="Tell us about yourself"></textarea>
-                    </div>
-                    <!--TODO add role-->
-                    <div class="edit-developer-buttons" id="edit-developer-buttons"></div>
-                    <div class="edit-developer-message my-modal-message" id="edit-developer-message"></div>
-                </div>
+    <div
+      class="modal"
+      id="editDeveloperModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="editDeveloperModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit developer</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label my-modal-title"
+                >Email</label
+              >
+              <input
+                type="email"
+                class="col-sm-11 form-control edit-developer-email my-modal-edit-field"
+                id="editDeveloperEmail"
+                placeholder="Email"
+                readonly
+              />
             </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label my-modal-title"
+                >First Name</label
+              >
+              <input
+                type="text"
+                class="col-sm-11 form-control edit-developer-first-name my-modal-edit-field"
+                id="editDeveloperFirstName"
+                placeholder="First Name"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label my-modal-title"
+                >Last Name</label
+              >
+              <input
+                type="text"
+                class="col-sm-11 form-control edit-developer-last-name my-modal-edit-field"
+                id="editDeveloperLastName"
+                placeholder="Last Name"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label my-modal-title"
+                >Your bio</label
+              >
+              <textarea
+                class="col-sm-11 form-control edit-developer-bio my-modal-edit-field"
+                rows="5"
+                id="editDeveloperBio"
+                placeholder="Tell us about yourself"
+              ></textarea>
+            </div>
+            <!--TODO add role-->
+            <div class="edit-developer-buttons" id="editDeveloperButtons"></div>
+            <div
+              class="edit-developer-message my-modal-message"
+              id="editDeveloperMessage"
+            ></div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Edit password modal -->
-    <div class="modal" id="editPasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit passsword</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label my-modal-title">Email</label>
-                        <input type="email" class="col-sm-11 form-control edit-password-email my-modal-edit-field"
-                            id="edit-password-email" placeholder="Email" readonly>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label my-modal-title">Old Password</label>
-                        <input type="password"
-                            class="col-sm-11 form-control edit-password-old-password my-modal-edit-field"
-                            id="edit-password-old-password" placeholder="Password">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 col-form-label my-modal-title">New Password</label>
-                        <input type="password"
-                            class="col-sm-11 form-control edit-password-new-password my-modal-edit-field"
-                            id="edit-password-new-password" placeholder="Password">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 col-form-label my-modal-title">Retype New Password</label>
-                        <input type="password"
-                            class="col-sm-11 form-control edit-password-new-password my-modal-edit-field"
-                            id="edit-password-retype-new-password" placeholder="Password">
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-11">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="editPassword()">Save Changes</button>
-                        </div>
-                    </div>
-                    <div class="edit-developer-message my-modal-message" id="edit-password-message"></div>
-                </div>
+    <div
+      class="modal"
+      id="editPasswordModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="editPasswordModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit passsword</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label my-modal-title"
+                >Email</label
+              >
+              <input
+                type="email"
+                class="col-sm-11 form-control edit-password-email my-modal-edit-field"
+                id="editPasswordEmail"
+                placeholder="Email"
+                readonly
+              />
             </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label my-modal-title"
+                >Old Password</label
+              >
+              <input
+                type="password"
+                class="col-sm-11 form-control edit-password-old-password my-modal-edit-field"
+                id="editPasswordOldPassword"
+                placeholder="Password"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-4 col-form-label my-modal-title"
+                >New Password</label
+              >
+              <input
+                type="password"
+                class="col-sm-11 form-control edit-password-new-password my-modal-edit-field"
+                id="editPasswordNewPassword"
+                placeholder="Password"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label my-modal-title"
+                >Retype New Password</label
+              >
+              <input
+                type="password"
+                class="col-sm-11 form-control edit-password-new-password my-modal-edit-field"
+                id="editPasswordRetypeNewPassword"
+                placeholder="Password"
+              />
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-11">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onclick="editPassword()"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </div>
+            <div
+              class="edit-developer-message my-modal-message"
+              id="editPasswordMessage"
+            ></div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- estimation voting user storys-->
-    <div class="modal" id="voteUserStoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Estimate voting</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group row my-modal-phase-row" id="vote-title"></div>
-                    <div class="form-group row my-modal-phase-row" id="vote-summary"></div>
-                    <div class="form-group row my-modal-phase-row">
-                        <label class="col-sm-4 col-form-label my-modal-phase-label">My Estimate</label>
-                        <div class="col-sm-8 col-form-label">
-                            <input type="radio" name="vote" id="vote-0" value="0" aria-label="To Do">0
-                            <input type="radio" name="vote" id="vote-5" value="5" aria-label="Doing">1/2
-                            <input type="radio" name="vote" id="vote-10" value="10" aria-label="Verify">1
-                            <input type="radio" name="vote" id="vote-30" value="30" aria-label="Done">3
-                            <input type="radio" name="vote" id="vote-50" value="50" aria-label="Done">5
-                            <input type="radio" name="vote" id="vote-80" value="80" aria-label="Done">8
-                            <input type="radio" name="vote" id="vote-130" value="130" aria-label="Done">13
-                            <input type="radio" name="vote" id="vote-200" value="200" aria-label="Done">20
-                            <input type="radio" name="vote" id="vote-400" value="400" aria-label="Done">40
-                            <input type="radio" name="vote" id="vote-1000" value="1000" aria-label="Done">100
-                            <input type="radio" name="vote" id="vote-2000" value="2000" aria-label="Done">?
-                            <input type="radio" name="vote" id="vote-3000" value="3000" aria-label="Done">Coffee
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label my-modal-title">Votes/Results</label>
-                        <textarea class="col-sm-11 form-control vote-results my-modal-edit-field" rows="8"
-                            id="vote-results" readonly></textarea>
-                    </div>
-                    <div class="vote-buttons" id="vote-buttons"></div>
-                    <div class="edit-developer-message my-modal-message" id="edit-password-message"></div>
-                </div>
+    <div
+      class="modal"
+      id="voteUserStoryModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="voteUserStoryModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Estimate voting</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row my-modal-phase-row" id="voteTitle"></div>
+            <div
+              class="form-group row my-modal-phase-row"
+              id="voteSummary"
+            ></div>
+            <div class="form-group row my-modal-phase-row">
+              <label class="col-sm-4 col-form-label my-modal-phase-label"
+                >My Estimate</label
+              >
+              <div class="col-sm-8 col-form-label">
+                <input
+                  type="radio"
+                  name="voteUserStory"
+                  id="voteUserStory0"
+                  value="0"
+                  aria-label="0"
+                />0
+                <input
+                  type="radio"
+                  name="voteUserStory"
+                  id="voteUserStory5"
+                  value="5"
+                  aria-label="1/2"
+                />1/2
+                <input
+                  type="radio"
+                  name="voteUserStory"
+                  id="voteUserStory10"
+                  value="10"
+                  aria-label="1"
+                />1
+                <input
+                  type="radio"
+                  name="voteUserStory"
+                  id="voteUserStory30"
+                  value="30"
+                  aria-label="3"
+                />3
+                <input
+                  type="radio"
+                  name="voteUserStory"
+                  id="voteUserStory50"
+                  value="50"
+                  aria-label="5"
+                />5
+                <input
+                  type="radio"
+                  name="voteUserStory"
+                  id="voteUserStory80"
+                  value="80"
+                  aria-label="8"
+                />8
+                <input
+                  type="radio"
+                  name="voteUserStory"
+                  id="voteUserStory130"
+                  value="130"
+                  aria-label="13"
+                />13
+                <input
+                  type="radio"
+                  name="voteUserStory"
+                  id="voteUserStory200"
+                  value="200"
+                  aria-label="20"
+                />20
+                <input
+                  type="radio"
+                  name="voteUserStory"
+                  id="voteUserStory400"
+                  value="400"
+                  aria-label="40"
+                />40
+                <input
+                  type="radio"
+                  name="voteUserStory"
+                  id="voteUserStory1000"
+                  value="1000"
+                  aria-label="100"
+                />100
+                <input
+                  type="radio"
+                  name="voteUserStory"
+                  id="voteUserStory2000"
+                  value="2000"
+                  aria-label="?"
+                />?
+                <input
+                  type="radio"
+                  name="voteUserStory"
+                  id="voteUserStory3000"
+                  value="3000"
+                  aria-label="Coffee"
+                />Coffee
+              </div>
             </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label my-modal-title"
+                >Votes/Results</label
+              >
+              <textarea
+                class="col-sm-11 form-control vote-results my-modal-edit-field"
+                rows="8"
+                id="voteResults"
+                readonly
+              ></textarea>
+            </div>
+            <div class="vote-buttons" id="voteButtons"></div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- estimation voting bugs -->
-    <div class="modal" id="voteBugModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Estimate voting</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group row my-modal-phase-row" id="vote-bug-title"></div>
-                    <div class="form-group row my-modal-phase-row" id="vote-bug-summary"></div>
-                    <div class="form-group row my-modal-phase-row">
-                        <label class="col-sm-4 col-form-label my-modal-phase-label">My Estimate</label>
-                        <div class="col-sm-8 col-form-label">
-                            <input type="radio" name="vote-bug" id="vote-bug-0" value="0" aria-label="To Do">0
-                            <input type="radio" name="vote-bug" id="vote-bug-5" value="5" aria-label="Doing">1/2
-                            <input type="radio" name="vote-bug" id="vote-bug-10" value="10" aria-label="Verify">1
-                            <input type="radio" name="vote-bug" id="vote-bug-30" value="30" aria-label="Done">3
-                            <input type="radio" name="vote-bug" id="vote-bug-50" value="50" aria-label="Done">5
-                            <input type="radio" name="vote-bug" id="vote-bug-80" value="80" aria-label="Done">8
-                            <input type="radio" name="vote-bug" id="vote-bug-130" value="130" aria-label="Done">13
-                            <input type="radio" name="vote-bug" id="vote-bug-200" value="200" aria-label="Done">20
-                            <input type="radio" name="vote-bug" id="vote-bug-400" value="400" aria-label="Done">40
-                            <input type="radio" name="vote-bug" id="vote-bug-1000" value="1000" aria-label="Done">100
-                            <input type="radio" name="vote-bug" id="vote-bug-2000" value="2000" aria-label="Done">?
-                            <input type="radio" name="vote-bug" id="vote-bug-3000" value="3000" aria-label="Done">Coffee
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label my-modal-title">Votes/Results</label>
-                        <textarea class="col-sm-11 form-control vote-bug-results my-modal-edit-field" rows="8"
-                            id="vote-bug-results" readonly></textarea>
-                    </div>
-                    <div class="vote-bug-buttons" id="vote-bug-buttons"></div>
-                    <div class="edit-developer-message my-modal-message" id="edit-password-message"></div>
-                </div>
+    <div
+      class="modal"
+      id="voteBugModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="voteBugModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Estimate voting</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div
+              class="form-group row my-modal-phase-row"
+              id="voteBugTitle"
+            ></div>
+            <div
+              class="form-group row my-modal-phase-row"
+              id="voteBugSummary"
+            ></div>
+            <div class="form-group row my-modal-phase-row">
+              <label class="col-sm-4 col-form-label my-modal-phase-label"
+                >My Estimate</label
+              >
+              <div class="col-sm-8 col-form-label">
+                <input
+                  type="radio"
+                  name="voteBug"
+                  id="voteBug0"
+                  value="0"
+                  aria-label="To Do"
+                />0
+                <input
+                  type="radio"
+                  name="voteBug"
+                  id="voteBug5"
+                  value="5"
+                  aria-label="Doing"
+                />1/2
+                <input
+                  type="radio"
+                  name="voteBug"
+                  id="voteBug10"
+                  value="10"
+                  aria-label="Verify"
+                />1
+                <input
+                  type="radio"
+                  name="voteBug"
+                  id="voteBug30"
+                  value="30"
+                  aria-label="Done"
+                />3
+                <input
+                  type="radio"
+                  name="voteBug"
+                  id="voteBug50"
+                  value="50"
+                  aria-label="Done"
+                />5
+                <input
+                  type="radio"
+                  name="voteBug"
+                  id="voteBug80"
+                  value="80"
+                  aria-label="Done"
+                />8
+                <input
+                  type="radio"
+                  name="voteBug"
+                  id="voteBug130"
+                  value="130"
+                  aria-label="Done"
+                />13
+                <input
+                  type="radio"
+                  name="voteBug"
+                  id="voteBug200"
+                  value="200"
+                  aria-label="Done"
+                />20
+                <input
+                  type="radio"
+                  name="voteBug"
+                  id="voteBug400"
+                  value="400"
+                  aria-label="Done"
+                />40
+                <input
+                  type="radio"
+                  name="voteBug"
+                  id="voteBug1000"
+                  value="1000"
+                  aria-label="Done"
+                />100
+                <input
+                  type="radio"
+                  name="voteBug"
+                  id="voteBug2000"
+                  value="2000"
+                  aria-label="Done"
+                />?
+                <input
+                  type="radio"
+                  name="voteBug"
+                  id="voteBug3000"
+                  value="3000"
+                  aria-label="Done"
+                />Coffee
+              </div>
             </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label my-modal-title"
+                >Votes/Results</label
+              >
+              <textarea
+                class="col-sm-11 form-control voteBugresults my-modal-edit-field"
+                rows="8"
+                id="voteBugresults"
+                readonly
+              ></textarea>
+            </div>
+            <div class="voteBugbuttons" id="voteBugButtons"></div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Create new project modal -->
-    <div class="modal" id="createNewProjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create new project</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label my-modal-title">Name</label>
-                        <input type="text" class="col-sm-11 form-control project-name my-modal-edit-field"
-                            id="project-name" placeholder="">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label my-modal-title">Description</label>
-                        <textarea class="col-sm-11 form-control project-description my-modal-edit-field" rows="5"
-                            id="project-description" placeholder=""></textarea>
-                    </div>
-                    <!--TODO add role-->
-                    <div class="form-group row">
-                        <div class="col-sm-11">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="createNewProject()">Add
-                                Project</button>
-                        </div>
-                        <div class="project-message my-modal-message" id="project-message"></div>
-                    </div>
-                </div>
+    <div
+      class="modal"
+      id="createNewProjectModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="createNewProjectModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Create new project
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label my-modal-title">Name</label>
+              <input
+                type="text"
+                class="col-sm-11 form-control project-name my-modal-edit-field"
+                id="projectName"
+                placeholder=""
+              />
             </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label my-modal-title"
+                >Description</label
+              >
+              <textarea
+                class="col-sm-11 form-control project-description my-modal-edit-field"
+                rows="5"
+                id="projectDescription"
+                placeholder=""
+              ></textarea>
+            </div>
+            <!--TODO add role-->
+            <div class="form-group row">
+              <div class="col-sm-11">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onclick="createNewProject()"
+                >
+                  Add Project
+                </button>
+              </div>
+              <div
+                class="project-message my-modal-message"
+                id="projectMessage"
+              ></div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Edit project modal -->
-    <div class="modal" id="editProjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit project</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label my-modal-title">Name</label>
-                        <input type="text" class="col-sm-11 form-control edit-project-name my-modal-edit-field"
-                            id="edit-project-name" placeholder="">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label my-modal-title">Description</label>
-                        <textarea class="col-sm-11 form-control edit-project-description my-modal-edit-field" rows="2"
-                            id="edit-project-description" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row edit-project-developers" id="edit-project-developers">
-                    </div>
-                    <div class="form-group row my-modal-button-row"">
-                        <div class=" col-sm-11" id="edit-project-buttons"></div>
-                    <div class="edit-project-message my-modal-message" id="edit-project-message"></div>
-                </div>
+    <div
+      class="modal"
+      id="editProjectModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="editProjectModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit project</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label my-modal-title">Name</label>
+              <input
+                type="text"
+                class="col-sm-11 form-control edit-project-name my-modal-edit-field"
+                id="editProjectName"
+                placeholder=""
+              />
             </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label my-modal-title"
+                >Description</label
+              >
+              <textarea
+                class="col-sm-11 form-control edit-project-description my-modal-edit-field"
+                rows="2"
+                id="editProjectDescription"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div
+              class="form-group row edit-project-developers"
+              id="editProjectDevelopers"
+            ></div>
+            <div class="form-group row my-modal-button-row">
+              <div class="col-sm-11" id="editProjectButtons"></div>
+              <div
+                class="edit-project-message my-modal-message"
+                id="editProjectMessage"
+              ></div>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
     </div>
 
     <!-- Edit project developer permissions modal -->
-    <div class="modal" id="editDeveloperProjectPermissionsModal" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit developer permissions</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group row  my-modal-button-row">
-                        <div class=" col-sm-11" id="edit-developer-project-permissions"></div>
-                    </div>
-                    <div class="form-group row my-modal-button-row">
-                        <div class=" col-sm-11" id="edit-developer-project-permissions-buttons"></div>
-                        <div class="edit-project-message my-modal-message" id="edit-project-message"></div>
-                    </div>
-                </div>
+    <div
+      class="modal"
+      id="editDeveloperProjectPermissionsModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="editDeveloperProjectPermissionsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Edit developer permissions
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row my-modal-button-row">
+              <div class="col-sm-11" id="editDeveloperProjectPermissions"></div>
             </div>
+            <div class="form-group row my-modal-button-row">
+              <div
+                class="col-sm-11"
+                id="editDeveloperProjectPermissionsButtons"
+              ></div>
+              <div
+                class="edit-project-message my-modal-message"
+                id="editProjectMessage"
+              ></div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Create new user story modal -->
-    <div class="modal" id="createNewUserStoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create user story</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">Title</label>
-                        <input type="text" class="col-sm-9 form-control my-modal-edit-field user-story-title"
-                            id="user-story-title" placeholder="">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">As a</label>
-                        <input type="text" class="col-sm-9 form-control my-modal-edit-field user-story-user-role"
-                            id="user-story-user-role" placeholder="role">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">, I want</label>
-                        <input type="text" class="col-sm-9 form-control my-modal-edit-field user-story-user-want"
-                            id="user-story-user-want" placeholder="goal">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">so that</label>
-                        <input type="text" class="col-sm-9 form-control my-modal-edit-field user-story-user-benefit"
-                            id="user-story-user-benefit" placeholder="reason">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 my-modal-text-area-title  col-form-label">Acceptance Criteria</label>
-                        <textarea class="col-sm-11 form-control my-modal-text-area user-story-acceptance-criteria"
-                            rows="2" id="user-story-acceptance-criteria" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 my-modal-text-area-title  col-form-label">Conversation</label>
-                        <textarea class="col-sm-11 form-control my-modal-text-area user-story-conversation" rows="2"
-                            id="user-story-conversation" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">Estimate</label>
-                        <input type="number" class="col-sm-2 form-control my-modal-text-area user-story-estimate"
-                            id="user-story-estimate" placeholder="points">
-                        <label class="col-sm-4 col-form-label my-modal-label">Percent Complete</label>
-                        <input type="number" class="col-sm-2 form-control my-modal-text-area user-story-percent-done"
-                            id="user-story-percent-done" placeholder="0-100">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">Priority</label>
-                        <input type="number" class="col-sm-2 form-control my-modal-text-area user-story-priority"
-                            id="user-story-priority" placeholder="1-10">
-                        <label class="col-sm-2 col-form-label my-modal-label">Sprint</label>
-                        <input type="number" class="col-sm-2 form-control my-modal-text-area user-story-sprint"
-                            id="user-story-sprint" placeholder="0,1,2,...">
-                    </div>
-                    <div class="form-group row my-modal-phase-row">
-                        <label class="col-sm-2 col-form-label my-modal-phase-label">Phase</label>
-                        <div class="col-sm-8 col-form-label">
-                            <input type="radio" name="user-story-phase" id="user-story-phase-0" value="0"
-                                aria-label="To Do">To Do
-                            <input type="radio" name="user-story-phase" id="user-story-phase-1" value="1"
-                                aria-label="Doing">Doing
-                            <input type="radio" name="user-story-phase" id="user-story-phase-2" value="2"
-                                aria-label="Verify">Verify
-                            <input type="radio" name="user-story-phase" id="user-story-phase-3" value="3"
-                                aria-label="Done">Done
-                        </div>
-                    </div>
-                    <div class="form-group row my-modal-button-row">
-                        <div class="col-sm-11">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="createNewUserStory()">Add User
-                                Story</button>
-                        </div>
-                        <div class="user-story-message my-modal-message" id="user-story-message"></div>
-                    </div>
-                </div>
+    <div
+      class="modal"
+      id="createNewUserStoryModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="createNewUserStoryModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Create user story
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >Title</label
+              >
+              <input
+                type="text"
+                class="col-sm-9 form-control my-modal-edit-field user-story-title"
+                id="userStoryTitle"
+                placeholder=""
+              />
             </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label">As a</label>
+              <input
+                type="text"
+                class="col-sm-9 form-control my-modal-edit-field user-story-user-role"
+                id="userStoryUserRole"
+                placeholder="role"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >, I want</label
+              >
+              <input
+                type="text"
+                class="col-sm-9 form-control my-modal-edit-field user-story-user-want"
+                id="userStoryUserWant"
+                placeholder="goal"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >so that</label
+              >
+              <input
+                type="text"
+                class="col-sm-9 form-control my-modal-edit-field user-story-user-benefit"
+                id="userStoryUserBenefit"
+                placeholder="reason"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-6 my-modal-text-area-title col-form-label"
+                >Acceptance Criteria</label
+              >
+              <textarea
+                class="col-sm-11 form-control my-modal-text-area user-story-acceptance-criteria"
+                rows="2"
+                id="userStoryAcceptanceCriteria"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-6 my-modal-text-area-title col-form-label"
+                >Conversation</label
+              >
+              <textarea
+                class="col-sm-11 form-control my-modal-text-area user-story-conversation"
+                rows="2"
+                id="userStoryConversation"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >Estimate</label
+              >
+              <input
+                type="number"
+                class="col-sm-2 form-control my-modal-text-area user-story-estimate"
+                id="userStoryEstimate"
+                placeholder="points"
+              />
+              <label class="col-sm-4 col-form-label my-modal-label"
+                >Percent Complete</label
+              >
+              <input
+                type="number"
+                class="col-sm-2 form-control my-modal-text-area user-story-percent-done"
+                id="userStoryPercentDone"
+                placeholder="0-100"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >Priority</label
+              >
+              <input
+                type="number"
+                class="col-sm-2 form-control my-modal-text-area user-story-priority"
+                id="userStoryPriority"
+                placeholder="1-10"
+              />
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >Sprint</label
+              >
+              <input
+                type="number"
+                class="col-sm-2 form-control my-modal-text-area user-story-sprint"
+                id="userStorySprint"
+                placeholder="0,1,2,..."
+              />
+            </div>
+            <div class="form-group row my-modal-phase-row">
+              <label class="col-sm-2 col-form-label my-modal-phase-label"
+                >Phase</label
+              >
+              <div class="col-sm-8 col-form-label">
+                <input
+                  type="radio"
+                  name="userStoryPhase"
+                  id="userStoryPhase0"
+                  value="0"
+                  aria-label="To Do"
+                />To Do
+                <input
+                  type="radio"
+                  name="userStoryPhase"
+                  id="userStoryPhase1"
+                  value="1"
+                  aria-label="Doing"
+                />Doing
+                <input
+                  type="radio"
+                  name="userStoryPhase"
+                  id="userStoryPhase2"
+                  value="2"
+                  aria-label="Verify"
+                />Verify
+                <input
+                  type="radio"
+                  name="userStoryPhase"
+                  id="userStoryPhase3"
+                  value="3"
+                  aria-label="Done"
+                />Done
+              </div>
+            </div>
+            <div class="form-group row my-modal-button-row">
+              <div class="col-sm-11">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onclick="createNewUserStory()"
+                >
+                  Add User Story
+                </button>
+              </div>
+              <div
+                class="user-story-message my-modal-message"
+                id="userStoryMessage"
+              ></div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Edit user story modal -->
-    <div class="modal" id="editUserStoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit user story</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">Title</label>
-                        <input type="text" class="col-sm-9 form-control edit-user-story-title my-modal-edit-field"
-                            id="edit-user-story-title" placeholder="">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">As a</label>
-                        <input type="text" class="col-sm-9 form-control edit-user-story-user-role my-modal-edit-field"
-                            id="edit-user-story-user-role" placeholder="role">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">, I want</label>
-                        <input type="text" class="col-sm-9 form-control edit-user-story-user-want my-modal-edit-field"
-                            id="edit-user-story-user-want" placeholder="goal">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">so that</label>
-                        <input type="text"
-                            class="col-sm-9 form-control edit-user-story-user-benefit my-modal-edit-field"
-                            id="edit-user-story-user-benefit" placeholder="reason">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 col-form-label my-modal-text-area-title ">Acceptance Criteria</label>
-                        <textarea class="col-sm-11 form-control edit-user-story-acceptance-criteria my-modal-text-area"
-                            rows="2" id="edit-user-story-acceptance-criteria" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 col-form-label my-modal-text-area-title">Conversation</label>
-                        <textarea class="col-sm-11 form-control my-modal-text-area edit-user-story-conversation"
-                            rows="2" id="edit-user-story-conversation" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">Estimate</label>
-                        <input type="number" class="col-sm-2 form-control edit-user-story-estimate my-modal-edit-field"
-                            id="edit-user-story-estimate" placeholder="points">
-                        <span class="edit-vote" id="edit-vote">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
-                                    class="fas fa-vote-yea"></i></button>
-                        </span>
-                        <label class="col-sm-3 col-form-label my-modal-label">% Complete</label>
-                        <input type="number"
-                            class="col-sm-2 form-control edit-user-story-percent-done my-modal-edit-field"
-                            id="edit-user-story-percent-done" placeholder="0-100">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">Priority</label>
-                        <input type="number" class="col-sm-2 form-control edit-user-story-priority my-modal-edit-field"
-                            id="edit-user-story-priority" placeholder="1-10">
-                        <label class="col-sm-2 col-form-label my-modal-label">Sprint</label>
-                        <input type="number" class="col-sm-2 form-control edit-user-story-sprint my-modal-edit-field"
-                            id="edit-user-story-sprint" placeholder="0,1,2,...">
-                    </div>
-                    <div class="form-group row my-modal-phase-row">
-                        <label class="col-sm-2 col-form-label my-modal-phase-label">Phase</label>
-                        <div class="col-sm-8 col-form-label">
-                            <input type="radio" name="edit-user-story-phase" id="edit-user-story-phase-0" value="0"
-                                aria-label="To Do">To Do
-                            <input type="radio" name="edit-user-story-phase" id="edit-user-story-phase-1" value="1"
-                                aria-label="Doing">Doing
-                            <input type="radio" name="edit-user-story-phase" id="edit-user-story-phase-2" value="2"
-                                aria-label="Verify">Verify
-                            <input type="radio" name="edit-user-story-phase" id="edit-user-story-phase-3" value="3"
-                                aria-label="Done">Done
-                        </div>
-                    </div>
-                    <div class="form-group row edit-user-story-buttons my-modal-button-row"
-                        id="edit-user-story-buttons"></div>
-                    <div class="edit-user-story-message my-modal-message" id="edit-user-story-message"></div>
-                </div>
+    <div
+      class="modal"
+      id="editUserStoryModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="editUserStoryModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit user story</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >Title</label
+              >
+              <input
+                type="text"
+                class="col-sm-9 form-control edit-user-story-title my-modal-edit-field"
+                id="editUserStoryTitle"
+                placeholder=""
+              />
             </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label">As a</label>
+              <input
+                type="text"
+                class="col-sm-9 form-control edit-user-story-user-role my-modal-edit-field"
+                id="editUserStoryUserRole"
+                placeholder="role"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >, I want</label
+              >
+              <input
+                type="text"
+                class="col-sm-9 form-control edit-user-story-user-want my-modal-edit-field"
+                id="editUserStoryUserWant"
+                placeholder="goal"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >so that</label
+              >
+              <input
+                type="text"
+                class="col-sm-9 form-control edit-user-story-user-benefit my-modal-edit-field"
+                id="editUserStoryUserBenefit"
+                placeholder="reason"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label my-modal-text-area-title"
+                >Acceptance Criteria</label
+              >
+              <textarea
+                class="col-sm-11 form-control edit-user-story-acceptance-criteria my-modal-text-area"
+                rows="2"
+                id="editUserStoryAcceptanceCriteria"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-6 col-form-label my-modal-text-area-title"
+                >Conversation</label
+              >
+              <textarea
+                class="col-sm-11 form-control my-modal-text-area edit-user-story-conversation"
+                rows="2"
+                id="editUserStoryConversation"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >Estimate</label
+              >
+              <input
+                type="number"
+                class="col-sm-2 form-control edit-user-story-estimate my-modal-edit-field"
+                id="editUserStoryEstimate"
+                placeholder="points"
+              />
+              <span class="edit-vote" id="editVote">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  <i class="fas fa-vote-yea"></i>
+                </button>
+              </span>
+              <label class="col-sm-3 col-form-label my-modal-label"
+                >% Complete</label
+              >
+              <input
+                type="number"
+                class="col-sm-2 form-control edit-user-story-percent-done my-modal-edit-field"
+                id="editUserStoryPercentDone"
+                placeholder="0-100"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >Priority</label
+              >
+              <input
+                type="number"
+                class="col-sm-2 form-control edit-user-story-priority my-modal-edit-field"
+                id="editUserStoryPriority"
+                placeholder="1-10"
+              />
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >Sprint</label
+              >
+              <input
+                type="number"
+                class="col-sm-2 form-control edit-user-story-sprint my-modal-edit-field"
+                id="editUserStorySprint"
+                placeholder="0,1,2,..."
+              />
+            </div>
+            <div class="form-group row my-modal-phase-row">
+              <label class="col-sm-2 col-form-label my-modal-phase-label"
+                >Phase</label
+              >
+              <div class="col-sm-8 col-form-label">
+                <input
+                  type="radio"
+                  name="editUserStoryPhase"
+                  id="editUserStoryPhase0"
+                  value="0"
+                  aria-label="To Do"
+                />To Do
+                <input
+                  type="radio"
+                  name="editUserStoryPhase"
+                  id="editUserStoryPhase1"
+                  value="1"
+                  aria-label="Doing"
+                />Doing
+                <input
+                  type="radio"
+                  name="editUserStoryPhase"
+                  id="editUserStoryPhase2"
+                  value="2"
+                  aria-label="Verify"
+                />Verify
+                <input
+                  type="radio"
+                  name="editUserStoryPhase"
+                  id="editUserStoryPhase3"
+                  value="3"
+                  aria-label="Done"
+                />Done
+              </div>
+            </div>
+            <div
+              class="form-group row edit-user-story-buttons my-modal-button-row"
+              id="editUserStoryButtons"
+            ></div>
+            <div
+              class="edit-user-story-message my-modal-message"
+              id="editUserStoryMessage"
+            ></div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Create new bug modal -->
-    <div class="modal" id="createNewBugModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create bug</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">Title</label>
-                        <input type="text" class="col-sm-9 form-control my-modal-edit-field bug-title" id="bug-title"
-                            placeholder="">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 my-modal-text-area-title  col-form-label">Summary</label>
-                        <textarea class="col-sm-11 form-control my-modal-text-area bug-summary" rows="2"
-                            id="bug-summary" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 my-modal-text-area-title  col-form-label">Steps to reproduce</label>
-                        <textarea class="col-sm-11 form-control my-modal-text-area bug-steps-to-reproduce" rows="2"
-                            id="bug-steps-to-reproduce" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 my-modal-text-area-title  col-form-label">Expected results</label>
-                        <textarea class="col-sm-11 form-control my-modal-text-area bug-expected-results" rows="2"
-                            id="bug-expected-results" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 my-modal-text-area-title  col-form-label">Actual results</label>
-                        <textarea class="col-sm-11 form-control my-modal-text-area bug-actual-results" rows="2"
-                            id="bug-actual-results" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 my-modal-text-area-title col-form-label">Resolution</label>
-                        <textarea class="col-sm-11 form-control my-modal-text-area bug-resolution" rows="2"
-                            id="bug-resolution" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 my-modal-text-area-title  col-form-label">Acceptance Criteria</label>
-                        <textarea class="col-sm-11 form-control my-modal-text-area bug-acceptance-criteria" rows="2"
-                            id="bug-acceptance-criteria" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">Estimate</label>
-                        <input type="number" class="col-sm-2 form-control my-modal-text-area bug-estimate"
-                            id="bug-estimate" placeholder="points">
-                        <label class="col-sm-3 col-form-label my-modal-label">% Complete</label>
-                        <input type="number" class="col-sm-2 form-control my-modal-text-area bug-percent-done"
-                            id="bug-percent-done" placeholder="0-100">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">Priority</label>
-                        <input type="number" class="col-sm-2 form-control my-modal-text-area bug-priority"
-                            id="bug-priority" placeholder="1-10">
-                        <label class="col-sm-2 col-form-label my-modal-label">Sprint</label>
-                        <input type="number" class="col-sm-2 form-control my-modal-text-area bug-sprint" id="bug-sprint"
-                            placeholder="0,1,2,...">
-                    </div>
-                    <div class="form-group row my-modal-phase-row">
-                        <label class="col-sm-2 col-form-label my-modal-phase-label">Phase</label>
-                        <div class="col-sm-8 col-form-label">
-                            <input type="radio" name="bug-phase" id="bug-phase-0" value="0" aria-label="To Do">To Do
-                            <input type="radio" name="bug-phase" id="bug-phase-1" value="1" aria-label="Doing">Doing
-                            <input type="radio" name="bug-phase" id="bug-phase-2" value="2" aria-label="Verify">Verify
-                            <input type="radio" name="bug-phase" id="bug-phase-3" value="3" aria-label="Done">Done
-                        </div>
-                    </div>
-                    <div class="form-group row my-modal-button-row">
-                        <div class="col-sm-11">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="createNewBug()">Add Bug</button>
-                        </div>
-                        <div class="bug-message my-modal-message" id="bug-message"></div>
-                    </div>
-                </div>
+    <div
+      class="modal"
+      id="createNewBugModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="createNewBugModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Create bug</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >Title</label
+              >
+              <input
+                type="text"
+                class="col-sm-9 form-control my-modal-edit-field bug-title"
+                id="bugTitle"
+                placeholder=""
+              />
             </div>
+            <div class="form-group row">
+              <label class="col-sm-6 my-modal-text-area-title col-form-label"
+                >Summary</label
+              >
+              <textarea
+                class="col-sm-11 form-control my-modal-text-area bug-summary"
+                rows="2"
+                id="bugSummary"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-6 my-modal-text-area-title col-form-label"
+                >Steps to reproduce</label
+              >
+              <textarea
+                class="col-sm-11 form-control my-modal-text-area bug-steps-to-reproduce"
+                rows="2"
+                id="bugStepsToReproduce"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-6 my-modal-text-area-title col-form-label"
+                >Expected results</label
+              >
+              <textarea
+                class="col-sm-11 form-control my-modal-text-area bug-expected-results"
+                rows="2"
+                id="bugExpectedResults"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-6 my-modal-text-area-title col-form-label"
+                >Actual results</label
+              >
+              <textarea
+                class="col-sm-11 form-control my-modal-text-area bug-actual-results"
+                rows="2"
+                id="bugActualResults"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-6 my-modal-text-area-title col-form-label"
+                >Resolution</label
+              >
+              <textarea
+                class="col-sm-11 form-control my-modal-text-area bug-resolution"
+                rows="2"
+                id="bugResolution"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-6 my-modal-text-area-title col-form-label"
+                >Acceptance Criteria</label
+              >
+              <textarea
+                class="col-sm-11 form-control my-modal-text-area bug-acceptance-criteria"
+                rows="2"
+                id="bugAcceptanceCriteria"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >Estimate</label
+              >
+              <input
+                type="number"
+                class="col-sm-2 form-control my-modal-text-area bug-estimate"
+                id="bugEstimate"
+                placeholder="points"
+              />
+              <label class="col-sm-3 col-form-label my-modal-label"
+                >% Complete</label
+              >
+              <input
+                type="number"
+                class="col-sm-2 form-control my-modal-text-area bug-percent-done"
+                id="bugPercentDone"
+                placeholder="0-100"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >Priority</label
+              >
+              <input
+                type="number"
+                class="col-sm-2 form-control my-modal-text-area bug-priority"
+                id="bugPriority"
+                placeholder="1-10"
+              />
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >Sprint</label
+              >
+              <input
+                type="number"
+                class="col-sm-2 form-control my-modal-text-area bug-sprint"
+                id="bugSprint"
+                placeholder="0,1,2,..."
+              />
+            </div>
+            <div class="form-group row my-modal-phase-row">
+              <label class="col-sm-2 col-form-label my-modal-phase-label"
+                >Phase</label
+              >
+              <div class="col-sm-8 col-form-label">
+                <input
+                  type="radio"
+                  name="bugPhase"
+                  id="bugPhase0"
+                  value="0"
+                  aria-label="To Do"
+                />To Do
+                <input
+                  type="radio"
+                  name="bugPhase"
+                  id="bugPhase1"
+                  value="1"
+                  aria-label="Doing"
+                />Doing
+                <input
+                  type="radio"
+                  name="bugPhase"
+                  id="bugPhase2"
+                  value="2"
+                  aria-label="Verify"
+                />Verify
+                <input
+                  type="radio"
+                  name="bugPhase"
+                  id="bugPhase3"
+                  value="3"
+                  aria-label="Done"
+                />Done
+              </div>
+            </div>
+            <div class="form-group row my-modal-button-row">
+              <div class="col-sm-11">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onclick="createNewBug()"
+                >
+                  Add Bug
+                </button>
+              </div>
+              <div class="bug-message my-modal-message" id="bugMessage"></div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Edit bug modal -->
-    <div class="modal" id="editBugModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="edit-modal-title" id="exampleModalLabel">Edit bug</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">Title</label>
-                        <input type="text" class="col-sm-9 form-control my-modal-edit-field edit-bug-title"
-                            id="edit-bug-title" placeholder="">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 my-modal-text-area-title  col-form-label">Summary</label>
-                        <textarea class="col-sm-11 form-control my-modal-text-area edit-bug-summary" rows="2"
-                            id="edit-bug-summary" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 my-modal-text-area-title  col-form-label">Steps to reproduce</label>
-                        <textarea class="col-sm-11 form-control my-modal-text-area edit-bug-steps-to-reproduce" rows="2"
-                            id="edit-bug-steps-to-reproduce" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 my-modal-text-area-title  col-form-label">Expected results</label>
-                        <textarea class="col-sm-11 form-control my-modal-text-area edit-bug-expected-results" rows="2"
-                            id="edit-bug-expected-results" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 my-modal-text-area-title  col-form-label">Actual results</label>
-                        <textarea class="col-sm-11 form-control my-modal-text-area edit-bug-actual-results" rows="2"
-                            id="edit-bug-actual-results" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 my-modal-text-area-title  col-form-label">Resolution</label>
-                        <textarea class="col-sm-11 form-control my-modal-text-area edit-bug-resolution" rows="2"
-                            id="edit-bug-resolution" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-6 my-modal-text-area-title  col-form-label">Acceptance Criteria</label>
-                        <textarea class="col-sm-11 form-control my-modal-text-area edit-bug-acceptance-criteria"
-                            rows="2" id="edit-bug-acceptance-criteria" placeholder=""></textarea>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">Estimate</label>
-                        <input type="number" class="col-sm-2 form-control my-modal-text-area edit-bug-estimate"
-                            id="edit-bug-estimate" placeholder="points">
-                        <span class="edit-bug-vote" id="edit-bug-vote">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
-                                    class="fas fa-vote-yea"></i></button>
-                        </span>
-                        <label class="col-sm-3 col-form-label my-modal-label">% Complete</label>
-                        <input type="number" class="col-sm-2 form-control my-modal-text-area edit-bug-percent-done"
-                            id="edit-bug-percent-done" placeholder="0-100">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label my-modal-label">Priority</label>
-                        <input type="number" class="col-sm-2 form-control my-modal-text-area edit-bug-priority"
-                            id="edit-bug-priority" placeholder="1-10">
-                        <label class="col-sm-2 col-form-label my-modal-label">Sprint</label>
-                        <input type="number" class="col-sm-2 form-control my-modal-text-area edit-bug-sprint"
-                            id="edit-bug-sprint" placeholder="0,1,2,...">
-                    </div>
-                    <div class="form-group row my-modal-phase-row">
-                        <label class="col-sm-2 col-form-label my-modal-phase-label">Phase</label>
-                        <div class="col-sm-8 col-form-label">
-                            <input type="radio" name="edit-bug-phase" id="edit-bug-phase-0" value="0"
-                                aria-label="To Do">To Do
-                            <input type="radio" name="edit-bug-phase" id="edit-bug-phase-1" value="1"
-                                aria-label="Doing">Doing
-                            <input type="radio" name="edit-bug-phase" id="edit-bug-phase-2" value="2"
-                                aria-label="Verify">Verify
-                            <input type="radio" name="edit-bug-phase" id="edit-bug-phase-3" value="3"
-                                aria-label="Done">Done
-                        </div>
-                    </div>
-                    <div class="form-group row edit-bug-buttons my-modal-button-row" id="edit-bug-buttons"></div>
-                    <div class="edit-bug-message my-modal-message" id="edit-bug-message"></div>
-                </div>
+    <div
+      class="modal"
+      id="editBugModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="editBugModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="edit-modal-title" id="exampleModalLabel">Edit bug</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >Title</label
+              >
+              <input
+                type="text"
+                class="col-sm-9 form-control my-modal-edit-field edit-bug-title"
+                id="editBugTitle"
+                placeholder=""
+              />
             </div>
+            <div class="form-group row">
+              <label class="col-sm-6 my-modal-text-area-title col-form-label"
+                >Summary</label
+              >
+              <textarea
+                class="col-sm-11 form-control my-modal-text-area edit-bug-summary"
+                rows="2"
+                id="editBugSummary"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-6 my-modal-text-area-title col-form-label"
+                >Steps to reproduce</label
+              >
+              <textarea
+                class="col-sm-11 form-control my-modal-text-area edit-bug-steps-to-reproduce"
+                rows="2"
+                id="editBugStepsToReproduce"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-6 my-modal-text-area-title col-form-label"
+                >Expected results</label
+              >
+              <textarea
+                class="col-sm-11 form-control my-modal-text-area edit-bug-expected-results"
+                rows="2"
+                id="editBugExpectedResults"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-6 my-modal-text-area-title col-form-label"
+                >Actual results</label
+              >
+              <textarea
+                class="col-sm-11 form-control my-modal-text-area edit-bug-actual-results"
+                rows="2"
+                id="editBugActualResults"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-6 my-modal-text-area-title col-form-label"
+                >Resolution</label
+              >
+              <textarea
+                class="col-sm-11 form-control my-modal-text-area edit-bug-resolution"
+                rows="2"
+                id="editBugResolution"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-6 my-modal-text-area-title col-form-label"
+                >Acceptance Criteria</label
+              >
+              <textarea
+                class="col-sm-11 form-control my-modal-text-area edit-bug-acceptance-criteria"
+                rows="2"
+                id="editBugAcceptanceCriteria"
+                placeholder=""
+              ></textarea>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >Estimate</label
+              >
+              <input
+                type="number"
+                class="col-sm-2 form-control my-modal-text-area edit-bug-estimate"
+                id="editBugEstimate"
+                placeholder="points"
+              />
+              <span class="edit-bug-vote" id="editBugVote">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  <i class="fas fa-vote-yea"></i>
+                </button>
+              </span>
+              <label class="col-sm-3 col-form-label my-modal-label"
+                >% Complete</label
+              >
+              <input
+                type="number"
+                class="col-sm-2 form-control my-modal-text-area edit-bug-percent-done"
+                id="editBugPercentDone"
+                placeholder="0-100"
+              />
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >Priority</label
+              >
+              <input
+                type="number"
+                class="col-sm-2 form-control my-modal-text-area edit-bug-priority"
+                id="editBugPriority"
+                placeholder="1-10"
+              />
+              <label class="col-sm-2 col-form-label my-modal-label"
+                >Sprint</label
+              >
+              <input
+                type="number"
+                class="col-sm-2 form-control my-modal-text-area edit-bug-sprint"
+                id="editBugSprint"
+                placeholder="0,1,2,..."
+              />
+            </div>
+            <div class="form-group row my-modal-phase-row">
+              <label class="col-sm-2 col-form-label my-modal-phase-label"
+                >Phase</label
+              >
+              <div class="col-sm-8 col-form-label">
+                <input
+                  type="radio"
+                  name="editBugPhase"
+                  id="editBugPhase0"
+                  value="0"
+                  aria-label="To Do"
+                />To Do
+                <input
+                  type="radio"
+                  name="editBugPhase"
+                  id="editBugPhase1"
+                  value="1"
+                  aria-label="Doing"
+                />Doing
+                <input
+                  type="radio"
+                  name="editBugPhase"
+                  id="editBugPhase2"
+                  value="2"
+                  aria-label="Verify"
+                />Verify
+                <input
+                  type="radio"
+                  name="editBugPhase"
+                  id="editBugPhase3"
+                  value="3"
+                  aria-label="Done"
+                />Done
+              </div>
+            </div>
+            <div
+              class="form-group row edit-bug-buttons my-modal-button-row"
+              id="editBugButtons"
+            ></div>
+            <div
+              class="edit-bug-message my-modal-message"
+              id="editBugMessage"
+            ></div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Login modal -->
-    <div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Login</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Email</label>
-                        <input type="email" class="col-sm-10 form-control login-email my-modal-edit-field"
-                            id="login-email" placeholder="Email">
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-3 col-form-label">Password</label>
-                        <input type="password" class="col-sm-10 form-control login-password my-modal-edit-field"
-                            id="login-password" placeholder="Password">
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-10">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" onclick="loginDeveloper(-1)">Login</button>
-                        </div>
-                    </div>
-                    <div class="login-message" id="login-message"></div>
-                </div>
+    <div
+      class="modal"
+      id="loginModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="loginModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Email</label>
+              <input
+                type="email"
+                class="col-sm-10 form-control login-email my-modal-edit-field"
+                id="loginEmail"
+                placeholder="Email"
+              />
             </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label">Password</label>
+              <input
+                type="password"
+                class="col-sm-10 form-control login-password my-modal-edit-field"
+                id="loginPassword"
+                placeholder="Password"
+              />
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onclick="loginDeveloper(-1)"
+                >
+                  Login
+                </button>
+              </div>
+            </div>
+            <div class="login-message" id="loginMessage"></div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- confirm delete modal -->
-    <div class="modal" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirm-delete-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="confirm-delete-message"></div>
-                <div class="modal-footer" id="confirm-delete-buttons"></div>
-            </div>
+    <div
+      class="modal"
+      id="confirmDeleteModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="confirmDeleteModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="confirmDeleteModalTitle"></h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="confirmDeleteModalMessage"></div>
+          <div class="modal-footer" id="confirmDeleteModalButtons"></div>
         </div>
+      </div>
     </div>
 
     <!-- error modal -->
-    <div class="modal" id="error-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="error-dialog-title"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="error-dialog-message"></div>
-                <div class="modal-footer" id="error-dialog-buttons"></div>
-            </div>
+    <div
+      class="modal"
+      id="errorDialogModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="errorDialogModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="errorDialogModalTitle"></h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="errorDialogModalMessage"></div>
+          <div class="modal-footer" id="errorDialogModalButtons"></div>
         </div>
+      </div>
     </div>
 
     <!-- message modal -->
-    <div class="modal message-dialog" id="message-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header message-modal-header">
-                    <h5 class="modal-title" id="message-dialog-title"></h5>
-                </div>
-                <div class="modal-body" id="popup-message"></div>
-            </div>
+    <div
+      class="modal messageDialogModal"
+      id="messageDialogModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="messageDialogModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header message-modal-header">
+            <h5 class="modal-title" id="messageDialogModalTitle"></h5>
+          </div>
+          <div class="modal-body" id="popupMessage"></div>
         </div>
+      </div>
     </div>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS, then my files -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-    </script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
     <script src="/js/charting/Chart.min.js"></script>
     <script src="/js/charting/charting.js"></script>
     <script src="/js/misc.js"></script>
@@ -845,7 +1776,5 @@
     <script src="/js/model/localStorage.js"></script>
     <script src="/js/model/validation.js"></script>
     <script src="https://kit.fontawesome.com/9c3ba4b8c1.js"></script>
-
-</body>
-
+  </body>
 </html>

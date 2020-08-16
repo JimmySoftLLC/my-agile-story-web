@@ -1,5 +1,6 @@
 // Set new default font family and font color to mimic Bootstrap's default styling
-Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontFamily =
+  '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#292b2c';
 
 let totalProjectPoints = 0;
@@ -16,40 +17,44 @@ class UserStoryBugsEstimates {
     this.estimate = estimate;
     this.userStoryOrBug = userStoryOrBug;
     this.index = index;
-    this.priority = priority
+    this.priority = priority;
   }
 }
 
 function showBurnDownChart() {
   try {
-    var myProjectIndex = (document.getElementById('select-project').value);
+    var myProjectIndex = document.getElementById('selectProject').value;
     if (myProjectIndex != -1) {
       totalProjectPoints = 0;
       calculateTotalProjectPoints();
       generateBurnChartData();
-      document.getElementById('user-story-bug-elements').innerHTML = "";
+      document.getElementById('userStoryBugCards').innerHTML = '';
       let listHTML = '';
       listHTML += '<div class="row user-story-div">';
       listHTML += '   <div class="col-lg-12">';
       listHTML += '      <div class="card mb-3">';
       listHTML += '         <div class="card-header">';
       listHTML += '            <i class="fas fa-chart-bar"></i>';
-      listHTML += `               Burndown for project: ` + myProjects[myProjectIndex].name + `</div>`;
+      listHTML +=
+        `               Burndown for project: ` +
+        myProjects[myProjectIndex].name +
+        `</div>`;
       listHTML += '            <div class="card-body">';
-      listHTML += '                <canvas id="myBarChart" width="100%" height="50"></canvas>';
+      listHTML +=
+        '                <canvas id="myBarChart" width="100%" height="50"></canvas>';
       listHTML += '            </div>';
       listHTML += '         <div class="card-footer small text-muted"></div>';
       listHTML += '      </div>';
       listHTML += '   </div>';
       listHTML += '</div>';
-      document.getElementById('graph-elements').innerHTML = listHTML;
+      document.getElementById('burndownChart').innerHTML = listHTML;
       showChartNow();
     }
-  } catch (error) { }
+  } catch (error) {}
 }
 
 function hideBurnDownChart() {
-  document.getElementById('graph-elements').innerHTML = "";
+  document.getElementById('burndownChart').innerHTML = '';
 }
 
 function calculateTotalProjectPoints() {
@@ -72,10 +77,26 @@ function calculateTotalProjectPoints() {
 function orderUserStorysBugsBySprintId() {
   myUserStoriesBugsEstimate = [];
   for (let i = 0; i < myUserStorys.length; i++) {
-    myUserStoriesBugsEstimate.push(new UserStoryBugsEstimates(myUserStorys[i].sprint, myUserStorys[i].estimate, 0, i, myUserStorys[i].priority));
+    myUserStoriesBugsEstimate.push(
+      new UserStoryBugsEstimates(
+        myUserStorys[i].sprint,
+        myUserStorys[i].estimate,
+        0,
+        i,
+        myUserStorys[i].priority
+      )
+    );
   }
   for (let i = 0; i < myBugs.length; i++) {
-    myUserStoriesBugsEstimate.push(new UserStoryBugsEstimates(myBugs[i].sprint, myBugs[i].estimate, 1, i, myBugs[i].priority));
+    myUserStoriesBugsEstimate.push(
+      new UserStoryBugsEstimates(
+        myBugs[i].sprint,
+        myBugs[i].estimate,
+        1,
+        i,
+        myBugs[i].priority
+      )
+    );
   }
 
   myUserStoriesBugsEstimate.sort(function (obj1, obj2) {
@@ -112,12 +133,12 @@ function StraightLineFit() {
   labelsForChart = [];
   burndown = [];
   burndown.push(mySlopeIntercept.slope * i + mySlopeIntercept.intercept);
-  var myitem = "S" + (i + 1);
+  var myitem = 'S' + (i + 1);
   labelsForChart.push(myitem);
   while (burndown[i] > 0 && i < sprints.length + 10) {
     i += 1;
     burndown.push(mySlopeIntercept.slope * i + mySlopeIntercept.intercept);
-    myitem = "S" + (i + 1);
+    myitem = 'S' + (i + 1);
     labelsForChart.push(myitem);
   }
 }
@@ -132,17 +153,20 @@ function linearRegression(y, x) {
   var sum_yy = 0;
 
   for (var i = 0; i < y.length; i++) {
-
     sum_x += x[i];
     sum_y += y[i];
-    sum_xy += (x[i] * y[i]);
-    sum_xx += (x[i] * x[i]);
-    sum_yy += (y[i] * y[i]);
+    sum_xy += x[i] * y[i];
+    sum_xx += x[i] * x[i];
+    sum_yy += y[i] * y[i];
   }
 
   lr['slope'] = (n * sum_xy - sum_x * sum_y) / (n * sum_xx - sum_x * sum_x);
   lr['intercept'] = (sum_y - lr.slope * sum_x) / n;
-  lr['r2'] = Math.pow((n * sum_xy - sum_x * sum_y) / Math.sqrt((n * sum_xx - sum_x * sum_x) * (n * sum_yy - sum_y * sum_y)), 2);
+  lr['r2'] = Math.pow(
+    (n * sum_xy - sum_x * sum_y) /
+      Math.sqrt((n * sum_xx - sum_x * sum_x) * (n * sum_yy - sum_y * sum_y)),
+    2
+  );
 
   return lr;
 }
@@ -153,60 +177,66 @@ function getRndInteger(min, max) {
 
 function showChartNow() {
   // Bar Chart Example
-  var ctx = document.getElementById("myBarChart");
+  var ctx = document.getElementById('myBarChart');
   var myLineChart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: labelsForChart,
-      datasets: [{
-        label: "Velocity",
-        backgroundColor: "rgba(0,0,0,0)",
-        borderColor: "rgba(255,0,0,1)",
-        data: burndown,
-        type: 'line'
-      },
-      {
-        label: "To Do",
-        backgroundColor: "rgba(2,117,216,1)",
-        borderColor: "rgba(2,117,216,1)",
-        data: todo,
-      }, {
-        label: "Sprint",
-        backgroundColor: "rgba(0,125,0,1)",
-        borderColor: "rgba(2,117,216,1)",
-        data: sprints,
-      }
+      datasets: [
+        {
+          label: 'Velocity',
+          backgroundColor: 'rgba(0,0,0,0)',
+          borderColor: 'rgba(255,0,0,1)',
+          data: burndown,
+          type: 'line',
+        },
+        {
+          label: 'To Do',
+          backgroundColor: 'rgba(2,117,216,1)',
+          borderColor: 'rgba(2,117,216,1)',
+          data: todo,
+        },
+        {
+          label: 'Sprint',
+          backgroundColor: 'rgba(0,125,0,1)',
+          borderColor: 'rgba(2,117,216,1)',
+          data: sprints,
+        },
       ],
     },
     options: {
       scales: {
-        xAxes: [{
-          time: {
-            unit: 'Days'
+        xAxes: [
+          {
+            time: {
+              unit: 'Days',
+            },
+            gridLines: {
+              display: false,
+            },
+            ticks: {
+              maxTicksLimit: 20,
+            },
+            stacked: true,
           },
-          gridLines: {
-            display: false
+        ],
+        yAxes: [
+          {
+            ticks: {
+              min: 0,
+              max: totalProjectPoints * 1.2,
+              maxTicksLimit: 5,
+            },
+            gridLines: {
+              display: true,
+            },
+            stacked: true,
           },
-          ticks: {
-            maxTicksLimit: 20
-          },
-          stacked: true
-        }],
-        yAxes: [{
-          ticks: {
-            min: 0,
-            max: totalProjectPoints * 1.2,
-            maxTicksLimit: 5
-          },
-          gridLines: {
-            display: true
-          },
-          stacked: true
-        }],
+        ],
       },
       legend: {
-        display: false
-      }
-    }
+        display: false,
+      },
+    },
   });
 }

@@ -1,8 +1,8 @@
 const loginDeveloper = async () => {
   showPopupMessageNoClear('Starting remote server please wait');
-  var email = document.getElementById('login-email').value;
+  var email = document.getElementById('loginEmail').value;
   email = email.toLowerCase();
-  var password = document.getElementById('login-password').value;
+  var password = document.getElementById('loginPassword').value;
   try {
     const res = await fetch(URL_Address + '/get/developer', {
       method: 'post',
@@ -113,9 +113,9 @@ const getDeveloperByEmail = async (developerEmail, myProjectIndex) => {
       let developer = obj;
       myProjectDevelopers.push({
         developerId: developer._id,
-        canWrite: document.getElementById('project-edit-permissions-write')
+        canWrite: document.getElementById('editProjectPermissionsWrite')
           .checked,
-        canAdmin: document.getElementById('project-edit-permissions-admin')
+        canAdmin: document.getElementById('projectEditPermissionsAdmin')
           .checked,
         firstName: developer.firstName,
         lastName: developer.lastName,
@@ -182,11 +182,11 @@ const addDeveloperByEmail = async (developerEmails, myProjectIndex) => {
 
 const createNewDeveloper = async () => {
   updateDeveloperMessage('Creating new developer please wait');
-  var email = document.getElementById('developer-email').value;
-  var password = document.getElementById('developer-password').value;
-  var firstName = document.getElementById('developer-first-name').value;
-  var lastName = document.getElementById('developer-last-name').value;
-  var bio = document.getElementById('developer-bio').value;
+  var email = document.getElementById('developerEmail').value;
+  var password = document.getElementById('developerPassword').value;
+  var firstName = document.getElementById('developerFirstName').value;
+  var lastName = document.getElementById('developerLastName').value;
+  var bio = document.getElementById('developerBio').value;
   var role = 'admin'; // TODO document.getElementById('developer-role').value;
   email = email.toLowerCase();
   try {
@@ -220,10 +220,10 @@ const createNewDeveloper = async () => {
 
 const editDeveloper = async () => {
   updateEditDeveloperMessage('Editing developer please wait');
-  var firstName = document.getElementById('edit-developer-first-name').value;
-  var lastName = document.getElementById('edit-developer-last-name').value;
-  var email = document.getElementById('edit-developer-email').value;
-  var bio = document.getElementById('edit-developer-bio').value;
+  var firstName = document.getElementById('editDeveloperFirstName').value;
+  var lastName = document.getElementById('editDeveloperLastName').value;
+  var email = document.getElementById('editDeveloperEmail').value;
+  var bio = document.getElementById('editDeveloperBio').value;
   var role = 'admin'; //TODO change the dialog to have roles
   try {
     const res = await fetch(URL_Address + '/put/developer', {
@@ -257,11 +257,10 @@ const editDeveloper = async () => {
 
 const editPassword = async () => {
   updateEditPasswordMessage('Editing developer password please wait');
-  var oldPassword = document.getElementById('edit-password-old-password').value;
-  var password = document.getElementById('edit-password-new-password').value;
-  var retypedPassword = document.getElementById(
-    'edit-password-retype-new-password'
-  ).value;
+  var oldPassword = document.getElementById('editPasswordOldPassword').value;
+  var password = document.getElementById('editPasswordNewPassword').value;
+  var retypedPassword = document.getElementById('editPasswordRetypeNewPassword')
+    .value;
   if (password != retypedPassword) {
     showErrorMessage('Error', 'Retyped password does not match');
   } else {
