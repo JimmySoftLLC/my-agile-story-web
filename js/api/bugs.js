@@ -114,6 +114,7 @@ const createNewBug = async () => {
             percentDone: percentDone,
             priority: priority,
             sprint: sprint,
+            developers: [],
           }),
         }
       );
@@ -145,7 +146,8 @@ const updateBug = async (
   phase,
   percentDone,
   priority,
-  sprint
+  sprint,
+  developers
 ) => {
   var myProjectIndex = document.getElementById('selectProject').value;
   if (myProjectIndex != -1) {
@@ -176,6 +178,7 @@ const updateBug = async (
             percentDone: percentDone,
             priority: priority,
             sprint: sprint,
+            developers: developers,
           }),
         });
         const obj = await res.json();

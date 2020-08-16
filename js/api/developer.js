@@ -113,7 +113,7 @@ const getDeveloperByEmail = async (developerEmail, myProjectIndex) => {
       let developer = obj;
       myProjectDevelopers.push({
         developerId: developer._id,
-        canWrite: document.getElementById('editProjectPermissionsWrite')
+        canWrite: document.getElementById('projectEditPermissionsWrite')
           .checked,
         canAdmin: document.getElementById('projectEditPermissionsAdmin')
           .checked,

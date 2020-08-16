@@ -52,8 +52,8 @@ function updateDevelopersInProject(myProjectIndex, myDevelopers) {
     listHTML = `<label class="col-sm-11 col-form-label my-modal-title">Add developer</label>`;
     listHTML += `<input type="text" class="col-sm-4 form-control edit-project-developer-email my-modal-edit-field"
         id="editProjectDeveloperEmail" placeholder="developer email"></input>`;
-    listHTML += `<input type="checkbox" class="project-edit-permissions" id = "editProjectPermissionsWrite"><span class="project-edit-permissions-text">Write</span>`;
-    listHTML += `<input type="checkbox" class="project-edit-permissions" id = "projectEditPermissionsAdmin"><span class="project-edit-permissions-text">Admin</span>`;
+    listHTML += `<input type="checkbox" class="edit-permissions" id = "projectEditPermissionsWrite"><span class="edit-permissions-text">Write</span>`;
+    listHTML += `<input type="checkbox" class="edit-permissions" id = "projectEditPermissionsAdmin"><span class="edit-permissions-text">Admin</span>`;
     listHTML +=
       `<button type="button" class="btn btn-primary voting-button" onclick="addDeveloperToProject(` +
       myProjectIndex +
@@ -97,23 +97,13 @@ function showChangePasswordDialog() {
 
 function editDeveloperProjectPermissions(myProjectIndex, myDeveloperIndex) {
   let listHTML = '';
-  listHTML = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
-  listHTML +=
-    `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="updateDeveloperPermission(` +
-    myProjectIndex +
-    `,` +
-    myDeveloperIndex +
-    `)">Save Changes</button>`;
-  document.getElementById(
-    'editDeveloperProjectPermissionsButtons'
-  ).innerHTML = listHTML;
   listHTML =
     myProjectDevelopers[myDeveloperIndex].firstName +
     ' ' +
     myProjectDevelopers[myDeveloperIndex].lastName +
     '    ';
-  listHTML += `<input type="checkbox" class="project-edit-permissions" id = "editProjectPermissionsWrite"><span class="project-edit-permissions-text">Write</span>`;
-  listHTML += `<input type="checkbox" class="project-edit-permissions" id = "editProjectPermissionsAdmin"><span class="project-edit-permissions-text">Admin</span>`;
+  listHTML += `<input type="checkbox" class="edit-permissions" id = "editProjectPermissionsWrite"><span class="edit-permissions-text">Write</span>`;
+  listHTML += `<input type="checkbox" class="edit-permissions" id = "editProjectPermissionsAdmin"><span class="edit-permissions-text">Admin</span>`;
   document.getElementById(
     'editDeveloperProjectPermissions'
   ).innerHTML = listHTML;
@@ -121,7 +111,51 @@ function editDeveloperProjectPermissions(myProjectIndex, myDeveloperIndex) {
     myProjectDevelopers[myDeveloperIndex].canWrite;
   document.getElementById(`editProjectPermissionsAdmin`).checked =
     myProjectDevelopers[myDeveloperIndex].canAdmin;
+  listHTML = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
+  listHTML +=
+    `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="updateDeveloperProjectPermission(` +
+    myProjectIndex +
+    `,` +
+    myDeveloperIndex +
+    `)">Save Changes</button>`;
+  document.getElementById(
+    'editDeveloperProjectPermissionsButtons'
+  ).innerHTML = listHTML;
+
   $('#editDeveloperProjectPermissionsModal').modal('show');
+}
+
+function editDeveloperUserStoryPermissions(myUserStoryIndex, myDeveloperIndex) {
+  let listHTML = '';
+  listHTML =
+    myUserStoryDevelopers[myDeveloperIndex].firstName +
+    ' ' +
+    myUserStoryDevelopers[myDeveloperIndex].lastName +
+    '    ';
+  listHTML += `<input type="checkbox" class="edit-permissions" id = "editUserStoryPermissionsDevelop"><span class="edit-permissions-text">Develop</span>`;
+  listHTML += `<input type="checkbox" class="edit-permissions" id = "editUserStoryPermissionsVerify"><span class="edit-permissions-text">Verify</span>`;
+  listHTML += `<input type="checkbox" class="edit-permissions" id = "editUserStoryPermissionsRelease"><span class="edit-permissions-text">Release</span>`;
+  document.getElementById(
+    'editDeveloperUserStoryPermissions'
+  ).innerHTML = listHTML;
+  document.getElementById(`editUserStoryPermissionsDevelop`).checked =
+    myUserStoryDevelopers[myDeveloperIndex].canDevelop;
+  document.getElementById(`editUserStoryPermissionsVerify`).checked =
+    myUserStoryDevelopers[myDeveloperIndex].canVerify;
+  document.getElementById(`editUserStoryPermissionsRelease`).checked =
+    myUserStoryDevelopers[myDeveloperIndex].canRelease;
+  listHTML = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
+  listHTML +=
+    `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="updateDeveloperUserStoryPermission(` +
+    myUserStoryIndex +
+    `,` +
+    myDeveloperIndex +
+    `)">Save Changes</button>`;
+  document.getElementById(
+    'editDeveloperUserStoryPermissionsButtons'
+  ).innerHTML = listHTML;
+
+  $('#editDeveloperUserStoryPermissionsModal').modal('show');
 }
 
 $('#editPasswordModal').on('show.bs.modal', function (event) {

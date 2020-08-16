@@ -815,9 +815,47 @@
                 class="col-sm-11"
                 id="editDeveloperProjectPermissionsButtons"
               ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit userstory developer permissions modal -->
+    <div
+      class="modal"
+      id="editDeveloperUserStoryPermissionsModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="editDeveloperUserStoryPermissionsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Edit developer permissions
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row my-modal-button-row">
               <div
-                class="edit-project-message my-modal-message"
-                id="editProjectMessage"
+                class="col-sm-11"
+                id="editDeveloperUserStoryPermissions"
+              ></div>
+            </div>
+            <div class="form-group row my-modal-button-row">
+              <div
+                class="col-sm-11"
+                id="editDeveloperUserStoryPermissionsButtons"
               ></div>
             </div>
           </div>
@@ -1187,6 +1225,10 @@
                 />Done
               </div>
             </div>
+            <div
+              class="form-group row edit-project-developers"
+              id="editUserStoryDevelopers"
+            ></div>
             <div
               class="form-group row edit-user-story-buttons my-modal-button-row"
               id="editUserStoryButtons"
@@ -1584,6 +1626,10 @@
               </div>
             </div>
             <div
+              class="form-group row edit-project-developers"
+              id="editBugDevelopers"
+            ></div>
+            <div
               class="form-group row edit-bug-buttons my-modal-button-row"
               id="editBugButtons"
             ></div>
@@ -1756,7 +1802,7 @@
     <script src="/js/charting/charting.js"></script>
     <script src="/js/misc.js"></script>
     <script src="/js/dom/messages.js"></script>
-    <script src="/js/dom/userStorys.js"></script>
+    <script src="/js/dom/userStorysDom.js"></script>
     <script src="/js/dom/projects.js"></script>
     <script src="/js/dom/bugs.js"></script>
     <script src="/js/dom/developers.js"></script>
@@ -1765,11 +1811,11 @@
     <script src="/js/api/urlPath.js"></script>
     <script src="/js/api/bugs.js"></script>
     <script src="/js/api/developer.js"></script>
-    <script src="/js/api/userStorys.js"></script>
+    <script src="/js/api/userStorysApi.js"></script>
     <script src="/js/api/projects.js"></script>
     <script src="/js/model/bugs.js"></script>
     <script src="/js/model/developer.js"></script>
-    <script src="/js/model/userStorys.js"></script>
+    <script src="/js/model/userStorysModel.js"></script>
     <script src="/js/model/projects.js"></script>
     <script src="/js/model/userData.js"></script>
     <script src="/js/model/getUpdates.js"></script>

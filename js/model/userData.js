@@ -87,6 +87,6 @@ let myProjects = [];
 let myUserStorys = [];
 let myBugs = [];
 let myLastSelectedProject = '';
-let myLastSelectedPhase = '0'
+let myLastSelectedPhase = '0';
 let myToken = '';
 let myProjectDevelopers = [];

@@ -115,6 +115,7 @@ const createNewUserStory = async () => {
             percentDone: percentDone,
             priority: priority,
             sprint: sprint,
+            developers: [],
           }),
         }
       );
@@ -145,7 +146,8 @@ const updateUserStory = async (
   phase,
   percentDone,
   priority,
-  sprint
+  sprint,
+  developers
 ) => {
   var myProjectIndex = document.getElementById('selectProject').value;
   if (myProjectIndex != -1) {
@@ -177,6 +179,7 @@ const updateUserStory = async (
               percentDone: percentDone,
               priority: priority,
               sprint: sprint,
+              developers: developers,
             }),
           }
         );

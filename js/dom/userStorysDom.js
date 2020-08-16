@@ -80,6 +80,7 @@ $('#editUserStoryModal').on('show.bs.modal', function (event) {
       `"><i class="fas fa-vote-yea"></i></button>`;
   }
   document.getElementById('editVote').innerHTML = listHTML;
+  updateDevelopersInUserStory(myIndex, myProjectIndex);
   updateEditUserStoryMessage('');
 });
 
@@ -238,4 +239,76 @@ function displayUserStory(i, myProjectIndex) {
     listHTML += `</div>`;
   }
   return listHTML;
+}
+
+function updateDevelopersInUserStory(myUserStoryIndex, myProjectIndex) {
+  let privilegeLevel = developerHighestPrivilege(myProjectIndex);
+  let listHTML = '';
+  if (privilegeLevel === 'A') {
+    listHTML = `<label class="col-sm-11 col-form-label my-modal-title">Add developer</label>`;
+
+    //console.log(myProjects)
+
+    listHTML +=
+      '<select class="col-sm-4 form-control edit-project-developer-email my-modal-edit-field" id="selectProject" onchange="selectProjectDropDownChanged()">';
+    listHTML += '<div class="btn-group">';
+
+    listHTML += '<option selected value = "-1" >Select Developer</option>';
+    for (var j = 0; j < myProjects[myProjectIndex].developers.length; j++) {
+      listHTML +=
+        `<option value = "` +
+        j +
+        `">` +
+        myProjects[myProjectIndex].developers[j].email +
+        `</option>`;
+    }
+
+    listHTML += '</div>';
+    listHTML += '</select>';
+
+    listHTML += `<input type="checkbox" class="edit-permissions" id = "dev"><span class="edit-permissions-text">Dev</span>`;
+    listHTML += `<input type="checkbox" class="edit-permissions" id = "verify"><span class="edit-permissions-text">Verify</span>`;
+    listHTML += `<input type="checkbox" class="edit-permissions" id = "release"><span class="edit-permissions-text">Release</span>`;
+    listHTML +=
+      `<button type="button" class="btn btn-primary voting-button" onclick="addDeveloperToUserStory(` +
+      myUserStoryIndex +
+      `)"><i class="fas fa-user-plus"></i></button>`;
+  }
+  listHTML += `<label class="col-sm-11 col-form-label my-modal-title">Developers</label>`;
+  listHTML += `<ul class="list-group col-sm-11 my-modal-edit-field">`;
+  console.log(myUserStorys);
+  for (let i = 0; i < myUserStorys[myUserStoryIndex].developers.length; i++) {
+    let myPermissions = myUserStorys[myUserStoryIndex].developers[i].canDevelop
+      ? 'D'
+      : '';
+    myPermissions += myUserStorys[myUserStoryIndex].developers[i].canVerify
+      ? 'V'
+      : '';
+    myPermissions += myUserStorys[myUserStoryIndex].developers[i].canRelease
+      ? 'R'
+      : '';
+    listHTML +=
+      `    <li class="list-group-item">` +
+      myUserStorys[myUserStoryIndex].developers[i].firstName +
+      ' ' +
+      myUserStorys[myUserStoryIndex].developers[i].lastName +
+      ' - ' +
+      myPermissions;
+    if (privilegeLevel === 'A') {
+      listHTML +=
+        `<button type="button" class="btn-sm btn-secondary" onclick="removeDeveloperFromProject(` +
+        myUserStoryIndex +
+        `,` +
+        i +
+        `)" style="margin-left: .25rem; float: right;"><i class="fas fa-trash"></i></button>` +
+        `<button type="button" class="btn-sm btn-secondary" onclick="editDeveloperInProject(` +
+        myUserStoryIndex +
+        ',' +
+        i +
+        `)" style="margin-left: 0rem;float: right;"><i class="fas fa-edit"></i></button>` +
+        `</li>`;
+    }
+  }
+  listHTML += `</ul>`;
+  document.getElementById('editUserStoryDevelopers').innerHTML = listHTML;
 }

@@ -14,13 +14,40 @@ function editDeveloperInProject(myProjectIndex, myDeveloperIndex) {
   editDeveloperProjectPermissions(myProjectIndex, myDeveloperIndex);
 }
 
-function updateDeveloperPermission(myProjectIndex, myDeveloperIndex) {
+function updateDeveloperProjectPermission(myProjectIndex, myDeveloperIndex) {
   var canWrite = document.getElementById('editProjectPermissionsWrite').checked;
   var canAdmin = document.getElementById('editProjectPermissionsAdmin').checked;
   myProjectDevelopers[myDeveloperIndex].canWrite = canWrite;
   myProjectDevelopers[myDeveloperIndex].canAdmin = canAdmin;
   updateDevelopersInProject(myProjectIndex, myProjectDevelopers);
   $('#editDeveloperProjectPermissionsModal').modal('hide');
+}
+
+function editDeveloperInUserStory(myUserStoryIndex, myDeveloperIndex) {
+  editDeveloperUserStoryPermissions(myUserStoryIndex, myDeveloperIndex);
+}
+
+function updateDeveloperUserStoryPermission(
+  myUserStoryIndex,
+  myDeveloperIndex
+) {
+  var canDevelop = document.getElementById('editUserStoryPermissionsDevel')
+    .checked;
+  var canVerify = document.getElementById('editUserStoryPermissionsVerify')
+    .checked;
+  var canRelease = document.getElementById('editUserStoryPermissionsRelease')
+    .checked;
+  myUserStory[myUserStoryIndex].developers[
+    myDeveloperIndex
+  ].canDevelop = canDevelop;
+  myUserStory[myUserStoryIndex].developers[
+    myDeveloperIndex
+  ].canVerify = canVerify;
+  myUserStory[myUserStoryIndex].developers[
+    myDeveloperIndex
+  ].canRelease = canRelease;
+  updateDevelopersInUserStory(myUserStoryIndex, myProjectIndex);
+  $('#editDeveloperUserStoryPermissionsModal').modal('hide');
 }
 
 function developerHighestPrivilege(myProjectIndex) {
