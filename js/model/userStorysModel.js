@@ -10,6 +10,7 @@ function editUserStoryEstimate(myUserStoryIndex) {
   var percentDone = myUserStorys[myUserStoryIndex].percentDone;
   var sprint = myUserStorys[myUserStoryIndex].sprint;
   var priority = myUserStorys[myUserStoryIndex].priority;
+  var developers = myUserStorys[myUserStoryIndex].developers;
   updateUserStory(
     myUserStoryIndex,
     userStoryTitle,
@@ -22,7 +23,8 @@ function editUserStoryEstimate(myUserStoryIndex) {
     phase,
     percentDone,
     priority,
-    sprint
+    sprint,
+    developers
   );
   $('#voteUserStoryModal').modal('hide');
 }
@@ -42,6 +44,7 @@ function moveUserStoryToNextPhase(myUserStoryIndex) {
   var percentDone = myUserStorys[myUserStoryIndex].percentDone;
   var priority = myUserStorys[myUserStoryIndex].priority;
   var sprint = myUserStorys[myUserStoryIndex].sprint;
+  var developers = myUserStorys[myUserStoryIndex].developers;
   updateUserStory(
     myUserStoryIndex,
     userStoryTitle,
@@ -54,7 +57,8 @@ function moveUserStoryToNextPhase(myUserStoryIndex) {
     phase,
     percentDone,
     priority,
-    sprint
+    sprint,
+    developers
   );
 }
 
@@ -69,6 +73,7 @@ function editUserStoryPriority(myUserStoryIndex) {
   var phase = myUserStorys[myUserStoryIndex].phase;
   var percentDone = myUserStorys[myUserStoryIndex].percentDone;
   var sprint = myUserStorys[myUserStoryIndex].sprint;
+  var developers = myUserStorys[myUserStoryIndex].developers;
   var priority = document.getElementById(
     `userStoryPrioritySlider` + myUserStoryIndex
   ).value;
@@ -84,7 +89,8 @@ function editUserStoryPriority(myUserStoryIndex) {
     phase,
     percentDone,
     priority,
-    sprint
+    sprint,
+    developers
   );
 }
 
@@ -105,6 +111,7 @@ function editUserStory(myUserStoryIndex) {
     document.getElementById('editUserStoryPriority').value
   );
   var sprint = parseInt(document.getElementById('editUserStorySprint').value);
+  var developers = myUserStorys[myUserStoryIndex].developers;
   updateUserStory(
     myUserStoryIndex,
     userStoryTitle,
@@ -117,7 +124,8 @@ function editUserStory(myUserStoryIndex) {
     phase,
     percentDone,
     priority,
-    sprint
+    sprint,
+    developers
   );
 }
 
