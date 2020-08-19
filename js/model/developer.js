@@ -21,6 +21,63 @@ function updateDeveloperProjectPermission(myProjectIndex, myDeveloperIndex) {
   $('#editDeveloperProjectPermissionsModal').modal('hide');
 }
 
+// developers in bug
+
+function addDeveloperToBug(myBugIndex, myProjectIndex) {
+  var developerIndex = document.getElementById('selectedBugDeveloper').value;
+  try {
+    var myNewDeveloper = {
+      developerId:
+        myProjects[myProjectIndex].developers[developerIndex].developerId,
+      email: myProjects[myProjectIndex].developers[developerIndex].email,
+      firstName:
+        myProjects[myProjectIndex].developers[developerIndex].firstName,
+      lastName: myProjects[myProjectIndex].developers[developerIndex].lastName,
+      canDevelop: document.getElementById('BugPermissionsDevelop').checked,
+      canVerify: document.getElementById('BugPermissionsVerify').checked,
+      canRelease: document.getElementById('BugPermissionsRelease').checked,
+    };
+    let developerInList = false;
+    for (let i = 0; i < myBugs[myBugIndex].developers.length; i++) {
+      if (
+        myBugs[myBugIndex].developers[i].developerId ===
+        myNewDeveloper.developerId
+      ) {
+        developerInList = true;
+        break;
+      }
+    }
+    if (developerInList) {
+      showErrorMessage('Error', 'Delevelop already in list.');
+    } else {
+      myBugs[myBugIndex].developers.push(myNewDeveloper);
+    }
+    updateDevelopersInBug(myBugIndex, myProjectIndex);
+  } catch (error) {
+    showErrorMessage(
+      'Error',
+      'No developer selected, select one and try again.'
+    );
+  }
+}
+
+function removeDeveloperFromBug(myBugIndex, myProjectIndex, myDeveloperIndex) {
+  myBugs[myBugIndex].developers.splice(myDeveloperIndex, 1);
+  updateDevelopersInBug(myBugIndex, myProjectIndex);
+}
+
+function updateDeveloperBugPermission(myBugIndex, myDeveloperIndex) {
+  var canDevelop = document.getElementById('editBugPermissionsDevelop').checked;
+  var canVerify = document.getElementById('editBugPermissionsVerify').checked;
+  var canRelease = document.getElementById('editBugPermissionsRelease').checked;
+  myBugs[myBugIndex].developers[myDeveloperIndex].canDevelop = canDevelop;
+  myBugs[myBugIndex].developers[myDeveloperIndex].canVerify = canVerify;
+  myBugs[myBugIndex].developers[myDeveloperIndex].canRelease = canRelease;
+  console.log('got here');
+  updateDevelopersInBug(myBugIndex, myDeveloperIndex);
+  $('#editDeveloperBugPermissionsModal').modal('hide');
+}
+
 // developers in user story
 
 function addDeveloperToUserStory(myUserStoryIndex, myProjectIndex) {
@@ -40,7 +97,21 @@ function addDeveloperToUserStory(myUserStoryIndex, myProjectIndex) {
       canRelease: document.getElementById('userStoryPermissionsRelease')
         .checked,
     };
-    myUserStorys[myUserStoryIndex].developers.push(myNewDeveloper);
+    let developerInList = false;
+    for (let i = 0; i < myUserStorys[myUserStoryIndex].developers.length; i++) {
+      if (
+        myUserStorys[myUserStoryIndex].developers[i].developerId ===
+        myNewDeveloper.developerId
+      ) {
+        developerInList = true;
+        break;
+      }
+    }
+    if (developerInList) {
+      showErrorMessage('Error', 'Delevelop already in list.');
+    } else {
+      myUserStorys[myUserStoryIndex].developers.push(myNewDeveloper);
+    }
     updateDevelopersInUserStory(myUserStoryIndex, myProjectIndex);
   } catch (error) {
     showErrorMessage(

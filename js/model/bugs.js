@@ -11,6 +11,7 @@ function editBugEstimate(myBugIndex) {
   var percentDone = myBugs[myBugIndex].percentDone;
   var sprint = myBugs[myBugIndex].sprint;
   var priority = myBugs[myBugIndex].priority;
+  var developers = myBugs[myBugIndex].developers;
   updateBug(
     myBugIndex,
     bugTitle,
@@ -24,7 +25,8 @@ function editBugEstimate(myBugIndex) {
     phase,
     percentDone,
     priority,
-    sprint
+    sprint,
+    developers
   );
   $('#voteBugModal').modal('hide');
 }
@@ -45,6 +47,7 @@ function editBug(myBugIndex) {
   var percentDone = document.getElementById('editBugPercentDone').value;
   var priority = parseInt(document.getElementById('editBugPriority').value);
   var sprint = parseInt(document.getElementById('editBugSprint').value);
+  var developers = myBugs[myBugIndex].developers;
   updateBug(
     myBugIndex,
     bugTitle,
@@ -58,7 +61,8 @@ function editBug(myBugIndex) {
     phase,
     percentDone,
     priority,
-    sprint
+    sprint,
+    developers
   );
 }
 
@@ -78,6 +82,7 @@ function moveBugToNextPhase(myBugIndex) {
   var percentDone = myBugs[myBugIndex].percentDone;
   var priority = myBugs[myBugIndex].priority;
   var sprint = myBugs[myBugIndex].sprint;
+  var developers = myBugs[myBugIndex].developers;
   updateBug(
     myBugIndex,
     bugTitle,
@@ -91,7 +96,8 @@ function moveBugToNextPhase(myBugIndex) {
     phase,
     percentDone,
     priority,
-    sprint
+    sprint,
+    developers
   );
 }
 
@@ -109,6 +115,7 @@ function editBugPriority(myBugIndex) {
   var sprint = myBugs[myBugIndex].sprint;
   var priority = document.getElementById(`bugPrioritySlider` + myBugIndex)
     .value;
+  var developers = myBugs[myBugIndex].developers;
   updateBug(
     myBugIndex,
     bugTitle,
@@ -122,7 +129,8 @@ function editBugPriority(myBugIndex) {
     phase,
     percentDone,
     priority,
-    sprint
+    sprint,
+    developers
   );
 }
 

@@ -154,20 +154,43 @@ $('#voteUserStoryModal').on('show.bs.modal', function (event) {
 
 function displayUserStory(i, myProjectIndex) {
   let listHTML = '';
-  var myProjectIndex = document.getElementById('selectProject').value;
   let privilegeLevel = developerHighestPrivilege(myProjectIndex);
   let myTeam = '';
   if (parseInt(myUserStorys[i].phase) === parseInt(myLastSelectedPhase)) {
     let foundFirstOne = false;
     for (let j = 0; j < myUserStorys[i].developers.length; j++) {
-      if (foundFirstOne) {
-        myTeam += ', ';
+      let showIt = false;
+      switch (myLastSelectedPhase) {
+        case 0:
+          break;
+        case 1:
+          if (myUserStorys[i].developers[j].canDevelop) {
+            showIt = true;
+          }
+          break;
+        case 2:
+          if (myUserStorys[i].developers[j].canVerify) {
+            showIt = true;
+          }
+          break;
+        case 3:
+          if (myUserStorys[i].developers[j].canRelease) {
+            showIt = true;
+          }
+          break;
+        default:
+          break;
       }
-      foundFirstOne = true;
-      myTeam +=
-        myUserStorys[i].developers[j].firstName +
-        ` ` +
-        myUserStorys[i].developers[j].lastName;
+      if (showIt) {
+        if (foundFirstOne) {
+          myTeam += ', ';
+        }
+        foundFirstOne = true;
+        myTeam +=
+          myUserStorys[i].developers[j].firstName +
+          ` ` +
+          myUserStorys[i].developers[j].lastName;
+      }
     }
     listHTML += `<div class ="col col-user-story-card">`;
     listHTML += `<div class="card user-story-card">`;

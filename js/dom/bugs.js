@@ -59,7 +59,7 @@ $('#voteBugModal').on('show.bs.modal', function (event) {
   listHTML += `</div>`;
   listHTML += `</div>`;
   document.getElementById('voteBugButtons').innerHTML = listHTML;
-  // updateEditUserStoryMessage('');
+  // updateEditBugMessage('');
 });
 
 $('#createNewBugModal').on('show.bs.modal', function (event) {
@@ -142,13 +142,50 @@ $('#editBugModal').on('show.bs.modal', function (event) {
       `"><i class="fas fa-vote-yea"></i></button>`;
   }
   document.getElementById('editBugVote').innerHTML = listHTML;
+  updateDevelopersInBug(myIndex, myProjectIndex);
   updateEditBugMessage('');
 });
 
 function displayBug(i, myProjectIndex) {
   let listHTML = '';
   let privilegeLevel = developerHighestPrivilege(myProjectIndex);
+  let myTeam = '';
   if (parseInt(myBugs[i].phase) === parseInt(myLastSelectedPhase)) {
+    let foundFirstOne = false;
+    for (let j = 0; j < myBugs[i].developers.length; j++) {
+      let showIt = false;
+      switch (myLastSelectedPhase) {
+        case 0:
+          break;
+        case 1:
+          if (myBugs[i].developers[j].canDevelop) {
+            showIt = true;
+          }
+          break;
+        case 2:
+          if (myBugs[i].developers[j].canVerify) {
+            showIt = true;
+          }
+          break;
+        case 3:
+          if (myBugs[i].developers[j].canRelease) {
+            showIt = true;
+          }
+          break;
+        default:
+          break;
+      }
+      if (showIt) {
+        if (foundFirstOne) {
+          myTeam += ', ';
+        }
+        foundFirstOne = true;
+        myTeam +=
+          myBugs[i].developers[j].firstName +
+          ` ` +
+          myBugs[i].developers[j].lastName;
+      }
+    }
     listHTML += `<div class ="col col-user-story-card">`;
     listHTML += `<div class="card user-story-card">`;
     listHTML += `<div class="card-body">`;
@@ -162,6 +199,12 @@ function displayBug(i, myProjectIndex) {
       `<p class="card-text" style = "padding: 0px 0px 0px 0px;">` +
       myBugs[i].summary +
       `</p>`;
+
+    listHTML +=
+      `<p class="card-text" style = "padding: 0px 0px 0px 0px;">` +
+      myTeam +
+      `</p>`;
+
     listHTML += `<div class="row">`;
     listHTML += `<div class="col-11">`;
     listHTML += `<div class="progress">`;
@@ -228,4 +271,107 @@ function displayBug(i, myProjectIndex) {
     listHTML += `</div>`;
   }
   return listHTML;
+}
+
+function updateDevelopersInBug(myBugIndex, myProjectIndex) {
+  let privilegeLevel = developerHighestPrivilege(myProjectIndex);
+  let listHTML = '';
+  if (privilegeLevel === 'A') {
+    listHTML = `<label class="col-sm-11 col-form-label my-modal-title">Add developer</label>`;
+
+    //console.log(myProjects)
+
+    listHTML +=
+      '<select class="col-sm-4 form-control edit-project-developer-email my-modal-edit-field" id="selectedBugDeveloper" onchange="">';
+    listHTML += '<div class="btn-group">';
+
+    listHTML += '<option selected value = "-1" >Select Developer</option>';
+    for (var j = 0; j < myProjects[myProjectIndex].developers.length; j++) {
+      listHTML +=
+        `<option value = "` +
+        j +
+        `">` +
+        myProjects[myProjectIndex].developers[j].firstName +
+        ` ` +
+        myProjects[myProjectIndex].developers[j].lastName +
+        `</option>`;
+    }
+
+    listHTML += '</div>';
+    listHTML += '</select>';
+
+    listHTML += `<input type="checkbox" class="edit-permissions" id = "BugPermissionsDevelop"><span class="edit-permissions-text">Dev</span>`;
+    listHTML += `<input type="checkbox" class="edit-permissions" id = "BugPermissionsVerify"><span class="edit-permissions-text">Verify</span>`;
+    listHTML += `<input type="checkbox" class="edit-permissions" id = "BugPermissionsRelease"><span class="edit-permissions-text">Release</span>`;
+    listHTML +=
+      `<button type="button" class="btn btn-primary voting-button" onclick="addDeveloperToBug(` +
+      myBugIndex +
+      `,` +
+      myProjectIndex +
+      `)"><i class="fas fa-user-plus"></i></button>`;
+  }
+  listHTML += `<label class="col-sm-11 col-form-label my-modal-title">Developers</label>`;
+  listHTML += `<ul class="list-group col-sm-11 my-modal-edit-field">`;
+  console.log(myBugs);
+  for (let i = 0; i < myBugs[myBugIndex].developers.length; i++) {
+    let myPermissions = myBugs[myBugIndex].developers[i].canDevelop ? 'D' : '';
+    myPermissions += myBugs[myBugIndex].developers[i].canVerify ? 'V' : '';
+    myPermissions += myBugs[myBugIndex].developers[i].canRelease ? 'R' : '';
+    listHTML +=
+      `    <li class="list-group-item">` +
+      myBugs[myBugIndex].developers[i].firstName +
+      ' ' +
+      myBugs[myBugIndex].developers[i].lastName +
+      ' - ' +
+      myPermissions;
+    if (privilegeLevel === 'A') {
+      listHTML +=
+        `<button type="button" class="btn-sm btn-secondary" onclick="removeDeveloperFromBug(` +
+        myBugIndex +
+        `,` +
+        myProjectIndex +
+        `,` +
+        i +
+        `)" style="margin-left: .25rem; float: right;"><i class="fas fa-trash"></i></button>` +
+        `<button type="button" class="btn-sm btn-secondary" onclick="editDeveloperBugPermissions(` +
+        myBugIndex +
+        ',' +
+        i +
+        `)" style="margin-left: 0rem;float: right;"><i class="fas fa-edit"></i></button>` +
+        `</li>`;
+    }
+  }
+  listHTML += `</ul>`;
+  document.getElementById('editBugDevelopers').innerHTML = listHTML;
+}
+
+function editDeveloperBugPermissions(myBugIndex, myDeveloperIndex) {
+  let listHTML = '';
+  listHTML =
+    myBugs[myBugIndex].developers[myDeveloperIndex].firstName +
+    ' ' +
+    myBugs[myBugIndex].developers[myDeveloperIndex].lastName +
+    '    ';
+  listHTML += `<input type="checkbox" class="edit-permissions" id = "editBugPermissionsDevelop"><span class="edit-permissions-text">Develop</span>`;
+  listHTML += `<input type="checkbox" class="edit-permissions" id = "editBugPermissionsVerify"><span class="edit-permissions-text">Verify</span>`;
+  listHTML += `<input type="checkbox" class="edit-permissions" id = "editBugPermissionsRelease"><span class="edit-permissions-text">Release</span>`;
+  document.getElementById('editDeveloperBugPermissions').innerHTML = listHTML;
+  document.getElementById(`editBugPermissionsDevelop`).checked =
+    myBugs[myBugIndex].developers[myDeveloperIndex].canDevelop;
+  document.getElementById(`editBugPermissionsVerify`).checked =
+    myBugs[myBugIndex].developers[myDeveloperIndex].canVerify;
+  document.getElementById(`editBugPermissionsRelease`).checked =
+    myBugs[myBugIndex].developers[myDeveloperIndex].canRelease;
+  listHTML = `<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>`;
+  listHTML +=
+    `<button type="button" class="btn btn-primary" style= "margin-left: .25rem;" onclick="updateDeveloperBugPermission(` +
+    myBugIndex +
+    `,` +
+    myDeveloperIndex +
+    `)">Save Changes</button>`;
+  document.getElementById(
+    'editDeveloperBugPermissionsButtons'
+  ).innerHTML = listHTML;
+
+  $('#editDeveloperBugPermissionsModal').modal('show');
 }
